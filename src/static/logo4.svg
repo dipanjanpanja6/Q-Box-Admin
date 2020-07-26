@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="485.075" height="485.076" viewBox="0 0 485.075 485.076">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #008c9e;
+      }
+
+      .cls-2 {
+        clip-path: url(#clip-path);
+      }
+
+      .cls-3 {
+        opacity: 0;
+      }
+
+      .cls-4 {
+        fill: url(#radial-gradient);
+      }
+
+      .cls-5 {
+        fill: rgba(129,103,242,0.7);
+      }
+
+      .cls-6 {
+        fill: rgba(141,61,220,0.64);
+      }
+
+      .cls-7 {
+        fill: rgba(100,180,210,0.56);
+      }
+
+      .cls-8 {
+        fill: #fff;
+      }
+
+      .cls-11, .cls-9 {
+        fill: none;
+      }
+
+      .cls-9 {
+        stroke: #fff;
+        stroke-width: 3px;
+      }
+
+      .cls-10 {
+        stroke: none;
+      }
+    </style>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_760" data-name="Rectangle 760" class="cls-1" width="343" height="343" rx="47" transform="translate(717 577.795) rotate(-45)"/>
+    </clipPath>
+    <radialGradient id="radial-gradient" cx="0.75" cy="0.017" r="1.105" gradientTransform="matrix(-0.18, 0.984, -2.541, -0.466, 0.928, -0.714)" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#64b4d2"/>
+      <stop offset="0.328" stop-color="#8167f2"/>
+      <stop offset="0.696" stop-color="#8a51e4"/>
+      <stop offset="1" stop-color="#8d3ddc"/>
+    </radialGradient>
+  </defs>
+  <g id="Group_8040" data-name="Group 8040" transform="translate(10807 15148)">
+    <g id="Group_8036" data-name="Group 8036" transform="translate(395 -384)">
+      <g id="Group_8031" data-name="Group 8031" transform="translate(-6 2)">
+        <g id="Group_8030" data-name="Group 8030" transform="translate(-11913 -15062)">
+          <g id="Mask_Group_7642" data-name="Mask Group 7642" class="cls-2" transform="translate(0 -39.256)">
+            <g id="Group_7900" data-name="Group 7900" class="cls-3" transform="translate(288.6 806.8)">
+              <path id="Path_1940" data-name="Path 1940" class="cls-4" d="M-22262.424-15210.229s-67.6-320-150.3-320-133.031,72.727-225.453,72.727-130.91,230.3-130.91,230.3l20.689,543.6h458.8Z" transform="translate(23190.4 14994.2)"/>
+            </g>
+            <path id="Path_2779" data-name="Path 2779" class="cls-5" d="M182,0A182,182,0,1,1,0,182,182,182,0,0,1,182,0Z" transform="translate(853 484.256)"/>
+            <path id="Path_2780" data-name="Path 2780" class="cls-6" d="M185.433,0C287.845,0,370.866,83.021,370.866,185.433S287.845,370.866,185.433,370.866,0,287.845,0,185.433,83.021,0,185.433,0Z" transform="translate(650.134 349.39)"/>
+            <path id="Path_2778" data-name="Path 2778" class="cls-7" d="M182,0A182,182,0,1,1,0,182,182,182,0,0,1,182,0Z" transform="translate(884 229.256)"/>
+            <g id="Group_7901" data-name="Group 7901" transform="translate(23357 16552.258)">
+              <path id="Subtraction_9" data-name="Subtraction 9" class="cls-8" d="M21662,15806a137.03,137.03,0,0,1-27.408-2.763,135.252,135.252,0,0,1-48.629-20.463,136.4,136.4,0,0,1-49.273-59.836,135.137,135.137,0,0,1-7.924-25.529,137.295,137.295,0,0,1,0-54.817,135.269,135.269,0,0,1,20.463-48.632,136.4,136.4,0,0,1,59.834-49.274,135.29,135.29,0,0,1,25.529-7.925,137.29,137.29,0,0,1,54.816,0,135.26,135.26,0,0,1,48.631,20.464,136.38,136.38,0,0,1,49.275,59.839,135.2,135.2,0,0,1,7.928,25.528,137.39,137.39,0,0,1,0,54.817,135.334,135.334,0,0,1-20.467,48.631,136.395,136.395,0,0,1-59.838,49.272,135.363,135.363,0,0,1-25.529,7.925A137.03,137.03,0,0,1,21662,15806Zm0-210a74,74,0,1,0,74,74A74.083,74.083,0,0,0,21662,15596Z" transform="translate(-44059 -31644)"/>
+              <path id="Path_1943" data-name="Path 1943" class="cls-8" d="M-20566-14968.8h59.068s2.264,36.972,27.594,52.419c11.2,6.83,26.787,15.257,41.1,16.072,17.449,1,32.637-6.7,32.637-6.7l-61.008,59.8s-45.273-12.615-70.121-43.018S-20566-14968.8-20566-14968.8Z" transform="translate(-1855.4 -948.203)"/>
+            </g>
+          </g>
+          <g id="Rectangle_777" data-name="Rectangle 777" class="cls-9" transform="translate(717 538.537) rotate(-45)">
+            <rect class="cls-10" width="343" height="343" rx="47"/>
+            <rect class="cls-11" x="1.5" y="1.5" width="340" height="340" rx="45.5"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
