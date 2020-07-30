@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="693" height="1669" viewBox="0 0 693 1669">
+  <defs>
+    <filter id="Ellipse_17" x="449" y="927" width="62" height="63" filterUnits="userSpaceOnUse">
+      <feOffset dx="4" dy="8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.122"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Ellipse_23" x="441" y="911" width="62" height="63" filterUnits="userSpaceOnUse">
+      <feOffset dx="-4" dy="-8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-2"/>
+      <feFlood flood-color="#fff" flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Ellipse_18" x="80" y="1266" width="63" height="63" filterUnits="userSpaceOnUse">
+      <feOffset dx="4" dy="8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-3"/>
+      <feFlood flood-opacity="0.122"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Ellipse_25" x="72" y="1250" width="63" height="63" filterUnits="userSpaceOnUse">
+      <feOffset dx="-4" dy="-8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-4"/>
+      <feFlood flood-color="#fff" flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur-4"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Ellipse_19" x="497" y="1607" width="63" height="62" filterUnits="userSpaceOnUse">
+      <feOffset dx="4" dy="8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-5"/>
+      <feFlood flood-opacity="0.122"/>
+      <feComposite operator="in" in2="blur-5"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Ellipse_24" x="489" y="1591" width="63" height="62" filterUnits="userSpaceOnUse">
+      <feOffset dx="-4" dy="-8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-6"/>
+      <feFlood flood-color="#fff" flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur-6"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Ellipse_15" x="449" y="253" width="62" height="62" filterUnits="userSpaceOnUse">
+      <feOffset dx="4" dy="8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-7"/>
+      <feFlood flood-opacity="0.122"/>
+      <feComposite operator="in" in2="blur-7"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Ellipse_21" x="441" y="237" width="62" height="62" filterUnits="userSpaceOnUse">
+      <feOffset dx="-4" dy="-8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-8"/>
+      <feFlood flood-color="#fff" flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur-8"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Ellipse_16" x="80" y="603" width="63" height="63" filterUnits="userSpaceOnUse">
+      <feOffset dx="4" dy="8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-9"/>
+      <feFlood flood-opacity="0.122"/>
+      <feComposite operator="in" in2="blur-9"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Ellipse_22" x="72" y="587" width="63" height="63" filterUnits="userSpaceOnUse">
+      <feOffset dx="-4" dy="-8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-10"/>
+      <feFlood flood-color="#fff" flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur-10"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Ellipse_9" x="247" y="48" width="62" height="63" filterUnits="userSpaceOnUse">
+      <feOffset dx="4" dy="8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-11"/>
+      <feFlood flood-opacity="0.122"/>
+      <feComposite operator="in" in2="blur-11"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Ellipse_20" x="239" y="32" width="62" height="63" filterUnits="userSpaceOnUse">
+      <feOffset dx="-4" dy="-8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-12"/>
+      <feFlood flood-color="#fff" flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur-12"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_8089" data-name="Group 8089" transform="translate(-207 -2348)">
+    <g id="Group_26" data-name="Group 26" transform="translate(292.453 2397.159)">
+      <ellipse id="Ellipse_12" data-name="Ellipse 12" cx="22" cy="22.5" rx="22" ry="22.5" transform="translate(368.547 878.841)" fill="#fff"/>
+      <ellipse id="Ellipse_13" data-name="Ellipse 13" cx="22.5" cy="22" rx="22.5" ry="22" transform="translate(-0.453 1217.841)" fill="#fff"/>
+      <ellipse id="Ellipse_14" data-name="Ellipse 14" cx="22.5" cy="22" rx="22.5" ry="22" transform="translate(416.547 1558.841)" fill="#fff"/>
+      <path id="Path_71" data-name="Path 71" d="M3385.776,3608s201.293,60.947,201.293,201.292-201.293,176.044-201.293,176.044-167.241,12.4-167.241,167.241,167.241,168.812,167.241,168.812,201.293,23.219,201.293,168.39-201.293,164.767-201.293,164.767-167.241,26.3-167.241,167.241,167.241,174.244,167.241,174.244,83.9,3.4,83.9,83.9,187.465,87.739,187.465,87.739" transform="translate(-3196.607 -3586.091)" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="14"/>
+      <g transform="matrix(1, 0, 0, 1, -85.45, -49.16)" filter="url(#Ellipse_17)">
+        <ellipse id="Ellipse_17-2" data-name="Ellipse 17" cx="22" cy="22.5" rx="22" ry="22.5" transform="translate(454 928)" fill="#fff"/>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, -85.45, -49.16)" filter="url(#Ellipse_23)">
+        <ellipse id="Ellipse_23-2" data-name="Ellipse 23" cx="22" cy="22.5" rx="22" ry="22.5" transform="translate(454 928)" fill="#fff"/>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, -85.45, -49.16)" filter="url(#Ellipse_18)">
+        <circle id="Ellipse_18-2" data-name="Ellipse 18" cx="22.5" cy="22.5" r="22.5" transform="translate(85 1267)" fill="#fff"/>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, -85.45, -49.16)" filter="url(#Ellipse_25)">
+        <circle id="Ellipse_25-2" data-name="Ellipse 25" cx="22.5" cy="22.5" r="22.5" transform="translate(85 1267)" fill="#fff"/>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, -85.45, -49.16)" filter="url(#Ellipse_19)">
+        <ellipse id="Ellipse_19-2" data-name="Ellipse 19" cx="22.5" cy="22" rx="22.5" ry="22" transform="translate(502 1608)" fill="#fff"/>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, -85.45, -49.16)" filter="url(#Ellipse_24)">
+        <ellipse id="Ellipse_24-2" data-name="Ellipse 24" cx="22.5" cy="22" rx="22.5" ry="22" transform="translate(502 1608)" fill="#fff"/>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, -85.45, -49.16)" filter="url(#Ellipse_15)">
+        <circle id="Ellipse_15-2" data-name="Ellipse 15" cx="22" cy="22" r="22" transform="translate(454 254)" fill="#fff"/>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, -85.45, -49.16)" filter="url(#Ellipse_21)">
+        <circle id="Ellipse_21-2" data-name="Ellipse 21" cx="22" cy="22" r="22" transform="translate(454 254)" fill="#fff"/>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, -85.45, -49.16)" filter="url(#Ellipse_16)">
+        <circle id="Ellipse_16-2" data-name="Ellipse 16" cx="22.5" cy="22.5" r="22.5" transform="translate(85 604)" fill="#fff"/>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, -85.45, -49.16)" filter="url(#Ellipse_22)">
+        <circle id="Ellipse_22-2" data-name="Ellipse 22" cx="22.5" cy="22.5" r="22.5" transform="translate(85 604)" fill="#fff"/>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, -85.45, -49.16)" filter="url(#Ellipse_9)">
+        <ellipse id="Ellipse_9-2" data-name="Ellipse 9" cx="22" cy="22.5" rx="22" ry="22.5" transform="translate(252 49)" fill="#fff"/>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, -85.45, -49.16)" filter="url(#Ellipse_20)">
+        <ellipse id="Ellipse_20-2" data-name="Ellipse 20" cx="22" cy="22.5" rx="22" ry="22.5" transform="translate(252 49)" fill="#fff"/>
+      </g>
+    </g>
+    <g id="Group_7569" data-name="Group 7569" transform="translate(-150 -1279)">
+      <text id="Start_practicing_Tier_1_Questions" data-name="Start practicing
+Tier 1 Questions" transform="translate(558 3891)" fill="#fff" font-size="30" font-family="Poppins-Medium, Poppins" font-weight="500"><tspan x="-117.855" y="0">Start practicing</tspan><tspan x="-114.465" y="45">Tier 1 Questions</tspan></text>
+      <text id="STEP_01" data-name="STEP 01" transform="translate(558 3833)" fill="#fff" font-size="30" font-family="Poppins-SemiBold, Poppins" font-weight="600"><tspan x="-51.795" y="0">STEP 01</tspan></text>
+    </g>
+    <g id="Group_7570" data-name="Group 7570" transform="translate(-306 -1303)">
+      <text id="Open_after_finishing_Tier_1._Start_practicing_Tier_2_Questions" data-name="Open after finishing Tier 1.
+Start practicing
+Tier 2 Questions" transform="translate(819 4247)" fill="#fff" font-size="30" font-family="Poppins-Medium, Poppins" font-weight="500"><tspan x="-190.215" y="0">Open after finishing Tier 1.</tspan><tspan x="-117.855" y="45">Start practicing</tspan><tspan x="-118.365" y="90">Tier 2 Questions</tspan></text>
+      <text id="STEP_02" data-name="STEP 02" transform="translate(819 4189)" fill="#fff" font-size="30" font-family="Poppins-SemiBold, Poppins" font-weight="600"><tspan x="-55.335" y="0">STEP 02</tspan></text>
+    </g>
+    <g id="Group_7571" data-name="Group 7571" transform="translate(-150 -1294)">
+      <text id="Start_Critical_Thinking_Zone_after_completing_Tier_2_Questions" data-name="Start Critical Thinking Zone
+after completing
+Tier 2 Questions" transform="translate(558 4581)" fill="#fff" font-size="30" font-family="Poppins-Medium, Poppins" font-weight="500"><tspan x="-200.865" y="0">Start Critical Thinking Zone</tspan><tspan x="-127.11" y="45">after completing</tspan><tspan x="-118.365" y="90">Tier 2 Questions</tspan></text>
+      <text id="STEP_03" data-name="STEP 03" transform="translate(558 4523)" fill="#fff" font-size="30" font-family="Poppins-SemiBold, Poppins" font-weight="600"><tspan x="-55.83" y="0">STEP 03</tspan></text>
+    </g>
+    <g id="Group_7572" data-name="Group 7572" transform="translate(-254 -1305)">
+      <text id="Goodies_Unlocked_Free_Mock_Tests" data-name="Goodies Unlocked
+Free Mock Tests" transform="translate(767 4950)" fill="#fff" font-size="30" font-family="Poppins-Medium, Poppins" font-weight="500"><tspan x="-135.435" y="0">Goodies Unlocked</tspan><tspan x="-118.32" y="45">Free Mock Tests</tspan></text>
+      <text id="STEP_04" data-name="STEP 04" transform="translate(767 4892)" fill="#fff" font-size="30" font-family="Poppins-SemiBold, Poppins" font-weight="600"><tspan x="-56.625" y="0">STEP 04</tspan></text>
+    </g>
+    <text id="SUCCESS" transform="translate(832 3994)" fill="#fff" font-size="30" font-family="Poppins-SemiBold, Poppins" font-weight="600"><tspan x="-67.395" y="0">SUCCESS</tspan></text>
+    <text id="overview" transform="translate(446 2380)" fill="#fff" font-size="30" font-family="Poppins-SemiBold, Poppins" font-weight="600"><tspan x="-77.355" y="0">OVERVIEW</tspan></text>
+  </g>
+</svg>
