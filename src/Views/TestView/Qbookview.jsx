@@ -160,6 +160,11 @@ const QBookView = (props) => {
         <Typography variant="h6">
           Question : {JSON.parse(data.body).blocks[0].text}
         </Typography>
+        {data.rejectingcomment !== undefined && (
+          <Typography variant="body1">
+            Rejecting Comment : {data.rejectingcomment}
+          </Typography>
+        )}
         <Box className={classes.buttonContainer}>
           <Button disabled style={{ color: "#F7BAD4 " }}>
             Rejected

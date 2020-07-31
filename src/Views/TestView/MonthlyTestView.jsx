@@ -193,6 +193,11 @@ const MonthlyTestView = (props) => {
         <Typography variant="h6">
           Question : {JSON.parse(data.question).blocks[0].text}
         </Typography>
+        {data.rejectingcomment !== undefined && (
+          <Typography variant="h6">
+            Rejecting Comment : {data.rejectingcomment}
+          </Typography>
+        )}
         <Box className={classes.buttonContainer}>
           <Button disabled style={{ color: "#F7BAD4 " }}>
             Rejected

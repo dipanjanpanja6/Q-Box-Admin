@@ -181,6 +181,7 @@ const MonthlyQuestion = (props) => {
 
   const [loading, setLoading] = React.useState(false);
   const [redirect, setredirect] = React.useState(false);
+  const [comment, setComment] = React.useState("");
 
   const classes = style();
   const option = [
@@ -228,8 +229,9 @@ const MonthlyQuestion = (props) => {
   };
 
   const handleRejection = async () => {
-    const response = await axios.get(
-      `${url}/api/course/admin/rejectquestion/MonthlyTest/${questionData.ID}`
+    const response = await axios.post(
+      `${url}/api/course/admin/rejectquestion/MonthlyTest/${questionData.ID}`,
+      { rejectingcomment: comment }
     );
     console.log(response);
     if (response.data.success) {
@@ -259,6 +261,7 @@ const MonthlyQuestion = (props) => {
             id="outlined-basic"
             label="Rejecting Comment"
             variant="outlined"
+            onChange={(e) => setComment(e.target.value)}
             fullWidth
           />
           <Box mt={3} display="flex" justifyContent="flex-end">
