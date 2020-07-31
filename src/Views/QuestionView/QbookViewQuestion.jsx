@@ -6,15 +6,10 @@ import CardComponent from "../../Components/cardEmbossed";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {
-  Toolbar,
+import { 
   Fab,
   makeStyles,
-  Box,
-  IconButton,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
+  Box, 
   TextField,
   Modal,
   Button,
@@ -23,24 +18,23 @@ import { url } from "../../config/config";
 
 import Videojs from "../../Components/videoPlayer";
 import { connect } from "react-redux";
+import EditorJS from "../../Components/Editor";
 
 const videoJsOptions = {
   autoplay: false,
-  playbackRates: [0.3, 0.5, 1, 1.25, 1.5, 2, 2.5],
+  playbackRates: [  0.5, 1, 1.25, 1.5, 2,  ],
   width: 720,
   height: 300,
   controls: true,
   fluid: true,
+ 
 
   cacheEncryptionKeys: true,
   //   aspectRatio: '1:1',
   sources: [
     {
-      src:
-        "https://ak.picdn.net/shutterstock/videos/1030931813/preview/stock-footage-close-up-shot-animation-of-shopping-cart-icon-on-computer-screen-with-animated-counting-numbers-add.webm",
-      // "https://s3.ap-south-1.amazonaws.com/veido.thumbnail/spw/test.m3u8",
-      // src: require('./cc.mkv'),
-      // type: 'video/mp4',
+      src:"https://encrypt-video.s3.ap-south-1.amazonaws.com/encrypt-with-store/encrypt-video-playlist.m3u8",
+     
       type: "application/x-mpegURL",
     },
   ],
@@ -155,11 +149,12 @@ const style = makeStyles((t) => ({
   },
   videoContainer: {
     width: "35%",
+    marginBottom:20,
     display: "flex",
     alignContent: "center",
     justifyContent: "center",
     backgroundColor: Theme.textColor.color1,
-    borderRadius: 16,
+    // borderRadius: 16,
     boxShadow: `4px 4px 5px 1px rgba(00,00,00,0.2),-4px -4px 5px 1px rgba(255,255,255,0.2)`,
     borderRadius: pxToVh(80),
     border: "solid 7px blueviolet",
@@ -197,7 +192,7 @@ const QBookQuestion = (props) => {
   const { questionData } = props;
 
   if (!questionData.noVideo) {
-    videoJsOptions.sources[0].src = questionData.video_uri;
+    // videoJsOptions.sources[0].src = questionData.video_uri;
   }
   // console.log(JSON.parse(props.questionData.body).blocks[0].text);
 
@@ -312,15 +307,7 @@ const QBookQuestion = (props) => {
       <Grid container className={classes.content}>
         <CardComponent>
           <Box container className={classes.question}>
-            <Typography
-              variant="h6"
-              style={{ color: "white", marginBottom: 10 }}
-            >
-              <strong>Question : </strong>
-              {questionData.title !== undefined
-                ? questionData.title
-                : "Loading..."}
-            </Typography>
+           
             <Box display="flex" justifyContent="space-between" mt={1}>
               <Typography variant="p" style={{ color: "white" }}>
                 <strong>Stream : </strong>
@@ -350,8 +337,8 @@ const QBookQuestion = (props) => {
                 <strong>Course : </strong>
                 {questionData.course !== undefined
                   ? questionData.course.map((data, index) => {
-                      return (
-                        <Typography
+                    return (
+                      <Typography 
                           variant="p"
                           style={{
                             color: "#000",
@@ -376,15 +363,35 @@ const QBookQuestion = (props) => {
                   : "Loading..."}
               </Typography>
             </Box>
+                          <Box
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                          >
+                            
+          <Typography
+              variant="h6"
+              style={{ color: "white", marginBottom: 10 }}
+            >
+              <strong>Title : </strong>
+              {questionData.title !== undefined
+                ? questionData.title
+                : "Loading..."}
+            </Typography>
+
+                          </Box>
           </Box>
 
           <Box className={classes.bodyvideoContainer}>
+            
             <Typography variant="h6" className={classes.bodypartstyle}>
               <strong>Body : </strong>
-              {questionData.body !== undefined
-                ? JSON.parse(questionData.body).blocks[0].text
+              {questionData.body !== undefined ?
+              <EditorJS data={JSON.parse(questionData.body)}/>
+                // ? JSON.parse(questionData.body).blocks[0].text
                 : "Loading..."}
             </Typography>
+            
             <Box className={classes.videoContainer}>
               <Videojs {...videoJsOptions} />
             </Box>

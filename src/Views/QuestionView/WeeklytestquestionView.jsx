@@ -5,6 +5,8 @@ import { pxToVh, pxToVw, Theme } from "../../theme";
 import CardComponent from "../../Components/cardEmbossed";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
+import EditorJS from '../../Components/Editor'
+
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {
   Toolbar,
@@ -296,8 +298,10 @@ const WeeklyQuestion = (props) => {
               style={{ color: "white", marginBottom: 10 }}
             >
               <strong>Question : </strong>
-              {questionData.question !== undefined
-                ? JSON.parse(questionData.question).blocks[0].text
+              {questionData.question !== undefined ?
+                <EditorJS data={JSON.parse(questionData.question)} />
+
+                // ? JSON.parse(questionData.question).blocks[0].text
                 : "Loading..."}
             </Typography>
             <Box display="flex" justifyContent="space-between" mt={1}>

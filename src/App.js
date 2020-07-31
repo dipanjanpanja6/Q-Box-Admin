@@ -40,6 +40,7 @@ import QBookQuestion from "./Views/QuestionView/QbookViewQuestion";
 import QBankQuestion from "./Views/QuestionView/QbankkViewQuestion";
 import MonthlyQuestion from "./Views/QuestionView/MonthlytestquestionView";
 import WeeklyQuestion from "./Views/QuestionView/WeeklytestquestionView";
+import VideoPlayer from "./Components/videoPlayer";
 
 const App = (props) => {
   useEffect(() => {
@@ -58,6 +59,7 @@ const App = (props) => {
         <Appbar auth={props.auth} out={out} />
         {props.auth ? <Console /> : <TLogin islogin={props.auth} />}
         <Switch>
+          
           <Route
             exact
             path="/"
@@ -113,6 +115,12 @@ const App = (props) => {
             exact
             path="/monthlyquestionview"
             render={props.auth ? () => <MonthlyQuestion /> : null}
+          />
+          
+          <Route
+            exact
+            path="/test"
+            component={VideoPlayer }
           />
 
           {/* <Route

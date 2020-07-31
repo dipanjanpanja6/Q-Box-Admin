@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import { Typography, Box, AppBar, Modal, TextField } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import EditorJS from '../../Components/Editor'
 
 import {
   GetWeeklyQuestion,
@@ -88,6 +89,7 @@ const WeeklyTestView = (props) => {
         >
           <Box>
             <Typography variant="h6">
+              
               Question : {JSON.parse(data.question).blocks[0].text}
             </Typography>
             <Typography variant="p" color="primary">

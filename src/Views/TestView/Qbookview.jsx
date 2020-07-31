@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import { Typography, Box, AppBar, Modal, TextField } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import EditorJS from '../../Components/Editor'
 
 import {
   GetQBookQuestion,
@@ -89,7 +90,10 @@ const QBookView = (props) => {
         >
           <Box>
             <Typography variant="h6">
-              Question : {JSON.parse(data.body).blocks[0].text}
+              Title :
+            {/* <EditorJS data={JSON.parse(data.body)} /> */}
+{data.title}
+              {/* {JSON.parse(data.body).blocks[0].text} */}
             </Typography>
             <Typography variant="p" color="primary">
               {"Chapter : "}
