@@ -1,7 +1,7 @@
 // taken from https://github.com/videojs/video.js/blob/master/docs/guides/react.md
 import React from "react";
 import videojs from "video.js";
-import "video.js/dist/video-js.css";
+// import "video.js/dist/video-js.css";
 
 // import videoJs from 'video.js'
 // import 'video.js/dist/video-js.min.css';
