@@ -201,6 +201,7 @@ const QBankQuestion = (props) => {
 
   const [value, setValue] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  const [comment, setComment] = React.useState("");
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -228,8 +229,9 @@ const QBankQuestion = (props) => {
   };
 
   const handleRejection = async () => {
-    const response = await axios.get(
-      `${url}/api/course/admin/rejectquestion/Qbank/${questionData.ID}`
+    const response = await axios.post(
+      `${url}/api/course/admin/rejectquestion/Qbank/${questionData.ID}`,
+      { rejectingcomment: comment }
     );
     console.log(response);
     if (response.data.success) {
@@ -259,6 +261,7 @@ const QBankQuestion = (props) => {
             id="outlined-basic"
             label="Rejecting Comment"
             variant="outlined"
+            onChange={(e) => setComment(e.target.value)}
             fullWidth
           />
           <Box mt={3} display="flex" justifyContent="flex-end">

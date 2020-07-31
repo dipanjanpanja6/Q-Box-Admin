@@ -238,8 +238,9 @@ const QBookQuestion = (props) => {
   };
 
   const handleRejection = async () => {
-    const response = await axios.get(
-      `${url}/api/course/admin/rejectquestion/QBook/${questionData.ID}`
+    const response = await axios.post(
+      `${url}/api/course/admin/rejectquestion/QBook/${questionData.ID}`,
+      { rejectingcomment: value }
     );
     console.log(response);
     if (response.data.success) {
@@ -280,6 +281,7 @@ const QBookQuestion = (props) => {
             id="outlined-basic"
             label="Rejecting Comment"
             variant="outlined"
+            onChange={(e) => handleChange(e)}
             fullWidth
           />
           <Box mt={3} display="flex" justifyContent="flex-end">
