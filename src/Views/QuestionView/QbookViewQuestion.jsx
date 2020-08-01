@@ -33,9 +33,10 @@ const videoJsOptions = {
   //   aspectRatio: '1:1',
   sources: [
     {
-      src:"https://encrypt-video.s3.ap-south-1.amazonaws.com/encrypt-with-store/encrypt-video-playlist.m3u8",
-     
-      type: "application/x-mpegURL",
+      // src:"https://encrypt-video.s3.ap-south-1.amazonaws.com/encrypt-with-store/encrypt-video-playlist.m3u8",
+    //  src:'https://encrypt-video.s3.ap-south-1.amazonaws.com/encrypt-with-store/encrypt-video-playlist.m3u8'
+      // type: "application/x-mpegURL",
+      // type: "video/mp4",
     },
   ],
   html5: {
@@ -190,10 +191,15 @@ const style = makeStyles((t) => ({
 
 const QBookQuestion = (props) => {
   const { questionData } = props;
-
+// useEffect(()=>{
   if (!questionData.noVideo) {
-    // videoJsOptions.sources[0].src = questionData.video_uri;
-  }
+      videoJsOptions.sources[0].src = questionData.video_uri;
+      videoJsOptions.sources[0].type = questionData.videoType;
+      console.log( questionData.video_uri);
+      console.log(videoJsOptions);
+    } 
+// },[questionData])
+  
   // console.log(JSON.parse(props.questionData.body).blocks[0].text);
 
   const [state, setState] = React.useState({
@@ -392,9 +398,9 @@ const QBookQuestion = (props) => {
                 : "Loading..."}
             </Typography>
             
-            <Box className={classes.videoContainer}>
+          {!questionData.noVideo &&  <Box className={classes.videoContainer}>
               <Videojs {...videoJsOptions} />
-            </Box>
+            </Box>}
           </Box>
 
           <Grid

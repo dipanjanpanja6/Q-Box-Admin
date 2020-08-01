@@ -30,7 +30,7 @@ import { connect } from "react-redux";
 import { checkAdmin, logout } from "./redux/actions/admin";
 import PropType from "prop-types";
 import { url } from "./config/config";
-import Console from "./Views/Console";
+import Console from "./Views/Drawer";
 import MainView from "./Views/MainView";
 import QBookView from "./Views/TestView/Qbookview";
 import QBankView from "./Views/TestView/QbankView";

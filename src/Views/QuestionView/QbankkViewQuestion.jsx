@@ -177,9 +177,14 @@ const style = makeStyles((t) => ({
 const QBankQuestion = (props) => {
   const { questionData } = props;
 
-  if (!questionData.noVideo) {
-    videoJsOptions.sources[0].src = questionData.video_uri;
-  }
+  // useEffect(()=>{
+    if (!questionData.noVideo) {
+        videoJsOptions.sources[0].src = questionData.video_uri;
+        videoJsOptions.sources[0].type = questionData.videoType;
+        console.log( questionData.video_uri);
+        console.log(videoJsOptions);
+      } 
+  // },[questionData])
 
   const [loading, setLoading] = React.useState(false);
   const [redirect, setredirect] = React.useState(false);
@@ -382,9 +387,9 @@ const QBankQuestion = (props) => {
                 })}
               </RadioGroup>
             </Box>
-            <Box className={classes.videoContainer}>
+          {!questionData.noVideo &&  <Box className={classes.videoContainer}>
               <Videojs {...videoJsOptions} />
-            </Box>
+            </Box>}
           </Box>
 
           <br></br>

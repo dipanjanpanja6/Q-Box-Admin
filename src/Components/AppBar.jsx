@@ -1,46 +1,15 @@
 import React from "react";
 import {
-  Link,
-  fade,
-  makeStyles,
-  Menu,
+  Link, 
   AppBar,
-  MenuItem,
+  makeStyles,
   Toolbar,
-  IconButton,
-  Badge,
-  List,
-  ListItem,
-  Divider,
-  ListItemText,
-  ListItemIcon,
-  useTheme,
+  IconButton,  
 } from "@material-ui/core";
-import clsx from "clsx";
-import Drawer from "@material-ui/core/Drawer";
-import MenuIcon from "@material-ui/icons/Menu";
-// import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import MoreIcon from "@material-ui/icons/MoreVert";
-// import Home from '@material-ui/icons/HomeRounded';
-import Info from "@material-ui/icons/InfoRounded";
-import MenuBook from "@material-ui/icons/MenuBookRounded";
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
-import useScrollTrigger from "@material-ui/core/useScrollTrigger";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+ import { Link as RouterLink, useHistory } from "react-router-dom";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
-import { ReactComponent as Q } from "../static/logo/q+.svg";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import NotificationImportantIcon from "@material-ui/icons/NotificationImportant";
-import SaveIcon from "@material-ui/icons/Save";
+ 
 import { boxColor } from "../config/config";
 
 const drawerWidth = 240;
@@ -116,44 +85,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
-  const history = useHistory();
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(!open);
-  };
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    if (props.auth === true) {
-      setAnchorEl(event.currentTarget);
-    }
-    if (props.auth === false) {
-      history.push("/login");
-    }
-    if (props.auth === null) {
-      setLoading(true);
-    }
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
+  const history = useHistory(); 
+ 
   const logout = () => {
     props.out();
-  };
+  }; 
 
   return (
     <div className={classes.grow}>
@@ -342,127 +278,13 @@ export default function PrimarySearchAppBar(props) {
                 </div>
               </IconButton>
             )}
-
-            {/* <IconButton disabled={props.auth===null} onClick={handleProfileMenuOpen} color="inherit" >
-                                <div className={classes.button}>
-                                    <AccountCircle />
-                                </div>
-                            </IconButton> */}
+ 
           </div>
-
-          {/* <div className={classes.sectionMobile}>
-                            <IconButton
-                                aria-label="show more"
-                                aria-controls={mobileMenuId}
-                                aria-haspopup="true"
-                                onClick={handleMobileMenuOpen}
-                                color="inherit"
-                            >
-                                <MenuIcon/>
-                            </IconButton>
-                        </div> */}
+ 
         </Toolbar>
       </AppBar>
 
-      {/* {props.auth === true && (
-        <Drawer
-          variant="permanent"
-          className={clsx(classes.drawer, {
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          })}
-          classes={{
-            paper: clsx({
-              [classes.drawerOpen]: open,
-              [classes.drawerClose]: !open,
-            }),
-          }}
-        >
-          <Toolbar />
-
-          <List>
-            <ListItem
-              button
-              onClick={() => {
-                history.push("/q-book");
-              }}
-            >
-              <ListItemIcon>
-                {" "}
-                <SvgIcon style={{ color: "rgba(0, 0, 0, 0.54)" }}>
-                  <Q />
-                </SvgIcon>
-              </ListItemIcon>
-              <ListItemText primary={"Q-Book"} />
-            </ListItem>
-            <ListItem
-              button
-              onClick={() => {
-                history.push("/q-bank");
-              }}
-            >
-              <ListItemIcon>
-                <FormatListBulletedIcon />{" "}
-              </ListItemIcon>
-              <ListItemText primary={"Q-Bank"} />
-            </ListItem>
-            <ListItem
-              button
-              onClick={() => {
-                history.push("/weekly-test");
-              }}
-            >
-              <ListItemIcon>
-                <AssignmentIcon />{" "}
-              </ListItemIcon>
-              <ListItemText primary={"Weekly Test"} />
-            </ListItem>
-            <ListItem
-              button
-              onClick={() => {
-                history.push("/monthly-test");
-              }}
-            >
-              <ListItemIcon>
-                <MenuBook />{" "}
-              </ListItemIcon>
-              <ListItemText primary={"Monthly Test"} />
-            </ListItem>
-          </List>
-          <Divider />
-          <List>
-            <ListItem
-              button
-              onClick={() => {
-                history.push("/saved");
-              }}
-            >
-              <ListItemIcon>
-                <SaveIcon />{" "}
-              </ListItemIcon>
-              <ListItemText primary={"Saved Item"} />
-            </ListItem>
-            <ListItem
-              button
-              onClick={() => {
-                history.push("/alert");
-              }}
-            >
-              <ListItemIcon>
-                <NotificationImportantIcon />{" "}
-              </ListItemIcon>
-              <ListItemText primary={"Alert"} />
-            </ListItem>
-          </List>
-          <Divider />
-          <div className={classes.toolbar}>
-            <IconButton onClick={handleDrawerClose}>
-              {console.log(theme.direction)}
-              {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-            </IconButton>
-          </div>
-        </Drawer>
-      )} */}
+     
     </div>
   );
 }
