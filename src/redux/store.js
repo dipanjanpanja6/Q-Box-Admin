@@ -18,9 +18,7 @@ const reducers = combineReducers({
 const store = createStore(
   reducers,
   initialState,
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(applyMiddleware(...middleware))
-
-  // applyMiddleware(...middleware))
+  composeWithDevTools(applyMiddleware(...middleware)) 
 );
 
 export default store;
