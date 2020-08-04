@@ -26,6 +26,7 @@ import { connect } from "react-redux";
 
 import Videojs from "../../Components/videoPlayer";
 import { url } from "../../config/config";
+import Loading from "../../Components/loading";
 
 const videoJsOptions = {
   autoplay: false,
@@ -221,7 +222,8 @@ const WeeklyQuestion = (props) => {
   if (questionData.is !== undefined) {
     return (
       <Box display="flex" alignItems="center" flexDirection="column">
-        <h1> Loading... </h1>
+        {/* <h1> Loading... </h1> */}
+        <Loading/>
         {/* <Link to="/console">
           <button>Back to Console</button>
         </Link> */}
