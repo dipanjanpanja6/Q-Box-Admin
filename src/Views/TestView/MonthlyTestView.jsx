@@ -7,14 +7,17 @@ import Button from "@material-ui/core/Button";
 import { Typography, Box, AppBar, Modal, TextField } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import EditorJS from '../../Components/Editor'
+import EditorJS from "../../Components/Editor";
 
 import {
   GetMonthlyQuestion,
   GetQuestionViaId,
   RejectedGetMonthlyQuestion,
+  EmptyCurrentQuestion,
 } from "../../redux/actions/getcourse";
 
+import axios from "axios";
+import { url } from "../../config/config";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -51,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MonthlyTestView = (props) => {
   React.useEffect(() => {
+    props.EmptyCurrentQuestion();
     props.GetMonthlyQuestion();
     props.RejectedGetMonthlyQuestion();
   }, [GetMonthlyQuestion]);
@@ -66,22 +70,38 @@ const MonthlyTestView = (props) => {
     setValue(index);
   };
 
-  const handleQuestionView = (data) => {
-    props.GetQuestionViaId({
-      collect: "MonthlyTest",
-      qid: data.ID,
-    });
+  const [comment, setComment] = React.useState("");
+  const [open, setOpen] = React.useState("");
+
+  const handleApprovance = async (id) => {
+    const response = await axios.get(
+      `${url}/api/course/admin/approvequestion/MonthlyTest/${id}`
+    );
+    if (response.data.success) {
+      props.GetMonthlyQuestion();
+    }
+  };
+
+  const handleRejection = async (id) => {
+    const response = await axios.post(
+      `${url}/api/course/admin/rejectquestion/MonthlyTest/${id}`,
+      { rejectingcomment: comment }
+    );
+    console.log(response);
+    if (response.data.success) {
+      props.GetMonthlyQuestion();
+      props.RejectedGetMonthlyQuestion();
+    }
   };
 
   const RenderPendingQuestion = (data, index) => {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
 
     return (
       <Box className={classes.questionContainer}>
         <Link
-          to="/monthlyquestionview"
-          onClick={() => handleQuestionView(data)}
+          to={{ pathname: "/monthlyquestionview/" + data.ID }}
+          // onClick={() => handleQuestionView(data)}
           style={{
             textDecoration: "none",
             textDecorationColor: "none",
@@ -90,7 +110,7 @@ const MonthlyTestView = (props) => {
         >
           <Box>
             <Typography variant="h6">
-            <EditorJS data={JSON.parse(data.question)} />
+              <EditorJS data={JSON.parse(data.question)} />
               {/* Question : {JSON.parse(data.question).blocks[0].text} */}
             </Typography>
             <Typography variant="p" color="primary">
@@ -131,6 +151,7 @@ const MonthlyTestView = (props) => {
         <Box className={classes.buttonContainer}>
           <Button
             variant="outlined"
+            onClick={() => handleApprovance(data.ID)}
             size="small"
             style={{
               color: "green",
@@ -145,25 +166,19 @@ const MonthlyTestView = (props) => {
             variant="outlined"
             size="small"
             color="secondary"
-            onClick={() => setOpen(!open)}
+            onClick={() => setOpen(data.ID)}
           >
             Reject
           </Button>
         </Box>
-        <Modal
-          style={{
-            width: "100%",
-            alignSelf: "center",
-          }}
-          open={open}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-        >
+        {data.ID === open && (
           <div style={{ background: "#eee", padding: 20 }}>
             <TextField
               id="outlined-basic"
               label="Rejecting Comment"
               variant="outlined"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
               fullWidth
             />
             <Box mt={3} display="flex" justifyContent="flex-end">
@@ -176,13 +191,14 @@ const MonthlyTestView = (props) => {
               </Button>
               <Button
                 variant="contained"
+                onClick={() => handleRejection(data.ID)}
                 style={{ color: "green", marginRight: 20 }}
               >
                 Confirm
               </Button>
             </Box>
           </div>
-        </Modal>
+        )}
       </Box>
     );
   };
@@ -286,4 +302,5 @@ export default connect(MapStateToProps, {
   GetMonthlyQuestion,
   GetQuestionViaId,
   RejectedGetMonthlyQuestion,
+  EmptyCurrentQuestion,
 })(MonthlyTestView);

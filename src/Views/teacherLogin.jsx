@@ -14,6 +14,7 @@ import {
   CardContent,
   TextField,
   Button,
+  Box,
 } from "@material-ui/core";
 import { useHistory, Link as RouterLink, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -147,32 +148,36 @@ const LoginPage = (props) => {
       <Toolbar style={{ background: boxColor }} />
       {props.islogin === false && (
         <Grid container className={sty.root}>
-          <Card>
-            <CardContent style={{ padding: "20px 10%", textAlign: "center" }}>
-              <form onSubmit={submit} style={{ maxWidth: 300 }}>
-                <TextField
-                  label="User ID"
-                  id="id"
-                  onChange={(e) => setusername(e.target.value)}
-                  fullWidth
-                />
-                <TextField
-                  label="Password"
-                  id="pass"
-                  onChange={(e) => setpassword(e.target.value)}
-                  fullWidth
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  style={{ margin: "20px 0" }}
-                >
-                  Login
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+          {!loading ? (
+            <Card>
+              <CardContent style={{ padding: "20px 10%", textAlign: "center" }}>
+                <form onSubmit={submit} style={{ maxWidth: 300 }}>
+                  <TextField
+                    label="User ID"
+                    id="id"
+                    onChange={(e) => setusername(e.target.value)}
+                    fullWidth
+                  />
+                  <TextField
+                    label="Password"
+                    id="pass"
+                    onChange={(e) => setpassword(e.target.value)}
+                    fullWidth
+                  />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    style={{ margin: "20px 0" }}
+                  >
+                    Login
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          ) : (
+            <CircularProgress />
+          )}
         </Grid>
       )}
       {props.islogin === false && <Redirect to="/console" />}

@@ -3,13 +3,13 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { pxToVh, pxToVw, Theme } from "../../theme";
 import CardComponent from "../../Components/cardEmbossed";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { 
+import {
   Fab,
   makeStyles,
-  Box, 
+  Box,
   TextField,
   Modal,
   Button,
@@ -19,10 +19,11 @@ import { url } from "../../config/config";
 import Videojs from "../../Components/videoPlayer";
 import { connect } from "react-redux";
 import EditorJS from "../../Components/Editor";
+import { GetQuestionViaId } from "../../redux/actions/getcourse";
 
 const videoJsOptions = {
   autoplay: false,
-  playbackRates: [  0.5, 1, 1.25, 1.5, 2,  ],
+  playbackRates: [0.5, 1, 1.25, 1.5, 2],
   width: 720,
   height: 300,
   controls: true,
@@ -32,7 +33,7 @@ const videoJsOptions = {
   sources: [
     {
       // src:"https://encrypt-video.s3.ap-south-1.amazonaws.com/encrypt-with-store/encrypt-video-playlist.m3u8",
-    //  src:'https://encrypt-video.s3.ap-south-1.amazonaws.com/encrypt-with-store/encrypt-video-playlist.m3u8'
+      //  src:'https://encrypt-video.s3.ap-south-1.amazonaws.com/encrypt-with-store/encrypt-video-playlist.m3u8'
       // type: "application/x-mpegURL",
       // type: "video/mp4",
     },{}
@@ -148,7 +149,7 @@ const style = makeStyles((t) => ({
   },
   videoContainer: {
     width: "35%",
-    marginBottom:20,
+    marginBottom: 20,
     display: "flex",
     alignContent: "center",
     justifyContent: "center",
@@ -189,15 +190,23 @@ const style = makeStyles((t) => ({
 
 const QBookQuestion = (props) => {
   const { questionData } = props;
-// useEffect(()=>{
-  if (!questionData.noVideo) { 
-      videoJsOptions.sources[0].src = questionData.video_uri;
-      videoJsOptions.sources[0].type = questionData.videoType;
-      console.log(videoJsOptions);
-      console.log( questionData.video_uri);
-    } 
-// },[questionData])
-   
+  // useEffect(()=>{
+  if (questionData.noVideo !== undefined) {
+    videoJsOptions.sources[0].src = questionData.video_uri;
+    videoJsOptions.sources[0].type = questionData.videoType;
+    console.log(questionData.video_uri);
+    console.log(videoJsOptions);
+  }
+  // },[questionData])
+
+  const id = useParams().id;
+
+  useEffect(() => {
+    props.GetQuestionViaId({
+      collect: "QBook",
+      qid: id,
+    });
+  }, []);
 
   const [state, setState] = React.useState({
     question: questionData.title,
@@ -229,7 +238,6 @@ const QBookQuestion = (props) => {
     const response = await axios.get(
       `${url}/api/course/admin/approvequestion/QBook/${questionData.ID}`
     );
-    console.log(response);
     if (response.data.success) {
       setredirect(true);
     }
@@ -240,7 +248,6 @@ const QBookQuestion = (props) => {
       `${url}/api/course/admin/rejectquestion/QBook/${questionData.ID}`,
       { rejectingcomment: value }
     );
-    console.log(response);
     if (response.data.success) {
       setredirect(true);
     }
@@ -255,10 +262,10 @@ const QBookQuestion = (props) => {
   if (questionData.is !== undefined) {
     return (
       <Box display="flex" alignItems="center" flexDirection="column">
-        <h1>No Question </h1>
-        <Link to="/console">
+        <h1> Loading... </h1>
+        {/* <Link to="/console">
           <button>Back to Console</button>
-        </Link>
+        </Link> */}
       </Box>
     );
   }
@@ -310,7 +317,6 @@ const QBookQuestion = (props) => {
       <Grid container className={classes.content}>
         <CardComponent>
           <Box container className={classes.question}>
-           
             <Box display="flex" justifyContent="space-between" mt={1}>
               <Typography variant="p" style={{ color: "white" }}>
                 <strong>Stream : </strong>
@@ -340,8 +346,8 @@ const QBookQuestion = (props) => {
                 <strong>Course : </strong>
                 {questionData.course !== undefined
                   ? questionData.course.map((data, index) => {
-                    return (
-                      <Typography 
+                      return (
+                        <Typography
                           variant="p"
                           style={{
                             color: "#000",
@@ -366,38 +372,39 @@ const QBookQuestion = (props) => {
                   : "Loading..."}
               </Typography>
             </Box>
-                          <Box
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                          >
-                            
-          <Typography
-              variant="h6"
-              style={{ color: "white", marginBottom: 10 }}
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
             >
-              <strong>Title : </strong>
-              {questionData.title !== undefined
-                ? questionData.title
-                : "Loading..."}
-            </Typography>
-
-                          </Box>
+              <Typography
+                variant="h6"
+                style={{ color: "white", marginBottom: 10 }}
+              >
+                <strong>Title : </strong>
+                {questionData.title !== undefined
+                  ? questionData.title
+                  : "Loading..."}
+              </Typography>
+            </Box>
           </Box>
 
           <Box className={classes.bodyvideoContainer}>
-            
             <Typography variant="h6" className={classes.bodypartstyle}>
               <strong>Body : </strong>
-              {questionData.body !== undefined ?
-              <EditorJS data={JSON.parse(questionData.body)}/>
+              {questionData.body !== undefined ? (
+                <EditorJS data={JSON.parse(questionData.body)} />
+              ) : (
                 // ? JSON.parse(questionData.body).blocks[0].text
-                : "Loading..."}
+                "Loading..."
+              )}
             </Typography>
-            
-          {!questionData.noVideo &&  <Box className={classes.videoContainer}>
-              <Videojs {...videoJsOptions} />
-            </Box>}
+
+            {!questionData.noVideo && (
+              <Box className={classes.videoContainer}>
+                <Videojs {...videoJsOptions} />
+              </Box>
+            )}
           </Box>
 
           <Grid
@@ -437,4 +444,4 @@ const MapStateToProps = (state) => {
   };
 };
 
-export default connect(MapStateToProps, null)(QBookQuestion);
+export default connect(MapStateToProps, { GetQuestionViaId })(QBookQuestion);

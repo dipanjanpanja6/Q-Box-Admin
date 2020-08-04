@@ -3,10 +3,12 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { pxToVh, pxToVw, Theme } from "../../theme";
 import CardComponent from "../../Components/cardEmbossed";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 import axios from "axios";
-import EditorJS from '../../Components/Editor'
+import EditorJS from "../../Components/Editor";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { GetQuestionViaId } from "../../redux/actions/getcourse";
+
 import {
   Toolbar,
   Fab,
@@ -176,9 +178,20 @@ const style = makeStyles((t) => ({
 const MonthlyQuestion = (props) => {
   const { questionData } = props;
 
-  if (!questionData.noVideo) {
-    videoJsOptions.sources[0].src = questionData.video_uri;
+  if (questionData !== undefined) {
+    if (!questionData.noVideo) {
+      videoJsOptions.sources[0].src = questionData.video_uri;
+    }
   }
+
+  const id = useParams().id;
+
+  useEffect(() => {
+    props.GetQuestionViaId({
+      collect: "MonthlyTest",
+      qid: id,
+    });
+  }, []);
 
   const [loading, setLoading] = React.useState(false);
   const [redirect, setredirect] = React.useState(false);
@@ -211,10 +224,10 @@ const MonthlyQuestion = (props) => {
   if (questionData.is !== undefined) {
     return (
       <Box display="flex" alignItems="center" flexDirection="column">
-        <h1>No Question </h1>
-        <Link to="/console">
+        <h1> Loading... </h1>
+        {/* <Link to="/console">
           <button>Back to Console</button>
-        </Link>
+        </Link> */}
       </Box>
     );
   }
@@ -302,10 +315,10 @@ const MonthlyQuestion = (props) => {
               }}
             >
               <strong>Question : </strong>
-              {questionData.question !== undefined ?
-                <EditorJS data={JSON.parse(questionData.question)}/>
-                // ? JSON.parse(questionData.question).blocks[0].text
-                : "Loading..."}
+              {questionData.question !== undefined
+                ? JSON.parse(questionData.question).blocks[0].text
+                : // ? JSON.parse(questionData.question).blocks[0].text
+                  "Loading..."}
             </Typography>
             <Box display="flex" justifyContent="space-between" mt={1}>
               <Typography variant="p" style={{ color: "white" }}>
@@ -437,4 +450,4 @@ const MapStateToProps = (state) => {
   };
 };
 
-export default connect(MapStateToProps, null)(MonthlyQuestion);
+export default connect(MapStateToProps, { GetQuestionViaId })(MonthlyQuestion);

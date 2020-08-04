@@ -40,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     width: 56,
+    alignSelf: "center",
+  },
+  menuButtonOpen: {
+    width: 56,
     alignSelf: "flex-end",
   },
   hide: {
@@ -99,7 +103,7 @@ const Console = () => {
     setOpen(false);
   };
 
-  const routingLink = ["qbook", "qbank", "weeklytest", "monthlytest"];
+  const routingLink = ["/qbook", "/qbank", "/weeklytest", "/monthlytest"];
 
   return (
     <Box className={classes.contentContainer}>
@@ -148,8 +152,7 @@ const Console = () => {
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            //   edge="start"
-            className={classes.menuButton}
+            className={!open ? classes.menuButton : classes.menuButtonOpen}
           >
             {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>

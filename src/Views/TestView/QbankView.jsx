@@ -7,12 +7,16 @@ import Button from "@material-ui/core/Button";
 import { Typography, Box, AppBar, Modal, TextField } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import EditorJS from '../../Components/Editor'
+import EditorJS from "../../Components/Editor";
+
+import axios from "axios";
+import { url } from "../../config/config";
 
 import {
   GetQBankQuestion,
   GetQuestionViaId,
   RejectedGetQBankQuestion,
+  EmptyCurrentQuestion,
 } from "../../redux/actions/getcourse";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 const QBankView = (props) => {
   React.useEffect(() => {
+    props.EmptyCurrentQuestion();
     props.GetQBankQuestion();
     props.RejectedGetQBankQuestion();
   }, [GetQBankQuestion]);
@@ -66,22 +71,38 @@ const QBankView = (props) => {
     setValue(index);
   };
 
-  const handleQuestionView = (data) => {
-    props.GetQuestionViaId({
-      collect: "Qbank",
-      qid: data.ID,
-    });
+  const [comment, setComment] = React.useState("");
+  const [open, setOpen] = React.useState("");
+
+  const handleApprovance = async (id) => {
+    const response = await axios.get(
+      `${url}/api/course/admin/approvequestion/Qbank/${id}`
+    );
+    if (response.data.success) {
+      props.GetQBankQuestion();
+    }
+  };
+
+  const handleRejection = async (id) => {
+    const response = await axios.post(
+      `${url}/api/course/admin/rejectquestion/Qbank/${id}`,
+      { rejectingcomment: comment }
+    );
+    console.log(response);
+    if (response.data.success) {
+      props.GetQBankQuestion();
+      props.RejectedGetQBankQuestion();
+    }
   };
 
   const RenderPendingQuestion = (data, index) => {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
 
     return (
       <Box className={classes.questionContainer}>
         <Link
-          to="/qbankkquestionview"
-          onClick={() => handleQuestionView(data)}
+          to={{ pathname: "/qbankkquestionview/" + data.ID }}
+          // onClick={() => handleQuestionView(data)}
           style={{
             textDecoration: "none",
             textDecorationColor: "none",
@@ -131,6 +152,7 @@ const QBankView = (props) => {
           <Button
             variant="outlined"
             size="small"
+            onClick={() => handleApprovance(data.ID)}
             style={{
               color: "green",
               borderColor: "green",
@@ -144,25 +166,19 @@ const QBankView = (props) => {
             variant="outlined"
             size="small"
             color="secondary"
-            onClick={() => setOpen(!open)}
+            onClick={() => setOpen(data.ID)}
           >
             Reject
           </Button>
         </Box>
-        <Modal
-          style={{
-            width: "100%",
-            alignSelf: "center",
-          }}
-          open={open}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-        >
+        {data.ID === open && (
           <div style={{ background: "#eee", padding: 20 }}>
             <TextField
               id="outlined-basic"
               label="Rejecting Comment"
               variant="outlined"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
               fullWidth
             />
             <Box mt={3} display="flex" justifyContent="flex-end">
@@ -175,13 +191,14 @@ const QBankView = (props) => {
               </Button>
               <Button
                 variant="contained"
+                onClick={() => handleRejection(data.ID)}
                 style={{ color: "green", marginRight: 20 }}
               >
                 Confirm
               </Button>
             </Box>
           </div>
-        </Modal>
+        )}
       </Box>
     );
   };
@@ -282,4 +299,5 @@ export default connect(MapStateToProps, {
   GetQBankQuestion,
   GetQuestionViaId,
   RejectedGetQBankQuestion,
+  EmptyCurrentQuestion,
 })(QBankView);

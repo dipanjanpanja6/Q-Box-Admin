@@ -3,9 +3,10 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { pxToVh, pxToVw, Theme } from "../../theme";
 import CardComponent from "../../Components/cardEmbossed";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 import axios from "axios";
-import EditorJS from '../../Components/Editor'
+import EditorJS from "../../Components/Editor";
+import { GetQuestionViaId } from "../../redux/actions/getcourse";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {
@@ -42,7 +43,7 @@ const videoJsOptions = {
       // src: require('./cc.mkv'),
       // type: 'video/mp4',
       // type: "application/x-mpegURL",
-    },{}
+    }, {}
   ],
   html5: {
     vhs: {
@@ -178,16 +179,22 @@ const QBankQuestion = (props) => {
   const { questionData } = props;
 
   // useEffect(()=>{
-    if (!questionData.noVideo) {
-        videoJsOptions.sources[0].src = questionData.video_uri;
-        videoJsOptions.sources[0].type = questionData.videoType;
-        
-      videoJsOptions.sources[1].src = `https://raw-video-qrioctybox.s3.ap-south-1.amazonaws.com/QBank/${questionData.key}`
-      videoJsOptions.sources[1].type = questionData.videoType;
-        console.log( questionData.video_uri);
-        console.log(videoJsOptions);
-      } 
+  if (!questionData.noVideo) {
+    videoJsOptions.sources[0].src = questionData.video_uri;
+    videoJsOptions.sources[0].type = questionData.videoType;
+    console.log(questionData.video_uri);
+    console.log(videoJsOptions);
+  }
   // },[questionData])
+
+  const id = useParams().id;
+
+  useEffect(() => {
+    props.GetQuestionViaId({
+      collect: "Qbank",
+      qid: id,
+    });
+  }, []);
 
   const [loading, setLoading] = React.useState(false);
   const [redirect, setredirect] = React.useState(false);
@@ -220,10 +227,10 @@ const QBankQuestion = (props) => {
   if (questionData.is !== undefined) {
     return (
       <Box display="flex" alignItems="center" flexDirection="column">
-        <h1>No Question </h1>
-        <Link to="/console">
+        <h1> Loading... </h1>
+        {/* <Link to="/console">
           <button>Back to Console</button>
-        </Link>
+        </Link> */}
       </Box>
     );
   }
@@ -307,10 +314,12 @@ const QBankQuestion = (props) => {
               style={{ color: "white", marginBottom: 10 }}
             >
               <strong>Question : </strong>
-              {questionData.question !== undefined ?
+              {questionData.question !== undefined ? (
                 <EditorJS data={JSON.parse(questionData.question)} />
-                // ? JSON.parse(questionData.question).blocks[0].text
-                : "Loading..."}
+              ) : (
+                  // ? JSON.parse(questionData.question).blocks[0].text
+                  "Loading..."
+                )}
             </Typography>
             <Box display="flex" justifyContent="space-between" mt={1}>
               <Typography variant="p" style={{ color: "white" }}>
@@ -390,9 +399,11 @@ const QBankQuestion = (props) => {
                 })}
               </RadioGroup>
             </Box>
-          {!questionData.noVideo &&  <Box className={classes.videoContainer}>
-              <Videojs {...videoJsOptions} />
-            </Box>}
+            {!questionData.noVideo && (
+              <Box className={classes.videoContainer}>
+                <Videojs {...videoJsOptions} />
+              </Box>
+            )}
           </Box>
 
           <br></br>
@@ -442,4 +453,4 @@ const MapStateToProps = (state) => {
   };
 };
 
-export default connect(MapStateToProps, null)(QBankQuestion);
+export default connect(MapStateToProps, { GetQuestionViaId })(QBankQuestion);

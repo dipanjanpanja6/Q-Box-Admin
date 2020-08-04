@@ -59,7 +59,6 @@ const App = (props) => {
         <Appbar auth={props.auth} out={out} />
         {props.auth ? <Console /> : <TLogin islogin={props.auth} />}
         <Switch>
-          
           <Route
             exact
             path="/"
@@ -98,30 +97,26 @@ const App = (props) => {
 
           <Route
             exact
-            path="/qbookquestionview"
+            path="/qbookquestionview/:id"
             render={props.auth ? () => <QBookQuestion /> : null}
           />
           <Route
             exact
-            path="/qbankkquestionview"
+            path="/qbankkquestionview/:id"
             render={props.auth ? () => <QBankQuestion /> : null}
           />
           <Route
             exact
-            path="/weeklyquestionview"
+            path="/weeklyquestionview/:id"
             render={props.auth ? () => <WeeklyQuestion /> : null}
           />
           <Route
             exact
-            path="/monthlyquestionview"
+            path="/monthlyquestionview/:id"
             render={props.auth ? () => <MonthlyQuestion /> : null}
           />
-          
-          <Route
-            exact
-            path="/test"
-            component={VideoPlayer }
-          />
+
+          <Route exact path="/test" component={VideoPlayer} />
 
           {/* <Route
             exact

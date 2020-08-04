@@ -59,6 +59,15 @@ export const GetQuestionViaId = (param) => async (dispatch) => {
   });
 };
 
+export const EmptyCurrentQuestion = () => async (dispatch) => {
+  dispatch({
+    type: GETQUESTIONVIAID,
+    payload: {
+      is: false,
+    },
+  });
+};
+
 export const ApproveQuestion = (param) => async (dispatch) => {
   const response = await axios.get(
     `${url}/api/course/admin/approvequestion/QBook/${param.collect}/${param.qid}`

@@ -4,15 +4,25 @@ import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Button from "@material-ui/core/Button";
-import { Typography, Box, AppBar, Modal, TextField } from "@material-ui/core";
+import {
+  Typography,
+  Box,
+  AppBar,
+  Modal,
+  TextField,
+  CircularProgress,
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import EditorJS from '../../Components/Editor'
+import EditorJS from "../../Components/Editor";
+import axios from "axios";
+import { url } from "../../config/config";
 
 import {
   GetQBookQuestion,
   GetQuestionViaId,
   RejectedGetQBookQuestion,
+  EmptyCurrentQuestion,
 } from "../../redux/actions/getcourse";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 const QBookView = (props) => {
   React.useEffect(() => {
+    props.EmptyCurrentQuestion();
     props.GetQBookQuestion();
     props.RejectedGetQBookQuestion();
   }, [GetQBookQuestion]);
@@ -66,22 +77,39 @@ const QBookView = (props) => {
     setValue(index);
   };
 
-  const handleQuestionView = (data) => {
-    props.GetQuestionViaId({
-      collect: "QBook",
-      qid: data.ID,
-    });
+  const [comment, setComment] = React.useState("");
+  const [open, setOpen] = React.useState("");
+
+  const handleApprovance = async (id) => {
+    const response = await axios.get(
+      `${url}/api/course/admin/approvequestion/QBook/${id}`
+    );
+    if (response.data.success) {
+      props.GetQBookQuestion();
+    }
+  };
+
+  const handleRejection = async (id) => {
+    const response = await axios.post(
+      `${url}/api/course/admin/rejectquestion/QBook/${id}`,
+      { rejectingcomment: comment }
+    );
+    console.log(response);
+    if (response.data.success) {
+      props.GetQBookQuestion();
+      props.RejectedGetQBookQuestion();
+    }
   };
 
   const RenderPendingQuestion = (data, index) => {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    // const [open, setOpen] = React.useState(false);
 
     return (
       <Box className={classes.questionContainer}>
         <Link
-          to="/qbookquestionview"
-          onClick={() => handleQuestionView(data)}
+          to={{ pathname: "/qbookquestionview/" + data.ID }}
+          // onClick={() => handleQuestionView(data)}
           style={{
             textDecoration: "none",
             textDecorationColor: "none",
@@ -90,9 +118,8 @@ const QBookView = (props) => {
         >
           <Box>
             <Typography variant="h6">
-              Title :
-            {/* <EditorJS data={JSON.parse(data.body)} /> */}
-{data.title}
+              Title :{/* <EditorJS data={JSON.parse(data.body)} /> */}
+              {data.title}
               {/* {JSON.parse(data.body).blocks[0].text} */}
             </Typography>
             <Typography variant="p" color="primary">
@@ -140,6 +167,7 @@ const QBookView = (props) => {
               marginLeft: 20,
               marginRight: 20,
             }}
+            onClick={() => handleApprovance(data.ID)}
           >
             Accept
           </Button>
@@ -147,11 +175,39 @@ const QBookView = (props) => {
             variant="outlined"
             size="small"
             color="secondary"
-            onClick={() => setOpen(!open)}
+            onClick={() => setOpen(data.ID)}
           >
             Reject
           </Button>
         </Box>
+        {data.ID === open && (
+          <div style={{ background: "#eee", padding: 20 }}>
+            <TextField
+              id="outlined-basic"
+              label="Rejecting Comment"
+              variant="outlined"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              fullWidth
+            />
+            <Box mt={3} display="flex" justifyContent="flex-end">
+              <Button
+                variant="contained"
+                style={{ color: "#000", marginRight: 20 }}
+                onClick={() => setOpen(false)}
+              >
+                Close
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => handleRejection(data.ID)}
+                style={{ color: "green", marginRight: 20 }}
+              >
+                Confirm
+              </Button>
+            </Box>
+          </div>
+        )}
       </Box>
     );
   };
@@ -255,4 +311,5 @@ export default connect(MapStateToProps, {
   GetQBookQuestion,
   GetQuestionViaId,
   RejectedGetQBookQuestion,
+  EmptyCurrentQuestion,
 })(QBookView);
