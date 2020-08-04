@@ -157,7 +157,6 @@ const QBookView = (props) => {
             </Box>
           </Box>
         </Link>
-
         <Box className={classes.buttonContainer}>
           <Button
             variant="outlined"

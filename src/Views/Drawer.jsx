@@ -152,7 +152,6 @@ const Console = () => {
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            //   edge="start"
             className={!open ? classes.menuButton : classes.menuButtonOpen}
           >
             {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
