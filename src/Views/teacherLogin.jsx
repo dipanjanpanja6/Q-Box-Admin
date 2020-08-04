@@ -24,7 +24,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Loading from "../Components/loading";
-import { boxColor } from "../config/config";
+import { Theme } from "../theme";
 
 const styles = makeStyles((t) => ({
   root: {
@@ -69,7 +69,7 @@ const styles = makeStyles((t) => ({
 
   released: {
     boxShadow: "10px 10px 14px 1px rgba(00,00,00,0.2)",
-    background: boxColor,
+    background: Theme.boxColor,
   },
   login: {
     height: 500,
@@ -96,7 +96,7 @@ const styles = makeStyles((t) => ({
     justifyContent: "space-around",
   },
   button: {
-    background: boxColor,
+    background: Theme.boxColor,
     marginBottom: 12,
     width: "100%",
     boxShadow: `4px 4px 5px 1px rgba(00,00,00,0.2),-4px -4px 5px 1px rgba(255,255,255,0.2)`,
@@ -145,7 +145,7 @@ const LoginPage = (props) => {
 
   return (
     <>
-      <Toolbar style={{ background: boxColor }} />
+      <Toolbar style={{ background: Theme.boxColor }} />
       {props.islogin === false && (
         <Grid container className={sty.root}>
           {!loading ? (

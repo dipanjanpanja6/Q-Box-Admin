@@ -9,14 +9,14 @@ import {
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-
-import { boxColor } from "../config/config";
+ 
+import { Theme } from "../theme";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   appBar: {
     paddingRight: "3%",
-    background: boxColor,
+    background: Theme.boxColor,
     zIndex: theme.zIndex.drawer + 1,
   },
   grow: {
@@ -26,17 +26,17 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   title: {
-    display: "block",
-    color: "#fff",
-    fontWeight: "bold",
-    fontFamily:
-      " 'Oxygen',-apple-system, BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans- serif,Apple Color Emoji,Segoe UI Emoji, Segoe UI Symbol",
+    display: 'block',
+        color: '#fff',
+        fontSize: 'x-large',
+        letterSpacing: '1px',
+        fontFamily: "Wallman, -apple-system, BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans- serif,Apple Color Emoji,Segoe UI Emoji, Segoe UI Symbol"
   },
 
   button: {
     borderRadius: "50%",
     padding: 9,
-    background: boxColor,
+    background: Theme.boxColor,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

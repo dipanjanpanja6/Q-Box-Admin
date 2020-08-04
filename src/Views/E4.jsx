@@ -7,7 +7,7 @@ import BadRequest from '../static/404.svg'
 
 import { makeStyles, Toolbar } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { boxColor } from '../config/config';
+import { Theme } from "../theme";
 
 const styles = makeStyles(t => ({
     root: {
@@ -33,7 +33,7 @@ export default function E4(){
     
     return (<>
         <Grid  className={classes.root}>
-            <Toolbar style={{background:boxColor}}/>
+            <Toolbar style={{background:Theme.boxColor}}/>
             <Grid container justify='center' alignItems='center'>
 
         <img style={{height:'80vh', maxWidth:'100vw', width:'auto'}} src={BadRequest}/>
