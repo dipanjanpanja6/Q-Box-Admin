@@ -26,9 +26,7 @@ const videoJsOptions = {
   width: 720,
   height: 300,
   controls: true,
-  fluid: true,
- 
-
+  fluid: true, 
   cacheEncryptionKeys: true,
   //   aspectRatio: '1:1',
   sources: [
@@ -37,7 +35,7 @@ const videoJsOptions = {
     //  src:'https://encrypt-video.s3.ap-south-1.amazonaws.com/encrypt-with-store/encrypt-video-playlist.m3u8'
       // type: "application/x-mpegURL",
       // type: "video/mp4",
-    },
+    },{}
   ],
   html5: {
     vhs: {
@@ -192,15 +190,14 @@ const style = makeStyles((t) => ({
 const QBookQuestion = (props) => {
   const { questionData } = props;
 // useEffect(()=>{
-  if (!questionData.noVideo) {
+  if (!questionData.noVideo) { 
       videoJsOptions.sources[0].src = questionData.video_uri;
       videoJsOptions.sources[0].type = questionData.videoType;
-      console.log( questionData.video_uri);
       console.log(videoJsOptions);
+      console.log( questionData.video_uri);
     } 
 // },[questionData])
-  
-  // console.log(JSON.parse(props.questionData.body).blocks[0].text);
+   
 
   const [state, setState] = React.useState({
     question: questionData.title,

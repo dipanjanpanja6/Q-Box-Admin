@@ -38,11 +38,11 @@ const videoJsOptions = {
   //   aspectRatio: '1:1',
   sources: [
     {
-      src: "https://s3.ap-south-1.amazonaws.com/veido.thumbnail/spw/test.m3u8",
+      // src: "https://s3.ap-south-1.amazonaws.com/veido.thumbnail/spw/test.m3u8",
       // src: require('./cc.mkv'),
       // type: 'video/mp4',
-      type: "application/x-mpegURL",
-    },
+      // type: "application/x-mpegURL",
+    },{}
   ],
   html5: {
     vhs: {
@@ -181,6 +181,9 @@ const QBankQuestion = (props) => {
     if (!questionData.noVideo) {
         videoJsOptions.sources[0].src = questionData.video_uri;
         videoJsOptions.sources[0].type = questionData.videoType;
+        
+      videoJsOptions.sources[1].src = `https://raw-video-qrioctybox.s3.ap-south-1.amazonaws.com/QBank/${questionData.key}`
+      videoJsOptions.sources[1].type = questionData.videoType;
         console.log( questionData.video_uri);
         console.log(videoJsOptions);
       } 
