@@ -38,14 +38,7 @@ const videoJsOptions = {
 
   cacheEncryptionKeys: true,
   //   aspectRatio: '1:1',
-  sources: [
-    {
-      // src: "https://s3.ap-south-1.amazonaws.com/veido.thumbnail/spw/test.m3u8",
-      // src: require('./cc.mkv'),
-      // type: 'video/mp4',
-      // type: "application/x-mpegURL",
-    }, {}
-  ],
+  sources: [ {}  ],
   html5: {
     vhs: {
       withCredentials: true,

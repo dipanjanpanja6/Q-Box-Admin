@@ -24,36 +24,9 @@ import {
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { url } from "../../config/config";
-
-import Videojs from "../../Components/videoPlayer";
+ 
 import Loading from "../../Components/loading";
-
-const videoJsOptions = {
-  autoplay: false,
-  playbackRates: [0.3, 0.5, 1, 1.25, 1.5, 2, 2.5],
-  width: 720,
-  height: 300,
-  controls: true,
-  fluid: true,
-
-  cacheEncryptionKeys: true,
-  //   aspectRatio: '1:1',
-  sources: [
-    {
-      src: "https://s3.ap-south-1.amazonaws.com/veido.thumbnail/spw/test.m3u8",
-      // src: require('./cc.mkv'),
-      // type: 'video/mp4',
-      type: "application/x-mpegURL",
-    },
-  ],
-  html5: {
-    vhs: {
-      withCredentials: true,
-    },
-  },
-  // poster: require('../static/400.svg')
-};
-
+ 
 const style = makeStyles((t) => ({
   content: {
     width: "95%",
@@ -179,11 +152,7 @@ const style = makeStyles((t) => ({
 const MonthlyQuestion = (props) => {
   const { questionData } = props;
 
-  if (questionData !== undefined) {
-    if (!questionData.noVideo) {
-      videoJsOptions.sources[0].src = questionData.video_uri;
-    }
-  }
+ 
 
   const id = useParams().id;
 
@@ -400,9 +369,7 @@ const MonthlyQuestion = (props) => {
                 })}
               </RadioGroup>
             </Box>
-            <Box className={classes.videoContainer}>
-              <Videojs {...videoJsOptions} />
-            </Box>
+             
           </Box>
 
           <br></br>

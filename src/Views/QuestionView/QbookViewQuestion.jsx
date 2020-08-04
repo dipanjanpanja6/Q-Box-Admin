@@ -32,12 +32,7 @@ const videoJsOptions = {
   cacheEncryptionKeys: true,
   //   aspectRatio: '1:1',
   sources: [
-    {
-      // src:"https://encrypt-video.s3.ap-south-1.amazonaws.com/encrypt-with-store/encrypt-video-playlist.m3u8",
-      //  src:'https://encrypt-video.s3.ap-south-1.amazonaws.com/encrypt-with-store/encrypt-video-playlist.m3u8'
-      // type: "application/x-mpegURL",
-      // type: "video/mp4",
-    },{}
+    {}
   ],
   html5: {
     vhs: {
