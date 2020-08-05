@@ -24,9 +24,9 @@ import {
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { url } from "../../config/config";
- 
+
 import Loading from "../../Components/loading";
- 
+
 const style = makeStyles((t) => ({
   content: {
     width: "95%",
@@ -152,8 +152,6 @@ const style = makeStyles((t) => ({
 const MonthlyQuestion = (props) => {
   const { questionData } = props;
 
- 
-
   const id = useParams().id;
 
   useEffect(() => {
@@ -195,7 +193,7 @@ const MonthlyQuestion = (props) => {
     return (
       <Box display="flex" alignItems="center" flexDirection="column">
         {/* <h1> Loading... </h1> */}
-        <Loading/>
+        <Loading />
         {/* <Link to="/console">
           <button>Back to Console</button>
         </Link> */}
@@ -207,7 +205,7 @@ const MonthlyQuestion = (props) => {
     const response = await axios.get(
       `${url}/api/course/admin/approvequestion/MonthlyTest/${questionData.ID}`
     );
-    console.log(response);
+    // console.log(response);
     if (response.data.success) {
       setredirect(true);
     }
@@ -218,7 +216,7 @@ const MonthlyQuestion = (props) => {
       `${url}/api/course/admin/rejectquestion/MonthlyTest/${questionData.ID}`,
       { rejectingcomment: comment }
     );
-    console.log(response);
+    // console.log(response);
     if (response.data.success) {
       setredirect(true);
     }
@@ -369,7 +367,6 @@ const MonthlyQuestion = (props) => {
                 })}
               </RadioGroup>
             </Box>
-             
           </Box>
 
           <br></br>

@@ -23,10 +23,9 @@ import {
   Button,
 } from "@material-ui/core";
 import { connect } from "react-redux";
- 
+
 import { url } from "../../config/config";
 import Loading from "../../Components/loading";
-
 
 const style = makeStyles((t) => ({
   content: {
@@ -153,8 +152,6 @@ const style = makeStyles((t) => ({
 const WeeklyQuestion = (props) => {
   const { questionData } = props;
 
-  
-
   const id = useParams().id;
 
   useEffect(() => {
@@ -195,7 +192,7 @@ const WeeklyQuestion = (props) => {
     return (
       <Box display="flex" alignItems="center" flexDirection="column">
         {/* <h1> Loading... </h1> */}
-        <Loading/>
+        <Loading />
         {/* <Link to="/console">
           <button>Back to Console</button>
         </Link> */}
@@ -207,7 +204,7 @@ const WeeklyQuestion = (props) => {
     const response = await axios.get(
       `${url}/api/course/admin/approvequestion/WeeklyTest/${questionData.ID}`
     );
-    console.log(response);
+    // console.log(response);
     if (response.data.success) {
       setredirect(true);
     }
@@ -218,7 +215,7 @@ const WeeklyQuestion = (props) => {
       `${url}/api/course/admin/rejectquestion/WeeklyTest/${questionData.ID}`,
       { rejectingcomment: comment }
     );
-    console.log(response);
+    // console.log(response);
     if (response.data.success) {
       setredirect(true);
     }
@@ -367,7 +364,6 @@ const WeeklyQuestion = (props) => {
                 })}
               </RadioGroup>
             </Box>
-            
           </Box>
 
           <br></br>

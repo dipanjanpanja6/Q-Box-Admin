@@ -11,6 +11,7 @@ import {
 } from "../type";
 
 const initialState = {
+  isLoading: true,
   qbookquestion: [],
   qbankquestion: [],
   weeklyquestion: [],
@@ -30,6 +31,7 @@ export default function (state = initialState, actions) {
       return {
         ...state,
         qbookquestion: actions.payload,
+        isLoading: false,
       };
     case GETQBANKQUESTION:
       return {

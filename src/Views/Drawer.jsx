@@ -138,6 +138,7 @@ const Console = () => {
                 <Link
                   style={{ textDecoration: "none" }}
                   to={routingLink[index]}
+                  onClick={() => setOpen(false)}
                 >
                   <ListItem button key={text}>
                     <ListItemIcon>{RenderMenuIcon(index)}</ListItemIcon>

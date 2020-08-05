@@ -71,7 +71,6 @@ const QBankView = (props) => {
     setValue(index);
   };
 
-  const [comment, setComment] = React.useState("");
   const [open, setOpen] = React.useState("");
 
   const handleApprovance = async (id) => {
@@ -83,12 +82,12 @@ const QBankView = (props) => {
     }
   };
 
-  const handleRejection = async (id) => {
+  const handleRejection = async (comment, id) => {
     const response = await axios.post(
       `${url}/api/course/admin/rejectquestion/Qbank/${id}`,
       { rejectingcomment: comment }
     );
-    console.log(response);
+    // console.log(response);
     if (response.data.success) {
       props.GetQBankQuestion();
       props.RejectedGetQBankQuestion();
@@ -97,6 +96,7 @@ const QBankView = (props) => {
 
   const RenderPendingQuestion = (data, index) => {
     const classes = useStyles();
+    const [comment, setComment] = React.useState("");
 
     return (
       <Box className={classes.questionContainer}>
@@ -191,7 +191,7 @@ const QBankView = (props) => {
               </Button>
               <Button
                 variant="contained"
-                onClick={() => handleRejection(data.ID)}
+                onClick={() => handleRejection(comment, data.ID)}
                 style={{ color: "green", marginRight: 20 }}
               >
                 Confirm

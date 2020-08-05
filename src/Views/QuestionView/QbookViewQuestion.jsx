@@ -28,12 +28,10 @@ const videoJsOptions = {
   width: 720,
   height: 300,
   controls: true,
-  fluid: true, 
+  fluid: true,
   cacheEncryptionKeys: true,
   //   aspectRatio: '1:1',
-  sources: [
-    {}
-  ],
+  sources: [{}],
   html5: {
     vhs: {
       withCredentials: true,
@@ -190,8 +188,8 @@ const QBookQuestion = (props) => {
   if (questionData.noVideo !== undefined) {
     videoJsOptions.sources[0].src = questionData.video_uri;
     videoJsOptions.sources[0].type = questionData.videoType;
-    console.log(questionData.video_uri);
-    console.log(videoJsOptions);
+    // console.log(questionData.video_uri);
+    // console.log(videoJsOptions);
   }
   // },[questionData])
 
@@ -259,7 +257,7 @@ const QBookQuestion = (props) => {
     return (
       <Box display="flex" alignItems="center" flexDirection="column">
         {/* <h1> Loading... </h1> */}
-        <Loading/>
+        <Loading />
         {/* <Link to="/console">
           <button>Back to Console</button>
         </Link> */}

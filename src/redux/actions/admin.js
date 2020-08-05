@@ -11,7 +11,7 @@ export const login = (data) => (dispatch) => {
   })
     .then((res) => {
       res.json().then((d) => {
-        console.log(d);
+        // console.log(d);
         if (d.success === true) {
           dispatch({
             type: ADMINAUTH,
@@ -25,7 +25,7 @@ export const login = (data) => (dispatch) => {
       });
     })
     .catch((r) => {
-      console.log(r);
+      // console.log(r);
       toast.error("Something went wrong ! Try again");
     });
 };
@@ -37,14 +37,14 @@ export const checkAdmin = () => (dispatch) => {
     res
       .json()
       .then((d) => {
-        console.log(d);
+        // console.log(d);
         if (d.success === true) {
           dispatch({
             type: ADMINAUTH,
             payload: true,
           });
         } else if (d.error === true) {
-          console.log(d.message);
+          // console.log(d.message);
           d.message === "app/network-error" &&
             toast.error("server offline ! please contact team");
           dispatch({
@@ -54,7 +54,7 @@ export const checkAdmin = () => (dispatch) => {
         }
       })
       .catch((r) => {
-        console.log(r);
+        // console.log(r);
         // console.log('Something went wrong ! Try again')
       });
   });

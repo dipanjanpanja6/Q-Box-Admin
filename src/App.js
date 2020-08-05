@@ -51,7 +51,8 @@ const App = (props) => {
     console.log("auth");
     props.logout();
   };
-  console.log(props);
+
+  console.log(props.load);
 
   return (
     <div>
@@ -72,48 +73,127 @@ const App = (props) => {
           <Route
             exact
             path="/console"
-            render={props.auth ? () => <MainView /> : null}
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <MainView />
+              ) : (
+                <TLogin islogin={props.auth} />
+              )
+            }
           />
+
           <Route
             exact
             path="/qbook"
-            render={props.auth ? () => <QBookView /> : null}
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <QBookView />
+              ) : (
+                <Redirect to={{ pathname: "/", state: { from: location } }} />
+              )
+            }
           />
+
           <Route
             exact
             path="/qbank"
-            render={props.auth ? () => <QBankView /> : null}
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <QBankView />
+              ) : (
+                <Redirect to={{ pathname: "/", state: { from: location } }} />
+              )
+            }
           />
+
           <Route
             exact
             path="/weeklytest"
-            render={props.auth ? () => <WeeklyTestView /> : null}
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <WeeklyTestView />
+              ) : (
+                <Redirect to={{ pathname: "/", state: { from: location } }} />
+              )
+            }
           />
+
           <Route
             exact
             path="/monthlytest"
-            render={props.auth ? () => <MonthlyTestView /> : null}
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <MonthlyTestView />
+              ) : (
+                <Redirect to={{ pathname: "/", state: { from: location } }} />
+              )
+            }
           />
 
           <Route
             exact
             path="/qbookquestionview/:id"
-            render={props.auth ? () => <QBookQuestion /> : null}
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <QBookQuestion />
+              ) : (
+                <Redirect to={{ pathname: "/", state: { from: location } }} />
+              )
+            }
           />
+
           <Route
             exact
             path="/qbankkquestionview/:id"
-            render={props.auth ? () => <QBankQuestion /> : null}
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <QBankQuestion />
+              ) : (
+                <Redirect to={{ pathname: "/", state: { from: location } }} />
+              )
+            }
           />
+
           <Route
             exact
             path="/weeklyquestionview/:id"
-            render={props.auth ? () => <WeeklyQuestion /> : null}
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <WeeklyQuestion />
+              ) : (
+                <Redirect to={{ pathname: "/", state: { from: location } }} />
+              )
+            }
           />
+
           <Route
             exact
             path="/monthlyquestionview/:id"
-            render={props.auth ? () => <MonthlyQuestion /> : null}
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <MonthlyQuestion />
+              ) : (
+                <Redirect to={{ pathname: "/", state: { from: location } }} />
+              )
+            }
           />
 
           <Route exact path="/test" component={VideoPlayer} />
@@ -150,6 +230,7 @@ const mapToProp = {
 };
 const mapToState = (state) => ({
   auth: state.admin.adminAuth,
+  load: state.getcourse.isLoading,
 });
 export default connect(mapToState, mapToProp)(App);
 

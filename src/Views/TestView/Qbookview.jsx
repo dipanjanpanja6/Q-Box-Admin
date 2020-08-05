@@ -77,7 +77,7 @@ const QBookView = (props) => {
     setValue(index);
   };
 
-  const [comment, setComment] = React.useState("");
+  // const [comment, setComment] = React.useState("");
   const [open, setOpen] = React.useState("");
 
   const handleApprovance = async (id) => {
@@ -89,12 +89,12 @@ const QBookView = (props) => {
     }
   };
 
-  const handleRejection = async (id) => {
+  const handleRejection = async (comment, id) => {
     const response = await axios.post(
       `${url}/api/course/admin/rejectquestion/QBook/${id}`,
       { rejectingcomment: comment }
     );
-    console.log(response);
+    // console.log(response);
     if (response.data.success) {
       props.GetQBookQuestion();
       props.RejectedGetQBookQuestion();
@@ -103,7 +103,7 @@ const QBookView = (props) => {
 
   const RenderPendingQuestion = (data, index) => {
     const classes = useStyles();
-    // const [open, setOpen] = React.useState(false);
+    const [comment, setComment] = React.useState("");
 
     return (
       <Box className={classes.questionContainer}>
@@ -181,7 +181,7 @@ const QBookView = (props) => {
           </Button>
         </Box>
         {data.ID === open && (
-          <div style={{ background: "#eee", padding: 20 }}>
+          <div style={{ background: "#fff", padding: 20 }}>
             <TextField
               id="outlined-basic"
               label="Rejecting Comment"
@@ -200,7 +200,7 @@ const QBookView = (props) => {
               </Button>
               <Button
                 variant="contained"
-                onClick={() => handleRejection(data.ID)}
+                onClick={() => handleRejection(comment, data.ID)}
                 style={{ color: "green", marginRight: 20 }}
               >
                 Confirm

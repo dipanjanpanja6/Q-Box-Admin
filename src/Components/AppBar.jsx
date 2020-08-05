@@ -9,8 +9,9 @@ import {
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
- 
+
 import { Theme } from "../theme";
+import { ToastContainer } from "react-toastify";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -26,11 +27,12 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   title: {
-    display: 'block',
-        color: '#fff',
-        fontSize: 'x-large',
-        letterSpacing: '1px',
-        fontFamily: "Wallman, -apple-system, BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans- serif,Apple Color Emoji,Segoe UI Emoji, Segoe UI Symbol"
+    display: "block",
+    color: "#fff",
+    fontSize: "x-large",
+    letterSpacing: "1px",
+    fontFamily:
+      "Wallman, -apple-system, BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans- serif,Apple Color Emoji,Segoe UI Emoji, Segoe UI Symbol",
   },
 
   button: {
@@ -93,6 +95,7 @@ export default function PrimarySearchAppBar(props) {
 
   return (
     <div className={classes.grow}>
+      <ToastContainer />
       <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton
@@ -194,16 +197,6 @@ export default function PrimarySearchAppBar(props) {
           <div className={classes.grow} />
 
           <div className={classes.sectionDesktop}>
-            {/* 
-                            <IconButton color="inherit">
-                                <div className={classes.button}>
-
-                                    <Badge badgeContent={11} color="secondary">
-                                        <NotificationsIcon />
-                                    </Badge>
-                                </div>
-                            </IconButton> */}
-
             {props.auth === true && (
               <IconButton
                 onClick={logout}

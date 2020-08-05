@@ -121,14 +121,14 @@ const LoginPage = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log(props);
+    // console.log(props);
     if (props.auth.teacherLogin) {
       setLoading(false);
       if (props.auth.teacherLogin.success) {
         history.push("/console");
       } else if (props.auth.teacherLogin.error) {
         toast.error(props.auth.teacherLogin.message);
-        console.log(props.auth.teacherLogin.message);
+        // console.log(props.auth.teacherLogin.message);
       }
     }
   }, [props]);

@@ -38,7 +38,7 @@ const videoJsOptions = {
 
   cacheEncryptionKeys: true,
   //   aspectRatio: '1:1',
-  sources: [ {}  ],
+  sources: [{}],
   html5: {
     vhs: {
       withCredentials: true,
@@ -176,8 +176,8 @@ const QBankQuestion = (props) => {
   if (!questionData.noVideo) {
     videoJsOptions.sources[0].src = questionData.video_uri;
     videoJsOptions.sources[0].type = questionData.videoType;
-    console.log(questionData.video_uri);
-    console.log(videoJsOptions);
+    // console.log(questionData.video_uri);
+    // console.log(videoJsOptions);
   }
   // },[questionData])
 
@@ -222,7 +222,7 @@ const QBankQuestion = (props) => {
     return (
       <Box display="flex" alignItems="center" flexDirection="column">
         {/* <h1> Loading... </h1> */}
-        <Loading/>
+        <Loading />
         {/* <Link to="/console">
           <button>Back to Console</button>
         </Link> */}
@@ -234,7 +234,7 @@ const QBankQuestion = (props) => {
     const response = await axios.get(
       `${url}/api/course/admin/approvequestion/Qbank/${questionData.ID}`
     );
-    console.log(response);
+    // console.log(response);
     if (response.data.success) {
       setredirect(true);
     }
@@ -245,7 +245,7 @@ const QBankQuestion = (props) => {
       `${url}/api/course/admin/rejectquestion/Qbank/${questionData.ID}`,
       { rejectingcomment: comment }
     );
-    console.log(response);
+    // console.log(response);
     if (response.data.success) {
       setredirect(true);
     }
@@ -312,9 +312,9 @@ const QBankQuestion = (props) => {
               {questionData.question !== undefined ? (
                 <EditorJS data={JSON.parse(questionData.question)} />
               ) : (
-                  // ? JSON.parse(questionData.question).blocks[0].text
-                  "Loading..."
-                )}
+                // ? JSON.parse(questionData.question).blocks[0].text
+                "Loading..."
+              )}
             </Typography>
             <Box display="flex" justifyContent="space-between" mt={1}>
               <Typography variant="p" style={{ color: "white" }}>
@@ -345,23 +345,23 @@ const QBankQuestion = (props) => {
                 <strong>Course : </strong>
                 {questionData.course !== undefined
                   ? questionData.course.map((data, index) => {
-                    return (
-                      <Typography
-                        variant="p"
-                        style={{
-                          color: "#000",
-                          backgroundColor: "#eee",
-                          padding: 2.5,
-                          paddingRight: 5,
-                          paddingLeft: 5,
-                          borderRadius: 10,
-                          marginLeft: 10,
-                        }}
-                      >
-                        {data}
-                      </Typography>
-                    );
-                  })
+                      return (
+                        <Typography
+                          variant="p"
+                          style={{
+                            color: "#000",
+                            backgroundColor: "#eee",
+                            padding: 2.5,
+                            paddingRight: 5,
+                            paddingLeft: 5,
+                            borderRadius: 10,
+                            marginLeft: 10,
+                          }}
+                        >
+                          {data}
+                        </Typography>
+                      );
+                    })
                   : "No Course"}
               </Box>
               <Typography variant="p" style={{ color: "white" }}>
