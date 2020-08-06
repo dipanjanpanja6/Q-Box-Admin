@@ -113,7 +113,7 @@ const QBookView = (props) => {
   const RenderPendingQuestion = (data, index) => {
     const classes = useStyles();
     const [comment, setComment] = React.useState("");
-    const [teacher, setTeacher] = React.useState("");
+    const [teacher, setTeacher] = React.useState("Loading...");
     const tName = getTeacherName(data.uid);
     tName.then((result) => setTeacher(result));
 
