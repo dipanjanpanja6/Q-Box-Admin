@@ -101,9 +101,21 @@ const QBookView = (props) => {
     }
   };
 
+  const getTeacherName = async (id) => {
+    const response = await axios.get(
+      `${url}/api/course/admin/getteacherinfo/${id}`
+    );
+    if (response.data.success) {
+      return response.data.name;
+    }
+  };
+
   const RenderPendingQuestion = (data, index) => {
     const classes = useStyles();
     const [comment, setComment] = React.useState("");
+    const [teacher, setTeacher] = React.useState("");
+    const tName = getTeacherName(data.uid);
+    tName.then((result) => setTeacher(result));
 
     return (
       <Box className={classes.questionContainer}>
@@ -130,6 +142,11 @@ const QBookView = (props) => {
             <Typography variant="p" color="primary">
               {"Stream : "}
               <strong> {data.stream}</strong>
+            </Typography>
+            <br></br>
+            <Typography variant="p" color="primary">
+              {"Teacher Name : "}
+              <strong> {teacher}</strong>
             </Typography>
             <Box mt={1} style={{ color: "#000" }}>
               <strong>Course - </strong>

@@ -183,6 +183,7 @@ const WeeklyQuestion = (props) => {
   const [value, setValue] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [comment, setComment] = React.useState("");
+  const [teacher, setTeacher] = React.useState("");
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -267,6 +268,16 @@ const WeeklyQuestion = (props) => {
     );
   };
 
+  const getTeacherName = async (id) => {
+    const response = await axios.get(
+      `${url}/api/course/admin/getteacherinfo/${id}`
+    );
+    if (response.data.success) {
+      setTeacher(response.data.name);
+    }
+  };
+  getTeacherName(questionData.uid);
+
   return (
     <>
       {renderRedirect()}
@@ -341,6 +352,10 @@ const WeeklyQuestion = (props) => {
                   : "Loading..."}
               </Typography>
             </Box>
+            <Typography variant="p" style={{ color: "white" }}>
+              <strong>Teacher Name : </strong>
+              {teacher}
+            </Typography>
           </Box>
 
           <Box container className={classes.optionContainer}>

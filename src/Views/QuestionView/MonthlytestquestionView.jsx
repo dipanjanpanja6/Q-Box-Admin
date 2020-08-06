@@ -164,6 +164,7 @@ const MonthlyQuestion = (props) => {
   const [loading, setLoading] = React.useState(false);
   const [redirect, setredirect] = React.useState(false);
   const [comment, setComment] = React.useState("");
+  const [teacher, setTeacher] = React.useState("Loading...");
 
   const classes = style();
   const option = [
@@ -268,6 +269,16 @@ const MonthlyQuestion = (props) => {
     );
   };
 
+  const getTeacherName = async (id) => {
+    const response = await axios.get(
+      `${url}/api/course/admin/getteacherinfo/${id}`
+    );
+    if (response.data.success) {
+      setTeacher(response.data.name);
+    }
+  };
+  getTeacherName(questionData.uid);
+
   return (
     <>
       {renderRedirect()}
@@ -344,6 +355,10 @@ const MonthlyQuestion = (props) => {
                   : "Loading..."}
               </Typography>
             </Box>
+            <Typography variant="p" style={{ color: "white" }}>
+              <strong>Teacher Name : </strong>
+              {teacher}
+            </Typography>
           </Box>
 
           <Box container className={classes.optionContainer}>

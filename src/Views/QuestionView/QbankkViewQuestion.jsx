@@ -213,6 +213,7 @@ const QBankQuestion = (props) => {
   const [value, setValue] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [comment, setComment] = React.useState("");
+  const [teacher, setTeacher] = React.useState("Loading...");
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -250,6 +251,16 @@ const QBankQuestion = (props) => {
       setredirect(true);
     }
   };
+
+  const getTeacherName = async (id) => {
+    const response = await axios.get(
+      `${url}/api/course/admin/getteacherinfo/${id}`
+    );
+    if (response.data.success) {
+      setTeacher(response.data.name);
+    }
+  };
+  getTeacherName(questionData.uid);
 
   const renderRedirect = () => {
     if (redirect) {
@@ -364,6 +375,7 @@ const QBankQuestion = (props) => {
                     })
                   : "No Course"}
               </Box>
+
               <Typography variant="p" style={{ color: "white" }}>
                 <strong>Created At : </strong>
                 {questionData.createdAt !== undefined
@@ -371,6 +383,10 @@ const QBankQuestion = (props) => {
                   : "Loading..."}
               </Typography>
             </Box>
+            <Typography variant="p" style={{ color: "white" }}>
+              <strong>Teacher Name : </strong>
+              {teacher}
+            </Typography>
           </Box>
 
           <Box container className={classes.optionContainer}>

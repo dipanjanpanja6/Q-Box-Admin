@@ -221,6 +221,7 @@ const QBookQuestion = (props) => {
 
   const [value, setValue] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  const [teacher, setTeacher] = React.useState("Loading...");
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -246,6 +247,17 @@ const QBookQuestion = (props) => {
       setredirect(true);
     }
   };
+
+  const getTeacherName = async (id) => {
+    const response = await axios.get(
+      `${url}/api/course/admin/getteacherinfo/${id}`
+    );
+    if (response.data.success) {
+      setTeacher(response.data.name);
+    }
+  };
+
+  getTeacherName(questionData.uid);
 
   const renderRedirect = () => {
     if (redirect) {
@@ -380,6 +392,13 @@ const QBookQuestion = (props) => {
                 {questionData.title !== undefined
                   ? questionData.title
                   : "Loading..."}
+              </Typography>
+              <Typography
+                variant="p"
+                style={{ color: "white", marginBottom: 10 }}
+              >
+                <strong>{"Teacher Name : "}</strong>
+                {teacher}
               </Typography>
             </Box>
           </Box>
