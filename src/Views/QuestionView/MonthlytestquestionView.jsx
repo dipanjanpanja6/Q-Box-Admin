@@ -154,11 +154,22 @@ const MonthlyQuestion = (props) => {
 
   const id = useParams().id;
 
+  const getTeacherName = async (id) => {
+    const response = await axios.get(
+      `${url}/api/course/admin/getteacherinfo/${id}`
+    );
+    if (response.data.success) {
+      setTeacher(response.data.name);
+    }
+  };
+ 
   useEffect(() => {
     props.GetQuestionViaId({
       collect: "MonthlyTest",
       qid: id,
     });
+    getTeacherName(questionData.uid);
+
   }, []);
 
   const [loading, setLoading] = React.useState(false);
@@ -268,16 +279,6 @@ const MonthlyQuestion = (props) => {
       </Modal>
     );
   };
-
-  const getTeacherName = async (id) => {
-    const response = await axios.get(
-      `${url}/api/course/admin/getteacherinfo/${id}`
-    );
-    if (response.data.success) {
-      setTeacher(response.data.name);
-    }
-  };
-  getTeacherName(questionData.uid);
 
   return (
     <>
