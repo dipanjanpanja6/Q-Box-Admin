@@ -2,16 +2,16 @@ import React, { useRef, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { pxToVh, pxToVw, Theme } from "../../theme";
-import CardComponent from "../../Components/cardEmbossed";
+import CardComponent from "../../Components/cardDepth";
 import { Link, Redirect, useParams } from "react-router-dom";
 import axios from "axios";
 import EditorJS from "../../Components/Editor";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { GetQuestionViaId } from "../../redux/actions/getcourse";
-
+import ScopedCssBaseline from "@material-ui/core/ScopedCssBaseline";
 import {
   Toolbar,
-  Fab,
+  Fab, Divider,
   makeStyles,
   Box,
   IconButton,
@@ -29,9 +29,7 @@ import Loading from "../../Components/loading";
 
 const style = makeStyles((t) => ({
   content: {
-    width: "95%",
-    // minHeight:'100vh',
-    // backgroundColor: 'white',
+    width: "95%", 
     alignItems: "center",
     justifyContent: "center",
     paddingLeft: 30,
@@ -45,9 +43,7 @@ const style = makeStyles((t) => ({
       padding: 12,
     },
   },
-  checkbox: {
-    color: "white",
-  },
+ 
   button: {
     background: Theme.textColor.color1,
     marginBottom: 12,
@@ -62,12 +58,7 @@ const style = makeStyles((t) => ({
     fontWeight: "bold",
     textTransform: "uppercase",
   },
-  options: {
-    [t.breakpoints.down("xs")]: {
-      flexDirection: "column-reverse",
-    },
-  },
-
+  
   question: {
     minHeight: "40%",
     width: "100%",
@@ -78,34 +69,10 @@ const style = makeStyles((t) => ({
       paddingLeft: "8%",
     },
   },
-  directionIcon: {
-    color: Theme.textColor.color1,
-    fontSize: 40,
-    cursor: "pointer",
-    padding: 0,
-    margin: 0,
-  },
-  questionNumberStyle: {
-    display: "flex",
-    alignItems: "center",
-  },
-  practiceNumberStyle: {
-    display: "flex",
-    alignItems: "center",
-    flexGrow: 1,
-    justifyContent: "center",
-  },
-  numOfQueStyle: {
-    color: Theme.textColor.color1,
-    [t.breakpoints.down("sm")]: {
-      fontSize: 15,
-      margin: 0,
-      padding: 0,
-    },
-  },
+
   radioButtonStyle: {
-    color: Theme.textColor.color1,
-    backgroundColor: "#fff",
+    // color: Theme.textColor.color1,
+    // backgroundColor: "#fff",
     marginRight: 15,
     padding: 0,
   },
@@ -115,8 +82,8 @@ const style = makeStyles((t) => ({
   },
   optionContainer: {
     width: "100%",
-    marginLeft: "5%",
-    marginRight: "5%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -124,35 +91,31 @@ const style = makeStyles((t) => ({
       flexDirection: "column",
     },
   },
-  radioLabelStyle: {
-    color: Theme.textColor.color1,
-    marginTop: 15,
-  },
-  videoContainer: {
-    width: "35%",
-    backgroundColor: Theme.textColor.color1,
-    borderRadius: 16,
-    boxShadow: `4px 4px 5px 1px rgba(00,00,00,0.2),-4px -4px 5px 1px rgba(255,255,255,0.2)`,
-    borderRadius: pxToVh(80),
-    border: "solid 7px blueviolet",
-    overflow: "hidden",
-    [t.breakpoints.down("xs")]: {
-      borderRadius: pxToVh(60),
+
+  baseline: {
+    width: 'calc(100vw - 300px)',
+    [t.breakpoints.down('xs')]: {
+      width: 'calc(100vw - 200px)',
     },
-    [t.breakpoints.down("md")]: {
-      marginTop: "25px",
-      width: "60%",
-    },
-    [t.breakpoints.down("sm")]: {
-      width: "95%",
-    },
-  },
+    [t.breakpoints.down('md')]: {
+      width: 'calc(100vw - 250px)',
+    }
+  }
 }));
 
 const MonthlyQuestion = (props) => {
-  const { questionData } = props;
-
   const id = useParams().id;
+  const classes = style();
+
+  useEffect(() => {
+    document.title = 'Monthly Test Quality Check | QrioctyBox'
+    props.GetQuestionViaId({
+      collect: "MonthlyTest",
+      qid: id,
+    });
+    
+  }, []);
+  const { questionData } = props;
 
   const getTeacherName = async (id) => {
     const response = await axios.get(
@@ -162,37 +125,18 @@ const MonthlyQuestion = (props) => {
       setTeacher(response.data.name);
     }
   };
- 
+  
   useEffect(() => {
-    props.GetQuestionViaId({
-      collect: "MonthlyTest",
-      qid: id,
-    });
     getTeacherName(questionData.uid);
-
-  }, []);
+  }, [questionData.uid])
+  
 
   const [loading, setLoading] = React.useState(false);
   const [redirect, setredirect] = React.useState(false);
   const [comment, setComment] = React.useState("");
   const [teacher, setTeacher] = React.useState("Loading...");
 
-  const classes = style();
-  const option = [
-    // JSON.parse(questionData.ans1).blocks[0].text,
-    questionData.ans1
-      ? JSON.parse(questionData.ans1).blocks[0].text
-      : "No Option",
-    questionData.ans2
-      ? JSON.parse(questionData.ans2).blocks[0].text
-      : "No Option",
-    questionData.ans3
-      ? JSON.parse(questionData.ans3).blocks[0].text
-      : "No Option",
-    questionData.ans4
-      ? JSON.parse(questionData.ans4).blocks[0].text
-      : "No Option",
-  ];
+
 
   const [value, setValue] = React.useState("");
   const [open, setOpen] = React.useState(false);
@@ -280,6 +224,7 @@ const MonthlyQuestion = (props) => {
     );
   };
 
+
   return (
     <>
       {renderRedirect()}
@@ -287,34 +232,21 @@ const MonthlyQuestion = (props) => {
       <Grid container className={classes.content}>
         <CardComponent>
           <Box container className={classes.question}>
-            <Typography
-              variant="h6"
-              noWrap={false}
-              style={{
-                color: "white",
-                marginBottom: 10,
-              }}
-            >
-              <strong>Question : </strong>
-              {questionData.question !== undefined
-                ? JSON.parse(questionData.question).blocks[0].text
-                : // ? JSON.parse(questionData.question).blocks[0].text
-                  "Loading..."}
-            </Typography>
+
             <Box display="flex" justifyContent="space-between" mt={1}>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography variant="p" >
                 <strong>Stream : </strong>
                 {questionData.stream !== undefined
                   ? questionData.stream
                   : "Loading..."}
               </Typography>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography variant="p" >
                 <strong>Subject : </strong>
                 {questionData.subject !== undefined
                   ? questionData.subject
                   : "Loading..."}
               </Typography>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography variant="p" >
                 <strong>Chapter : </strong>
                 {questionData.chapter !== undefined
                   ? questionData.chapter
@@ -326,74 +258,141 @@ const MonthlyQuestion = (props) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Box style={{ color: "#fff" }} mt={1} mb={2}>
+              <Box mt={1} mb={2}>
                 <strong>Course : </strong>
                 {questionData.course !== undefined
                   ? questionData.course.map((data, index) => {
-                      return (
-                        <Typography
-                          variant="p"
-                          style={{
-                            color: "#000",
-                            backgroundColor: "#eee",
-                            padding: 2.5,
-                            paddingRight: 5,
-                            paddingLeft: 5,
-                            borderRadius: 10,
-                            marginLeft: 10,
-                          }}
-                        >
-                          {data}
-                        </Typography>
-                      );
-                    })
+                    return (
+                      <Typography
+                        variant="p"
+                        style={{
+                          color: "#000",
+                          backgroundColor: "#eee",
+                          padding: 2.5,
+                          paddingRight: 5,
+                          paddingLeft: 5,
+                          borderRadius: 10,
+                          marginLeft: 10,
+                        }}
+                      >
+                        {data}
+                      </Typography>
+                    );
+                  })
                   : "No Course"}
               </Box>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography variant="p" >
                 <strong>Created At : </strong>
                 {questionData.createdAt !== undefined
                   ? questionData.createdAt
                   : "Loading..."}
               </Typography>
             </Box>
-            <Typography variant="p" style={{ color: "white" }}>
+            <Typography variant="p" >
               <strong>Teacher Name : </strong>
               {teacher}
             </Typography>
+            <Typography
+              variant="h6" component='div'
+              style={{ marginBottom: 10 }}
+            >
+              <Divider />
+              {/* <strong>Question : </strong> */}
+              {questionData.question !== undefined ? (
+
+                <Box
+                  display="flex"
+                  style={{ borderRadius: 12, margin: '12px 0', padding: '0 12px ' }}
+                  alignItems="center"
+                >
+                  <ScopedCssBaseline className={classes.baseline}>
+                    <EditorJS data={JSON.parse(questionData.question)} />
+                  </ScopedCssBaseline>
+                </Box>
+
+              ) : ("Loading...")}
+            </Typography>
+            <Divider />
           </Box>
 
           <Box container className={classes.optionContainer}>
-            <Box>
-              <RadioGroup
-                aria-label="gender"
-                name="gender1"
-                value={value}
-                onChange={handleChange}
-                className={classes.radioGroupStyle}
-              >
-                {option.map((data, index) => {
-                  return (
-                    <FormControlLabel
-                      value={data}
-                      className={classes.radioLabelStyle}
-                      control={<Radio className={classes.radioButtonStyle} />}
-                      label={data}
-                    />
-                  );
-                })}
+          <Box style={{ width: '100%' }}>
+              <RadioGroup className={classes.radioGroupStyle}              >
+              <FormControlLabel
+                    control={<Radio checked={questionData.correctAns.includes('ans') ? true : false} className={classes.radioButtonStyle} />}
+                    label={
+                      <Box
+                        display="flex"
+                        style={{ borderRadius: 12, margin: '12px 0', padding: '0 12px ' }}
+                        alignItems="center"
+                      >
+                        <ScopedCssBaseline className={classes.baseline}>
+                          <EditorJS data={questionData.ans?JSON.parse(questionData.ans):""} />
+                        </ScopedCssBaseline>
+                      </Box>
+                    }
+                  />
+                <FormControlLabel
+                    control={<Radio checked={questionData.correctAns.includes('ans1') ? true : false} className={classes.radioButtonStyle} />}
+                    label={
+                      <Box
+                        display="flex"
+                        style={{  borderRadius: 12, margin: '12px 0', padding: '0 12px ' }}
+                        alignItems="center"
+                      >
+                        <ScopedCssBaseline className={classes.baseline}>
+                          <EditorJS data={questionData.ans1?JSON.parse(questionData.ans1):""} />
+                        </ScopedCssBaseline>
+                      </Box>
+                    }
+                  />
+               <FormControlLabel
+                    control={<Radio checked={questionData.correctAns.includes('ans2') ? true : false} className={classes.radioButtonStyle} />}
+                    label={
+                      <Box
+                        display="flex"
+                        style={{  borderRadius: 12, margin: '12px 0', padding: '0 12px ' }}
+                        alignItems="center"
+                      >
+                        <ScopedCssBaseline className={classes.baseline}>
+                          <EditorJS data={questionData.ans2?JSON.parse(questionData.ans2):""} />
+                        </ScopedCssBaseline>
+                      </Box>
+                    }
+                  />
+                <FormControlLabel
+                    control={<Radio checked={questionData.correctAns.includes('ans3') ? true : false} className={classes.radioButtonStyle} />}
+                    label={
+                      <Box
+                        display="flex"
+                        style={{  borderRadius: 12, margin: '12px 0', padding: '0 12px ' }}
+                        alignItems="center"
+                      >
+                        <ScopedCssBaseline className={classes.baseline}>
+                          <EditorJS data={questionData.ans3?JSON.parse(questionData.ans3):""} />
+                        </ScopedCssBaseline>
+                      </Box>
+                    }
+                  />
+                 <FormControlLabel
+                    control={<Radio checked={questionData.correctAns.includes('ans4') ? true : false} className={classes.radioButtonStyle} />}
+                    label={
+                      <Box
+                        display="flex"
+                        style={{  borderRadius: 12, margin: '12px 0', padding: '0 12px ' }}
+                        alignItems="center"
+                      >
+                        <ScopedCssBaseline className={classes.baseline}>
+                          <EditorJS data={questionData.ans4?JSON.parse(questionData.ans4):""} />
+                        </ScopedCssBaseline>
+                      </Box>
+                    }
+                  />
               </RadioGroup>
             </Box>
           </Box>
 
-          <br></br>
-          <Box mt={5} mb={5}>
-            <Typography variant="p" style={{ color: "white" }}>
-              <strong>Correct Answer : </strong>
-              {questionData.ans
-                ? JSON.parse(questionData.ans).blocks[0].text
-                : "No Option"}
-            </Typography>
-          </Box>
+
 
           <Grid
             item
@@ -425,6 +424,7 @@ const MonthlyQuestion = (props) => {
     </>
   );
 };
+
 
 const MapStateToProps = (state) => {
   return {

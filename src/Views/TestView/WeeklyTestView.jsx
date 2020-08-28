@@ -270,7 +270,7 @@ const WeeklyTestView = (props) => {
     <div className={classes.root}>
       <Box mb={3}>
         <Typography variant="h4" style={{ fontWeight: "bold" }}>
-          Weekly Test Question List
+          Weekly Quiz Question List
         </Typography>
 
         <div style={{ marginTop: 30 }}>

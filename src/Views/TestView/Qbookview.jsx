@@ -198,7 +198,7 @@ const QBookView = (props) => {
           </Button>
         </Box>
         {data.ID === open && (
-          <div style={{ background: "#fff", padding: 20 }}>
+          <div style={{ background: "#eee", padding: 20 }}>
             <TextField
               id="outlined-basic"
               label="Rejecting Comment"

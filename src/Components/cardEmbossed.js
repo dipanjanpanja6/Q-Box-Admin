@@ -10,7 +10,7 @@ const styles = makeStyles((t) => ({
     boxShadow: `10px 10px 14px 1px rgba(00,00,00,0.2)`,
     height: "100%",
     width: "100%",
-    borderRadius: pxToVh(180),
+    borderRadius: pxToVh(80),
     [t.breakpoints.down("xs")]: {
       // borderRadius: 111,
       borderRadius: pxToVh(70),

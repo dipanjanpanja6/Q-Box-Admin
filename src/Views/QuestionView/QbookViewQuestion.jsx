@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { pxToVh, pxToVw, Theme } from "../../theme";
-import CardComponent from "../../Components/cardEmbossed";
+import CardComponent from "../../Components/cardDepth";
 import { Link, Redirect, useParams } from "react-router-dom";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -13,6 +13,7 @@ import {
   TextField,
   Modal,
   Button,
+  CssBaseline,
 } from "@material-ui/core";
 import { url } from "../../config/config";
 
@@ -21,6 +22,7 @@ import { connect } from "react-redux";
 import EditorJS from "../../Components/Editor";
 import { GetQuestionViaId } from "../../redux/actions/getcourse";
 import Loading from "../../Components/loading";
+import ScopedCssBaseline from "@material-ui/core/ScopedCssBaseline";
 
 const videoJsOptions = {
   autoplay: false,
@@ -59,7 +61,7 @@ const style = makeStyles((t) => ({
     },
   },
   checkbox: {
-    color: "white",
+    // color: "white",
   },
   button: {
     background: Theme.textColor.color1,
@@ -94,7 +96,7 @@ const style = makeStyles((t) => ({
     },
   },
   directionIcon: {
-    color: Theme.textColor.color1,
+    // color: Theme.textColor.color1,
     fontSize: 40,
     cursor: "pointer",
     padding: 0,
@@ -111,7 +113,7 @@ const style = makeStyles((t) => ({
     justifyContent: "center",
   },
   numOfQueStyle: {
-    color: Theme.textColor.color1,
+    // color: Theme.textColor.color1,
     [t.breakpoints.down("sm")]: {
       fontSize: 15,
       margin: 0,
@@ -119,8 +121,8 @@ const style = makeStyles((t) => ({
     },
   },
   radioButtonStyle: {
-    color: Theme.textColor.color1,
-    backgroundColor: "#fff",
+    // color: Theme.textColor.color1,
+    // backgroundColor: "#fff",
     marginRight: 15,
     padding: 0,
   },
@@ -138,30 +140,30 @@ const style = makeStyles((t) => ({
     },
   },
   radioLabelStyle: {
-    color: Theme.textColor.color1,
+    // color: Theme.textColor.color1,
     marginTop: 15,
   },
   videoContainer: {
-    width: "35%",
+    // width: "100%",
     marginBottom: 20,
     display: "flex",
     alignContent: "center",
     justifyContent: "center",
-    backgroundColor: Theme.textColor.color1,
-    // borderRadius: 16,
+    // backgroundColor: Theme.textColor.color1,
+    borderRadius: 60,
     boxShadow: `4px 4px 5px 1px rgba(00,00,00,0.2),-4px -4px 5px 1px rgba(255,255,255,0.2)`,
-    borderRadius: pxToVh(80),
+    // borderRadius: pxToVh(80),
     border: "solid 7px blueviolet",
     overflow: "hidden",
     [t.breakpoints.down("xs")]: {
-      borderRadius: pxToVh(60),
+      // borderRadius: pxToVh(60),
     },
     [t.breakpoints.down("md")]: {
       marginTop: "25px",
-      width: "60%",
+      // width: "60%",
     },
     [t.breakpoints.down("sm")]: {
-      width: "95%",
+      // width: "95%",
     },
   },
   bodyvideoContainer: {
@@ -170,54 +172,40 @@ const style = makeStyles((t) => ({
     justifyContent: "space-between",
     alignItems: "center",
     [t.breakpoints.down("sm")]: {
-      flexDirection: "column",
+      // flexDirection: "column",
     },
   },
-  bodypartstyle: {
-    color: "#eee",
-    width: "60%",
-    [t.breakpoints.down("sm")]: {
-      width: "90%",
-    },
-  },
+  // bodypartstyle: {
+  //   // color: "#eee",
+  //   width: "60%",
+  //   [t.breakpoints.down("sm")]: {
+  //     width: "90%",
+  //   },
+  // },
 }));
 
 const QBookQuestion = (props) => {
-  const { questionData } = props;
-  // useEffect(()=>{
-  if (questionData.noVideo !== undefined) {
-    videoJsOptions.sources[0].src = questionData.video_uri;
-    videoJsOptions.sources[0].type = questionData.videoType;
-    // console.log(questionData.video_uri);
-    // console.log(videoJsOptions);
-  }
-  // },[questionData])
-
   const id = useParams().id;
 
   useEffect(() => {
+    document.title = 'Q Book Quality Check | QrioctyBox'
     props.GetQuestionViaId({
       collect: "QBook",
       qid: id,
     });
   }, []);
 
-  const [state, setState] = React.useState({
-    question: questionData.title,
-    correctOption: 0,
-    selectedOption: 0,
-    option1: "This is Option 1",
-    option2:
-      "what is cvhjkjkjkhjh gfgfghjhkj lcvhjkjkjkh jhgfgfghjhkjl cvhjkjkjkhjhg fgfghjhkjl cvhjkjkj khjhgfgfghjhkjl cvhjkjkjkhjhgfgfghjhkjl hjl jhjh ghjkl kjh ghgjh kjl jhg gjhkjlk kjhfg hgjh ",
-    option3: "what is what is what is what is what is ",
-    option4: "hvjhvj",
-    id: 1,
-  });
+  const { questionData } = props;
+
+  if (questionData.noVideo !== undefined) {
+    videoJsOptions.sources[0].src = questionData.video_uri;
+    videoJsOptions.sources[0].type = questionData.videoType
+
+  }
 
   const [loading, setLoading] = React.useState(false);
 
   const classes = style();
-  const option = [state.option1, state.option2, state.option3, state.option4];
 
   const [value, setValue] = React.useState("");
   const [open, setOpen] = React.useState(false);
@@ -257,7 +245,9 @@ const QBookQuestion = (props) => {
     }
   };
 
-  getTeacherName(questionData.uid);
+  useEffect(() => {
+    getTeacherName(questionData.uid);
+  }, [questionData.uid])
 
   const renderRedirect = () => {
     if (redirect) {
@@ -268,11 +258,7 @@ const QBookQuestion = (props) => {
   if (questionData.is !== undefined) {
     return (
       <Box display="flex" alignItems="center" flexDirection="column">
-        {/* <h1> Loading... </h1> */}
         <Loading />
-        {/* <Link to="/console">
-          <button>Back to Console</button>
-        </Link> */}
       </Box>
     );
   }
@@ -325,19 +311,19 @@ const QBookQuestion = (props) => {
         <CardComponent>
           <Box container className={classes.question}>
             <Box display="flex" justifyContent="space-between" mt={1}>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography variant="p">
                 <strong>Stream : </strong>
                 {questionData.stream !== undefined
                   ? questionData.stream
                   : "Loading..."}
               </Typography>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography variant="p">
                 <strong>Subject : </strong>
                 {questionData.subject !== undefined
                   ? questionData.subject
                   : "Loading..."}
               </Typography>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography variant="p">
                 <strong>Chapter : </strong>
                 {questionData.chapter !== undefined
                   ? questionData.chapter
@@ -349,30 +335,37 @@ const QBookQuestion = (props) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Box style={{ color: "#fff" }} mt={1} mb={2}>
+              <Box mt={1} mb={2}>
                 <strong>Course : </strong>
                 {questionData.course !== undefined
                   ? questionData.course.map((data, index) => {
-                      return (
-                        <Typography
-                          variant="p"
-                          style={{
-                            color: "#000",
-                            backgroundColor: "#eee",
-                            padding: 2.5,
-                            paddingRight: 5,
-                            paddingLeft: 5,
-                            borderRadius: 10,
-                            marginLeft: 10,
-                          }}
-                        >
-                          {data}
-                        </Typography>
-                      );
-                    })
+                    return (
+                      <Typography
+                        variant="p"
+                        style={{
+                          color: "#000",
+                          backgroundColor: "#eee",
+                          padding: 2.5,
+                          paddingRight: 5,
+                          paddingLeft: 5,
+                          borderRadius: 10,
+                          marginLeft: 10,
+                        }}
+                      >
+                        {data}
+                      </Typography>
+                    );
+                  })
                   : "No Course"}
               </Box>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography
+                variant="p"
+                style={{ marginBottom: 10 }}
+              >
+                <strong>{"Teacher Name : "}</strong>
+                {teacher}
+              </Typography>
+              <Typography variant="p" >
                 <strong>Created At : </strong>
                 {questionData.createdAt !== undefined
                   ? questionData.createdAt
@@ -386,40 +379,39 @@ const QBookQuestion = (props) => {
             >
               <Typography
                 variant="h6"
-                style={{ color: "white", marginBottom: 10 }}
+                style={{ marginBottom: 10, overflow: 'auto', }}
               >
                 <strong>Title : </strong>
                 {questionData.title !== undefined
                   ? questionData.title
                   : "Loading..."}
               </Typography>
-              <Typography
-                variant="p"
-                style={{ color: "white", marginBottom: 10 }}
-              >
-                <strong>{"Teacher Name : "}</strong>
-                {teacher}
-              </Typography>
+
             </Box>
           </Box>
+  
 
-          <Box className={classes.bodyvideoContainer}>
-            <Typography variant="h6" className={classes.bodypartstyle}>
-              <strong>Body : </strong>
-              {questionData.body !== undefined ? (
+          <Grid container className={classes.bodyvideoContainer}>
+            <Grid item md={7} sm={11} sx={12}>
+              {/* <strong>Body : </strong> */}
+              {questionData.body !== undefined ? (<>
+                {/* <CssBaseline /> */}
+                {/* <ScopedCssBaseline > */}
+
                 <EditorJS data={JSON.parse(questionData.body)} />
-              ) : (
-                // ? JSON.parse(questionData.body).blocks[0].text
-                "Loading..."
-              )}
-            </Typography>
+                {/* </ScopedCssBaseline > */}
+                </>
+              ) : ("Loading...")}
+            </Grid>
 
             {!questionData.noVideo && (
+              <Grid md={5} sm={12} sx={12}>
               <Box className={classes.videoContainer}>
                 <Videojs {...videoJsOptions} />
               </Box>
+              </Grid>
             )}
-          </Box>
+          </Grid>
 
           <Grid
             item

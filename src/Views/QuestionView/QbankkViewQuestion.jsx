@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import { pxToVh, pxToVw, Theme } from "../../theme";
-import CardComponent from "../../Components/cardEmbossed";
+import { Theme } from "../../theme";
+import CardComponent from "../../Components/cardDepth";
 import { Link, Redirect, useParams } from "react-router-dom";
 import axios from "axios";
 import EditorJS from "../../Components/Editor";
@@ -10,17 +10,8 @@ import { GetQuestionViaId } from "../../redux/actions/getcourse";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {
-  Toolbar,
-  Fab,
-  makeStyles,
-  Box,
-  IconButton,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
-  Modal,
-  TextField,
-  Button,
+  Fab, makeStyles, Box, IconButton, RadioGroup, Radio, FormControlLabel, Modal, TextField,
+  Button, CssBaseline, Divider,
 } from "@material-ui/core";
 
 import Videojs from "../../Components/videoPlayer";
@@ -31,8 +22,8 @@ import Loading from "../../Components/loading";
 const videoJsOptions = {
   autoplay: false,
   playbackRates: [0.3, 0.5, 1, 1.25, 1.5, 2, 2.5],
-  width: 720,
-  height: 300,
+  // width: 720,
+  // height: 300,
   controls: true,
   fluid: true,
 
@@ -50,23 +41,20 @@ const videoJsOptions = {
 const style = makeStyles((t) => ({
   content: {
     width: "95%",
-    // minHeight:'100vh',
-    // backgroundColor: 'white',
     alignItems: "center",
     justifyContent: "center",
-    paddingLeft: 30,
-    paddingRight: 30,
-    marginLeft: 50,
+    padding: 30,
+    marginLeft: 48,
     marginRight: 20,
     [t.breakpoints.down("sm")]: {
-      marginLeft: 50,
+      marginLeft: 44,
     },
     [t.breakpoints.down("xs")]: {
       padding: 12,
     },
   },
   checkbox: {
-    color: "white",
+    // color: "white",
   },
   button: {
     background: Theme.textColor.color1,
@@ -99,7 +87,7 @@ const style = makeStyles((t) => ({
     },
   },
   directionIcon: {
-    color: Theme.textColor.color1,
+    // color: Theme.textColor.color1,
     fontSize: 40,
     cursor: "pointer",
     padding: 0,
@@ -116,7 +104,7 @@ const style = makeStyles((t) => ({
     justifyContent: "center",
   },
   numOfQueStyle: {
-    color: Theme.textColor.color1,
+    // color: Theme.textColor.color1,
     [t.breakpoints.down("sm")]: {
       fontSize: 15,
       margin: 0,
@@ -124,100 +112,100 @@ const style = makeStyles((t) => ({
     },
   },
   radioButtonStyle: {
-    color: Theme.textColor.color1,
-    backgroundColor: "#fff",
+    // color: Theme.textColor.color1,
+    // backgroundColor: "#fff",
     marginRight: 15,
     padding: 0,
   },
   radioGroupStyle: {
     padding: 0,
     width: "100%",
+    // overflow:'auto'
   },
   optionContainer: {
     width: "100%",
     marginLeft: "5%",
-    marginRight: "5%",
+    marginRight: "1%",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
     [t.breakpoints.down("sm")]: {
-      flexDirection: "column",
+      // flexDirection: "column",
     },
   },
   radioLabelStyle: {
-    color: Theme.textColor.color1,
+    overflow: 'auto',
+    width: "100%",
+
+    // color: Theme.textColor.color1,
+    border: 'solid 01px #aaa',
     marginTop: 15,
+    marginLeft: 15,
   },
   videoContainer: {
-    width: "35%",
-    backgroundColor: Theme.textColor.color1,
-    borderRadius: 16,
+    // width: "35%",
+    // backgroundColor: Theme.textColor.color1,
+    borderRadius: 60,
     boxShadow: `4px 4px 5px 1px rgba(00,00,00,0.2),-4px -4px 5px 1px rgba(255,255,255,0.2)`,
-    borderRadius: pxToVh(80),
+    // borderRadius: pxToVh(80),
     border: "solid 7px blueviolet",
     overflow: "hidden",
-    [t.breakpoints.down("xs")]: {
-      borderRadius: pxToVh(60),
-    },
-    [t.breakpoints.down("md")]: {
-      marginTop: "25px",
-      width: "60%",
-    },
-    [t.breakpoints.down("sm")]: {
-      width: "95%",
-    },
+    // [t.breakpoints.down("xs")]: {
+    //   borderRadius: pxToVh(60),
+    // },
+    // [t.breakpoints.down("md")]: {
+    //   marginTop: "25px",
+    //   width: "60%",
+    // },
+    // [t.breakpoints.down("sm")]: {
+    //   width: "95%",
+    // },
   },
 }));
 
 const QBankQuestion = (props) => {
-  const { questionData } = props;
-
-  // useEffect(()=>{
-  if (!questionData.noVideo) {
-    videoJsOptions.sources[0].src = questionData.video_uri;
-    videoJsOptions.sources[0].type = questionData.videoType;
-    // console.log(questionData.video_uri);
-    // console.log(videoJsOptions);
-  }
-  // },[questionData])
-
   const id = useParams().id;
+  const classes = style();
 
   useEffect(() => {
+    document.title = 'Q Bank Quality Check | QrioctyBox'
     props.GetQuestionViaId({
       collect: "Qbank",
       qid: id,
     });
   }, []);
 
+  const { questionData } = props;
+
+  if (!questionData.noVideo) {
+    videoJsOptions.sources[0].src = questionData.video_uri;
+    videoJsOptions.sources[0].type = questionData.videoType;
+  }
+
+  const getTeacherName = async (id) => {
+    const response = await axios.get(
+      `${url}/api/course/admin/getteacherinfo/${id}`
+    );
+    if (response.data.success) {
+      setTeacher(response.data.name);
+    }
+  };
+
+
+  useEffect(() => {
+    getTeacherName(questionData.uid);
+  }, [questionData.uid])
+
   const [loading, setLoading] = React.useState(false);
   const [redirect, setredirect] = React.useState(false);
 
-  const classes = style();
-  const option = [
-    // JSON.parse(questionData.ans1).blocks[0].text,
-    questionData.ans1
-      ? JSON.parse(questionData.ans1).blocks[0].text
-      : "No Option",
-    questionData.ans2
-      ? JSON.parse(questionData.ans2).blocks[0].text
-      : "No Option",
-    questionData.ans3
-      ? JSON.parse(questionData.ans3).blocks[0].text
-      : "No Option",
-    questionData.ans4
-      ? JSON.parse(questionData.ans4).blocks[0].text
-      : "No Option",
-  ];
 
-  const [value, setValue] = React.useState("");
+
   const [open, setOpen] = React.useState(false);
   const [comment, setComment] = React.useState("");
   const [teacher, setTeacher] = React.useState("Loading...");
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+
 
   if (questionData.is !== undefined) {
     return (
@@ -251,16 +239,6 @@ const QBankQuestion = (props) => {
       setredirect(true);
     }
   };
-
-  const getTeacherName = async (id) => {
-    const response = await axios.get(
-      `${url}/api/course/admin/getteacherinfo/${id}`
-    );
-    if (response.data.success) {
-      setTeacher(response.data.name);
-    }
-  };
-  getTeacherName(questionData.uid);
 
   const renderRedirect = () => {
     if (redirect) {
@@ -315,32 +293,21 @@ const QBankQuestion = (props) => {
       <Grid container className={classes.content}>
         <CardComponent>
           <Box container className={classes.question}>
-            <Typography
-              variant="h6"
-              style={{ color: "white", marginBottom: 10 }}
-            >
-              <strong>Question : </strong>
-              {questionData.question !== undefined ? (
-                <EditorJS data={JSON.parse(questionData.question)} />
-              ) : (
-                // ? JSON.parse(questionData.question).blocks[0].text
-                "Loading..."
-              )}
-            </Typography>
+
             <Box display="flex" justifyContent="space-between" mt={1}>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography variant="p" >
                 <strong>Stream : </strong>
                 {questionData.stream !== undefined
                   ? questionData.stream
                   : "Loading..."}
               </Typography>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography variant="p" >
                 <strong>Subject : </strong>
                 {questionData.subject !== undefined
                   ? questionData.subject
                   : "Loading..."}
               </Typography>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography variant="p" >
                 <strong>Chapter : </strong>
                 {questionData.chapter !== undefined
                   ? questionData.chapter
@@ -352,80 +319,112 @@ const QBankQuestion = (props) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Box style={{ color: "#fff" }} mt={1} mb={2}>
+              <Box mt={1} mb={2}>
                 <strong>Course : </strong>
                 {questionData.course !== undefined
                   ? questionData.course.map((data, index) => {
-                      return (
-                        <Typography
-                          variant="p"
-                          style={{
-                            color: "#000",
-                            backgroundColor: "#eee",
-                            padding: 2.5,
-                            paddingRight: 5,
-                            paddingLeft: 5,
-                            borderRadius: 10,
-                            marginLeft: 10,
-                          }}
-                        >
-                          {data}
-                        </Typography>
-                      );
-                    })
+                    return (
+                      <Typography
+                        variant="p"
+                        style={{
+                          color: "#000",
+                          backgroundColor: "#eee",
+                          padding: 2.5,
+                          paddingRight: 5,
+                          paddingLeft: 5,
+                          borderRadius: 10,
+                          marginLeft: 10,
+                        }}
+                      >
+                        {data}
+                      </Typography>
+                    );
+                  })
                   : "No Course"}
               </Box>
 
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography variant="p" >
                 <strong>Created At : </strong>
                 {questionData.createdAt !== undefined
                   ? questionData.createdAt
                   : "Loading..."}
               </Typography>
             </Box>
-            <Typography variant="p" style={{ color: "white" }}>
+            <Typography variant="p" >
               <strong>Teacher Name : </strong>
               {teacher}
             </Typography>
-          </Box>
-
-          <Box container className={classes.optionContainer}>
-            <Box>
-              <RadioGroup
-                aria-label="gender"
-                name="gender1"
-                value={value}
-                onChange={handleChange}
-                className={classes.radioGroupStyle}
-              >
-                {option.map((data, index) => {
-                  return (
-                    <FormControlLabel
-                      value={data}
-                      className={classes.radioLabelStyle}
-                      control={<Radio className={classes.radioButtonStyle} />}
-                      label={data}
-                    />
-                  );
-                })}
-              </RadioGroup>
-            </Box>
-            {!questionData.noVideo && (
-              <Box className={classes.videoContainer}>
-                <Videojs {...videoJsOptions} />
-              </Box>
-            )}
-          </Box>
-
-          <br></br>
-          <Box mt={5} mb={5}>
-            <Typography variant="p" style={{ color: "white" }}>
-              <strong>Correct Answer : </strong>
-              {questionData.ans
-                ? JSON.parse(questionData.ans).blocks[0].text
-                : "No Option"}
+            <Typography
+              variant="h6"
+              style={{ marginBottom: 10 }}
+            >
+              <Divider />
+              {/* <strong>Question : </strong> */}
+              {questionData.question !== undefined ? (<>
+                <CssBaseline />
+                <EditorJS data={JSON.parse(questionData.question)} /></>
+              ) : ("Loading...")}
             </Typography>
+            <Divider />
+
           </Box>
+
+          <Grid container className={classes.optionContainer}>
+            <Grid item md={questionData.noVideo ? 12 : 7} style={{ width: '100%' }}>
+              <RadioGroup className={classes.radioGroupStyle}              >
+                {/* {option.map((data, index) => {
+                  return ( */}
+                <FormControlLabel
+                  className={classes.radioLabelStyle}
+                  control={<Radio checked={questionData.correctAns.includes('ans') ? true : false} className={classes.radioButtonStyle} />}
+                  label={<>
+                    <CssBaseline />
+                    <EditorJS data={questionData.ans ? JSON.parse(questionData.ans) : ""} /></>}
+                />
+                <FormControlLabel
+                  className={classes.radioLabelStyle}
+                  control={<Radio checked={questionData.correctAns.includes('ans1') ? true : false} className={classes.radioButtonStyle} />}
+                  label={<>
+                    <CssBaseline />
+                    <EditorJS data={questionData.ans1 ? JSON.parse(questionData.ans1) : ""} /></>}
+                />
+                <FormControlLabel
+                  className={classes.radioLabelStyle}
+                  control={<Radio checked={questionData.correctAns.includes('ans2') ? true : false} className={classes.radioButtonStyle} />}
+                  label={<>
+                    <CssBaseline />
+                    <EditorJS data={questionData.ans2 ? JSON.parse(questionData.ans2) : ""} /></>}
+                />
+                <FormControlLabel
+                  className={classes.radioLabelStyle}
+                  control={<Radio checked={questionData.correctAns.includes('ans3') ? true : false} className={classes.radioButtonStyle} />}
+                  label={<>
+                    <CssBaseline />
+                    <EditorJS data={questionData.ans3 ? JSON.parse(questionData.ans3) : ""} /></>}
+                />
+                <FormControlLabel
+                  className={classes.radioLabelStyle}
+                  control={<Radio checked={questionData.correctAns.includes('ans4') ? true : false} className={classes.radioButtonStyle} />}
+                  label={<>
+                    <CssBaseline />
+                    <EditorJS data={questionData.ans4 ? JSON.parse(questionData.ans4) : ""} /></>}
+                />
+                {/* );
+                })} */}
+              </RadioGroup>
+            </Grid>
+
+            {!questionData.noVideo && (
+              <Grid item md={5} sm={11} xs={12} style={{ padding: 18, paddingRight: 0 }}>
+                <Grid className={classes.videoContainer}>
+                  <Videojs {...videoJsOptions} />
+                  {/* </Box> */}
+                </Grid>
+              </Grid>
+            )}
+          </Grid>
+
+
 
           <Grid
             item

@@ -4,7 +4,6 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -13,10 +12,15 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Box from "@material-ui/core/Box";
-import ListIcon from "@material-ui/icons/List";
-import DateRangeIcon from "@material-ui/icons/DateRange";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
+
 import { Link } from "react-router-dom";
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import MenuBook from '@material-ui/icons/MenuBookRounded';
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+
+
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -69,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     overflowX: "hidden",
     width: theme.spacing(7) + 1,
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9) + 1,
+      // width: theme.spacing(9) + 1,
     },
   },
   toolbar: {
@@ -86,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
   },
   contentContainer: {
     marginRight: 20,
-    marginTop: 80,
+    marginTop: 64,
   },
 }));
 
@@ -133,10 +137,10 @@ const Console = () => {
           </div>
           <Divider />
           <List>
-            {["Q-Book", "Q-Bank", "Weekly Test", "Monthly Test"].map(
+            {["Q-Book", "Q-Bank", "Weekly Quiz Test", "Monthly Test"].map(
               (text, index) => (
                 <Link
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: "none",color:'inherit' }}
                   to={routingLink[index]}
                   onClick={() => setOpen(false)}
                 >
@@ -165,17 +169,13 @@ const Console = () => {
 
 const RenderMenuIcon = (index) => {
   if (index === 0) {
-    return (
-      <Typography variant="h6" style={{ fontWeight: "bold" }}>
-        Q+
-      </Typography>
-    );
+    return ( <MenuBook/>);
   } else if (index === 1) {
-    return <ListIcon />;
+    return <FormatListBulletedIcon />;
   } else if (index === 2) {
-    return <DateRangeIcon />;
+    return <AssignmentIcon />;
   } else {
-    return <MenuBookIcon />;
+    return < AssessmentIcon/>;
   }
 };
 

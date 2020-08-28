@@ -1,151 +1,120 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import { Typography, Box, Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import Typography from '@material-ui/core/Typography';
+import { Grid, CardActions, CardContent, Button, Divider, CardActionArea, } from '@material-ui/core';
+import { Theme } from './../theme';
+import { Toolbar, makeStyles, Card } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    marginLeft: 100,
-    marginRight: 20,
-    [theme.breakpoints.down("sm")]: {
-      marginLeft: 75,
-    },
+
+const styles = makeStyles((t) => ({
+  header: {
+    padding: 20,
   },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-    paddingBottom: 30,
-    cursor: "pointer",
-    "&:hover": {
-      background: "#ADD8E6",
-      color: "#000",
-      transition: "0.7s ease-in",
-    },
+  total: {
+    color: '#0d0',
+  },
+  card: {
+    background: Theme.boxColor,
+    color: '#fff',
+    margin: 20,
+    // padding: 12
+  },
+  title: {
+    color: '#fff',
   },
 }));
 
-export default function MainView() {
-  const classes = useStyles();
+const Console = (props) => {
+  const sty = styles();
+  const history = useHistory();
+  useEffect(() => {
+    document.title = "Teacher Dashboard | Qrioctybox"
+  }, [])
+
+
+  var item = [
+    {
+      title: 'Check question for Q Book',
+      header: 'Q Book',
+    },
+    {
+      title: 'Check question for Q Bank',
+      header: 'Q Bank',
+    },
+    {
+      title: 'Check question for Weekly Quiz Test',
+      header: 'Weekly Quiz Test',
+    },
+    {
+      title: 'Check question for Monthly Test',
+      header: 'Monthly Test',
+    },
+  ];
+
+  var handelRedirect = (e) => {
+    switch (e) {
+      case 'Q Book':
+        history.push('/QBook');
+        break;
+      case 'Q Bank':
+        history.push('/QBank');
+        break;
+      case 'Weekly Quiz Test':
+        history.push('/WeeklyTest');
+        break;
+      case 'Monthly Test':
+        history.push('/MonthlyTest');
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  var CardData = item.map((p, i) => {
+    return (
+      <Card className={sty.card} key={i}>
+        <CardActionArea
+          onClick={() => { handelRedirect(p.header); }}        >
+          <CardContent>
+            <Typography className={sty.title} gutterBottom>
+              {p.title}
+            </Typography>
+            <Typography variant="h5" className={sty.title} component="h2">
+              {p.header}
+            </Typography>
+            <Typography color="textSecondary">
+              {/* total questions : 38 */}
+            </Typography>
+            <Typography variant="body2" className={sty.total} component="p">
+              {/* Approve questions : 25  */}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">Learn More</Button>
+          </CardActions>
+        </CardActionArea>
+      </Card>
+    );
+  });
 
   return (
-    <div className={classes.root}>
-      <Box mb={3}>
-        <Typography variant="h6">Welcome,</Typography>
-      </Box>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={12} md={6} lg={3}>
-          <Link to="/qbook" style={{ textDecoration: "none" }}>
-            {QBookBox()}
-          </Link>
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={3}>
-          <Link to="/qbank" style={{ textDecoration: "none" }}>
-            {QBankBox()}
-          </Link>
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={3}>
-          <Link to="/weeklytest" style={{ textDecoration: "none" }}>
-            {QWeeklyTextBox()}
-          </Link>
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={3}>
-          <Link to="/monthlytest" style={{ textDecoration: "none" }}>
-            {QMonthlyTextBox()}
-          </Link>
-        </Grid>
+    <div
+      style={{ paddingLeft: 57 }}
+    >
+      {/* <Toolbar style={{ background: Theme.boxColor }} /> */}
+      <Typography variant="h5" color="textSecondary" className={sty.header}>
+        Welcome User,
+      </Typography>
+
+      <Grid container style={{ padding: 20 }}>
+        {CardData}
       </Grid>
+      <Divider />
+      <Grid container></Grid>
     </div>
   );
-}
-
-const QBookBox = () => {
-  const classes = useStyles();
-  return (
-    <Paper className={classes.paper}>
-      <Typography
-        variant="h5"
-        style={{ fontWeight: "bold", marginBottom: "25px" }}
-      >
-        Q-Book
-      </Typography>
-      <Typography variant="p" style={{ color: "blue", fontWeight: "bold" }}>
-        Pending Question : {"25"}
-      </Typography>
-      <br></br>
-      <Typography variant="p" style={{ color: "red", fontWeight: "bold" }}>
-        Rejected Question : {"17"}
-      </Typography>
-      <br></br>
-    </Paper>
-  );
 };
 
-const QBankBox = () => {
-  const classes = useStyles();
 
-  return (
-    <Paper className={classes.paper}>
-      <Typography
-        variant="h5"
-        style={{ fontWeight: "bold", marginBottom: "25px" }}
-      >
-        Q-Bank
-      </Typography>
-      <Typography variant="p" style={{ color: "blue", fontWeight: "bold" }}>
-        Pending Question : {"25"}
-      </Typography>
-      <br></br>
-      <Typography variant="p" style={{ color: "red", fontWeight: "bold" }}>
-        Rejected Question : {"17"}
-      </Typography>
-    </Paper>
-  );
-};
-
-const QWeeklyTextBox = () => {
-  const classes = useStyles();
-
-  return (
-    <Paper className={classes.paper}>
-      <Typography
-        variant="h5"
-        style={{ fontWeight: "bold", marginBottom: "25px" }}
-      >
-        Weekly Test
-      </Typography>
-      <Typography variant="p" style={{ color: "blue", fontWeight: "bold" }}>
-        Pending Question : {"25"}
-      </Typography>
-      <br></br>
-      <Typography variant="p" style={{ color: "red", fontWeight: "bold" }}>
-        Rejected Question : {"17"}
-      </Typography>
-    </Paper>
-  );
-};
-
-const QMonthlyTextBox = () => {
-  const classes = useStyles();
-
-  return (
-    <Paper className={classes.paper}>
-      <Typography
-        variant="h5"
-        style={{ fontWeight: "bold", marginBottom: "25px" }}
-      >
-        Monthly Test
-      </Typography>
-      <Typography variant="p" style={{ color: "blue", fontWeight: "bold" }}>
-        Pending Question : {"25"}
-      </Typography>
-      <br></br>
-      <Typography variant="p" style={{ color: "red", fontWeight: "bold" }}>
-        Rejected Question : {"17"}
-      </Typography>
-    </Paper>
-  );
-};
+export default (Console);
