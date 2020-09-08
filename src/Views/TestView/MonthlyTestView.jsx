@@ -57,7 +57,7 @@ const MonthlyTestView = (props) => {
     props.EmptyCurrentQuestion();
     props.GetMonthlyQuestion();
     props.RejectedGetMonthlyQuestion();
-  }, [GetMonthlyQuestion]);
+  }, []);
 
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -93,21 +93,21 @@ const MonthlyTestView = (props) => {
     }
   };
 
-  const getTeacherName = async (id) => {
-    const response = await axios.get(
-      `${url}/api/course/admin/getteacherinfo/${id}`
-    );
-    if (response.data.success) {
-      return response.data.name;
-    }
-  };
+  // const getTeacherName = async (id) => {
+  //   const response = await axios.get(
+  //     `${url}/api/course/admin/getteacherinfo/${id}`
+  //   );
+  //   if (response.data.success) {
+  //     return response.data.name;
+  //   }
+  // };
 
   const RenderPendingQuestion = (data, index) => {
     const classes = useStyles();
     const [comment, setComment] = React.useState("");
     const [teacher, setTeacher] = React.useState("Loading...");
-    const tName = getTeacherName(data.uid);
-    tName.then((result) => setTeacher(result));
+    // const tName = getTeacherName(data.uid);
+    // tName.then((result) => setTeacher(result));
 
     return (
       <Box className={classes.questionContainer}>

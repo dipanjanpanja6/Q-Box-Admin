@@ -236,18 +236,18 @@ const QBookQuestion = (props) => {
     }
   };
 
-  const getTeacherName = async (id) => {
-    const response = await axios.get(
-      `${url}/api/course/admin/getteacherinfo/${id}`
-    );
-    if (response.data.success) {
-      setTeacher(response.data.name);
-    }
-  };
+  // const getTeacherName = async (id) => {
+  //   const response = await axios.get(
+  //     `${url}/api/course/admin/getteacherinfo/${id}`
+  //   );
+  //   if (response.data.success) {
+  //     setTeacher(response.data.name);
+  //   }
+  // };
 
-  useEffect(() => {
-    getTeacherName(questionData.uid);
-  }, [questionData.uid])
+  // useEffect(() => {
+  //   getTeacherName(questionData.uid);
+  // }, [questionData.uid])
 
   const renderRedirect = () => {
     if (redirect) {

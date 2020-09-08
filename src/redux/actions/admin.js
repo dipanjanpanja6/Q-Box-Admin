@@ -3,7 +3,7 @@ import { url } from "../../config/config";
 import { toast } from "react-toastify";
 
 export const login = (data) => (dispatch) => {
-  fetch(`${url}/api/admin/login`, {
+  fetch(`${url}/api/quality/login`, {
     method: "POST",
     credentials: "include",
     headers: { "Content-type": "Application/json" },
@@ -18,6 +18,10 @@ export const login = (data) => (dispatch) => {
             payload: true,
           });
         }
+        if (d.error === true) {
+          toast.error(d.message)
+        }
+
         dispatch({
           type: ADMINLOGIN,
           payload: d,
@@ -30,7 +34,7 @@ export const login = (data) => (dispatch) => {
     });
 };
 export const checkAdmin = () => (dispatch) => {
-  fetch(`${url}/api/admin/checkUser`, {
+  fetch(`${url}/api/quality/checkUser`, {
     method: "POST",
     credentials: "include",
   }).then((res) => {
@@ -54,7 +58,7 @@ export const checkAdmin = () => (dispatch) => {
         }
       })
       .catch((r) => {
-        // console.log(r);
+        console.log(r);
         // console.log('Something went wrong ! Try again')
       });
   });

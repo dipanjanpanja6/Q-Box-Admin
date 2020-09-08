@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Loading from "./Components/loading";
-import TLogin from "./Views/teacherLogin";
+import TLogin from "./Views/Login";
 import Appbar from "./Components/AppBar";
 import E4 from "./Views/E4";
 import { BrowserRouter as Router, Route, Switch, Redirect, } from "react-router-dom";
@@ -27,25 +27,22 @@ const App = (props) => {
   }, []);
 
   const out = () => {
-    console.log("auth");
     props.logout();
   };
-
-  console.log(props.load);
 
   return (
     <div>
       <Router>
         <Appbar auth={props.auth} out={out} />
 
-        {props.auth ? <Drawer /> : <TLogin islogin={props.auth} />}
+        {props.auth==true && <Drawer />}
 
         <Switch>
-          <Route exact path="/" render={!props.auth ? () => <TLogin islogin={props.auth} />
-            : () => <Redirect to="/console" />} />
+          <Route exact path="/" render={() => <TLogin islogin={props.auth} />}/>
 
           <Route exact path="/console" component={({ location }) => props.auth === null ? (
-            <Loading />) : props.auth === true ? (<MainView />) : (<TLogin islogin={props.auth} />)} />
+            <Loading />) : props.auth === true ? (<MainView />) : (
+              <Redirect to={{ pathname: "/", state: { from: location } }} />)} />
 
           <Route exact path="/qbook" component={({ location }) => props.auth === null ? (
             <Loading />) : props.auth === true ? (<QBookView />) : (
@@ -77,7 +74,7 @@ const App = (props) => {
             component={({ location }) => props.auth === null ? (<Loading />
             ) : props.auth === true ? (<MonthlyQuestion />) : (<Redirect to={{ pathname: "/", state: { from: location } }} />)} />
 
-          <Route exact path="/test" component={VideoPlayer} />
+          {/* <Route exact path="/test" component={VideoPlayer} /> */}
 
           {/* <Route
             exact

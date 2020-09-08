@@ -3,7 +3,7 @@ import { ADMINLOGIN, ADMINAUTH } from "../type";
 const initialState = {
   adminLogin: {},
   auth: null,
-  adminAuth: true,
+  adminAuth: null,
 };
 
 export default function (state = initialState, actions) {
