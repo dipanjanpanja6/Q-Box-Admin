@@ -150,6 +150,7 @@ function Statistic(props) {
             setData(response.data.data)
         }
         if (response.data.error) {
+            setData(null)
             toast.warn("no data found")
         }
         setLoading(false)
