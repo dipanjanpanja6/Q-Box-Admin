@@ -6,17 +6,14 @@ import PropTypes from "prop-types";
 import { LineChart, Line, Tooltip, Legend, CartesianGrid, XAxis, YAxis, AreaChart, Area, ResponsiveContainer } from 'recharts';
 import Axios from 'axios';
 import { url } from '../config/config';
-
+import TodayIcon from '@material-ui/icons/Today';
+import SubjectIcon from '@material-ui/icons/Subject';
+import ViewListIcon from '@material-ui/icons/ViewList';
+import FeaturedPlayListIcon from '@material-ui/icons/FeaturedPlayList';
 
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
-import MailIcon from '@material-ui/icons/Mail';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Label from '@material-ui/icons/Label';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import InfoIcon from '@material-ui/icons/Info';
-import ForumIcon from '@material-ui/icons/Forum';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { toast } from 'react-toastify';
@@ -223,52 +220,52 @@ function Statistic(props) {
                                 defaultExpandIcon={<ArrowRightIcon />}
                                 defaultEndIcon={<div style={{ width: 24 }} />}
                             >
-                                <StyledTreeItem nodeId="1" labelText="Date" labelIcon={Label}>
+                                <StyledTreeItem nodeId="1" labelText="Date" labelIcon={TodayIcon}>
                                     {data ? data.time.map((p, i) =>
                                         <StyledTreeItem
                                             key={i}
                                             nodeId={`times${i}`}
                                             labelText={p.time}
-                                            labelIcon={SupervisorAccountIcon}
+                                            labelIcon={Label}
                                             labelInfo={p.times}
                                             color="#1a73e8"
                                             bgColor="#e8f0fe"
                                         />
                                     ) : ""}
                                 </StyledTreeItem>
-                                <StyledTreeItem nodeId="2" labelText="Stream" labelIcon={Label}>
+                                <StyledTreeItem nodeId="2" labelText="Stream" labelIcon={ViewListIcon}>
                                     {data ? data.stream.map((p, i) =>
                                         <StyledTreeItem
                                             key={i}
                                             nodeId={`stream${i}`}
                                             labelText={p.stream}
-                                            labelIcon={SupervisorAccountIcon}
+                                            labelIcon={Label}
                                             labelInfo={p.times}
                                             color="#1a73e8"
                                             bgColor="#e8f0fe"
                                         />
                                     ) : ""}
                                 </StyledTreeItem>
-                                <StyledTreeItem nodeId="3" labelText="Subject" labelIcon={Label}>
+                                <StyledTreeItem nodeId="3" labelText="Subject" labelIcon={SubjectIcon}>
                                     {data ? data.subject.map((p, i) =>
                                         <StyledTreeItem
                                             key={i}
                                             nodeId={`subject${i}`}
                                             labelText={p.subject}
-                                            labelIcon={SupervisorAccountIcon}
+                                            labelIcon={Label}
                                             labelInfo={p.times}
                                             color="#1a73e8"
                                             bgColor="#e8f0fe"
                                         />
                                     ) : ""}
                                 </StyledTreeItem>
-                                <StyledTreeItem nodeId="4" labelText="Chapter" labelIcon={Label}>
+                                <StyledTreeItem nodeId="4" labelText="Chapter" labelIcon={FeaturedPlayListIcon}>
                                     {data ? data.chapter.map((p, i) =>
                                         <StyledTreeItem
                                             key={i}
                                             nodeId={`chapter${i}`}
                                             labelText={p.chapter}
-                                            labelIcon={SupervisorAccountIcon}
+                                            labelIcon={Label}
                                             labelInfo={p.times}
                                             color="#1a73e8"
                                             bgColor="#e8f0fe"
