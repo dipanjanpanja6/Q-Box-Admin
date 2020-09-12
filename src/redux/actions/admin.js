@@ -1,4 +1,4 @@
-import { ADMINLOGIN, ADMINAUTH } from "../type";
+import { ADMINLOGIN, ADMINAUTH, TEACHERLIST } from "../type";
 import { url } from "../../config/config";
 import { toast } from "react-toastify";
 
@@ -81,5 +81,22 @@ export const logout = () => (dispatch) => {
         }
       })
       .catch((r) => console.log(r));
+  });
+};
+export const getTeacherList = () => (dispatch) => {
+  fetch(`${url}/api/admin/getTeacherList`, {
+    method: "GET",
+    credentials: "include",
+  }).then((res) => {
+    res.json().then((d) => {
+      console.log(d);
+      if (d.success === true) {
+        dispatch({
+          type: TEACHERLIST,
+          payload: d.data,
+        });
+      }
+    })
+    .catch((r) => console.log(r));
   });
 };

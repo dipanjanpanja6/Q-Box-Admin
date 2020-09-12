@@ -7,7 +7,7 @@ import {
   REJECTEDGETQBOOKQUESTION,
   REJECTEDGETQBANKQUESTION,
   REJECTEDGETWEEKLYQUESTION,
-  REJECTEDGETMONTHLYQUESTION,
+  REJECTEDGETMONTHLYQUESTION, CLEARQUESTION
 } from "../type";
 import axios from "axios";
 import { url } from "../../config/config";
@@ -22,13 +22,13 @@ export const GetQBookQuestion = () => async (dispatch) => {
   });
 };
 
-export const GetQBankQuestion = () => async (dispatch) => {
-  const response = await axios.get(`${url}/api/course/admin/getqbankquestion`);
-  dispatch({
-    type: GETQBANKQUESTION,
-    payload: response.data.data,
-  });
-};
+// export const GetQBankQuestion = (id, page) => async (dispatch) => {
+//   const response = await axios.get(`${url}/api/course/admin/getqbankquestion/${id}/${page}`);
+//   dispatch({
+//     type: GETQBANKQUESTION,
+//     payload: response.data,
+//   });
+// };
 
 export const GetWeeklyQuestion = () => async (dispatch) => {
   const response = await axios.get(
@@ -68,6 +68,9 @@ export const EmptyCurrentQuestion = () => async (dispatch) => {
     },
   });
 };
+export const EmptyQuestion = () => async (dispatch) => {
+  dispatch({ type: CLEARQUESTION, });
+};
 
 export const ApproveQuestion = (param) => async (dispatch) => {
   const response = await axios.get(
@@ -86,9 +89,9 @@ export const RejectedGetQBookQuestion = () => async (dispatch) => {
   });
 };
 
-export const RejectedGetQBankQuestion = () => async (dispatch) => {
+export const RejectedGetQBankQuestion = (id) => async (dispatch) => {
   const response = await axios.get(
-    `${url}/api/course/admin/getqbankkrejectedquestion`
+    `${url}/api/course/admin/getqbankkrejectedquestion/${id}/0`
   );
   dispatch({
     type: REJECTEDGETQBANKQUESTION,

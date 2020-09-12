@@ -1,13 +1,6 @@
 import {
-  GETMONTHLYQUESTION,
-  GETQBANKQUESTION,
-  GETQBOOKQUESTION,
-  GETWEEKLYQUESTION,
-  GETQUESTIONVIAID,
-  REJECTEDGETQBOOKQUESTION,
-  REJECTEDGETQBANKQUESTION,
-  REJECTEDGETWEEKLYQUESTION,
-  REJECTEDGETMONTHLYQUESTION,
+  GETMONTHLYQUESTION, GETQBANKQUESTION, GETQBOOKQUESTION, GETWEEKLYQUESTION, GETQUESTIONVIAID, REJECTEDGETQBOOKQUESTION, REJECTEDGETQBANKQUESTION,
+  REJECTEDGETWEEKLYQUESTION, REJECTEDGETMONTHLYQUESTION,CLEARQUESTION
 } from "../type";
 
 const initialState = {
@@ -73,7 +66,19 @@ export default function (state = initialState, actions) {
         ...state,
         rejectedmonthlyquestion: actions.payload,
       };
-    default:
-      return state;
+      case CLEARQUESTION:
+        return {
+          ...state,
+          qbookquestion: [],
+          qbankquestion: [],
+          weeklyquestion: [],
+          monthlyquestion: [],
+          rejectedqbookquestion: [],
+          rejectedqbankquestion: [],
+          rejectedweeklyquestion: [],
+          rejectedmonthlyquestion: [],
+        };
+      default:
+        return state;
   }
 }

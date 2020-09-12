@@ -358,17 +358,11 @@ const QBookQuestion = (props) => {
                   })
                   : "No Course"}
               </Box>
-              <Typography
-                variant="p"
-                style={{ marginBottom: 10 }}
-              >
-                <strong>{"Teacher Name : "}</strong>
-                {teacher}
-              </Typography>
+             
               <Typography variant="p" >
                 <strong>Created At : </strong>
                 {questionData.createdAt !== undefined
-                  ? questionData.createdAt
+                  ? new Date(questionData.createdAt._seconds*1000).toLocaleString()
                   : "Loading..."}
               </Typography>
             </Box>

@@ -284,14 +284,11 @@ const MonthlyQuestion = (props) => {
               <Typography variant="p" >
                 <strong>Created At : </strong>
                 {questionData.createdAt !== undefined
-                  ? questionData.createdAt
+                  ? new Date(questionData.createdAt._seconds*1000).toLocaleString()
                   : "Loading..."}
               </Typography>
             </Box>
-            <Typography variant="p" >
-              <strong>Teacher Name : </strong>
-              {teacher}
-            </Typography>
+          
             <Typography
               variant="h6" component='div'
               style={{ marginBottom: 10 }}

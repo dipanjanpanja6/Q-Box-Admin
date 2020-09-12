@@ -144,10 +144,6 @@ const QBookView = (props) => {
               <strong> {data.stream}</strong>
             </Typography>
             <br></br>
-            <Typography variant="p" color="primary">
-              {"Teacher Name : "}
-              <strong> {teacher}</strong>
-            </Typography>
             <Box mt={1} style={{ color: "#000" }}>
               <strong>Course - </strong>
               {data.course !== undefined

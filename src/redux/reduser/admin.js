@@ -1,9 +1,10 @@
-import { ADMINLOGIN, ADMINAUTH } from "../type";
+import { ADMINLOGIN, ADMINAUTH,TEACHERLIST } from "../type";
 
 const initialState = {
   adminLogin: {},
   auth: null,
   adminAuth: null,
+  teacherList:[]
 };
 
 export default function (state = initialState, actions) {
@@ -17,6 +18,11 @@ export default function (state = initialState, actions) {
       return {
         ...state,
         adminLogin: actions.payload,
+      };
+    case TEACHERLIST:
+      return {
+        ...state,
+        teacherList: actions.payload,
       };
 
     default:

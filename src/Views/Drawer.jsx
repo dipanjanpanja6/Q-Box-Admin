@@ -13,12 +13,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Box from "@material-ui/core/Box";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import MenuBook from '@material-ui/icons/MenuBookRounded';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
-
+import TimelineIcon from '@material-ui/icons/Timeline';
 
 
 const drawerWidth = 240;
@@ -97,6 +97,7 @@ const useStyles = makeStyles((theme) => ({
 const Console = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const history=useHistory()
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -139,7 +140,7 @@ const Console = () => {
           <List>
             {["Q-Book", "Q-Bank", "Weekly Quiz Test", "Monthly Test"].map(
               (text, index) => (
-                <Link
+                <Link key={index}
                   style={{ textDecoration: "none",color:'inherit' }}
                   to={routingLink[index]}
                   onClick={() => setOpen(false)}
@@ -153,6 +154,12 @@ const Console = () => {
             )}
           </List>
           <Divider />
+          <List>
+          <ListItem button onClick={()=>{history.push('/statistic')}}>
+                    <ListItemIcon><TimelineIcon/></ListItemIcon>
+                    <ListItemText primary={'Statistic'} />
+                  </ListItem>
+          </List>
           <IconButton
             color="inherit"
             aria-label="open drawer"

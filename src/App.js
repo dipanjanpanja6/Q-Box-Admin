@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect, } from "react-router-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { connect } from "react-redux";
-import { checkAdmin, logout } from "./redux/actions/admin";
+import { checkAdmin, logout,getTeacherList } from "./redux/actions/admin";
 import PropType from "prop-types";
 import Drawer from "./Views/Drawer";
 import MainView from "./Views/MainView";
@@ -20,10 +20,13 @@ import QBankQuestion from "./Views/QuestionView/QbankkViewQuestion";
 import MonthlyQuestion from "./Views/QuestionView/MonthlytestquestionView";
 import WeeklyQuestion from "./Views/QuestionView/WeeklytestquestionView";
 import VideoPlayer from "./Components/videoPlayer";
+import Statistic from "./Views/Statistic";
+require('firebase');
 
 const App = (props) => {
   useEffect(() => {
     props.checkAdmin();
+    props.getTeacherList()
   }, []);
 
   const out = () => {
@@ -35,13 +38,16 @@ const App = (props) => {
       <Router>
         <Appbar auth={props.auth} out={out} />
 
-        {props.auth==true && <Drawer />}
+        {props.auth == true && <Drawer />}
 
         <Switch>
-          <Route exact path="/" render={() => <TLogin islogin={props.auth} />}/>
+          <Route exact path="/" render={() => <TLogin islogin={props.auth} />} />
 
           <Route exact path="/console" component={({ location }) => props.auth === null ? (
             <Loading />) : props.auth === true ? (<MainView />) : (
+              <Redirect to={{ pathname: "/", state: { from: location } }} />)} />
+          <Route exact path="/statistic" component={({ location }) => props.auth === null ? (
+            <Loading />) : props.auth === true ? (<Statistic />) : (
               <Redirect to={{ pathname: "/", state: { from: location } }} />)} />
 
           <Route exact path="/qbook" component={({ location }) => props.auth === null ? (
@@ -100,54 +106,18 @@ const App = (props) => {
 App.prototype = {
   auth: PropType.object.isRequired,
   checkAdmin: PropType.func.isRequired,
+  getTeacherList: PropType.func.isRequired,
   logout: PropType.func.isRequired,
 };
 const mapToProp = {
   logout,
   checkAdmin,
+  getTeacherList,
 };
 const mapToState = (state) => ({
   auth: state.admin.adminAuth,
   load: state.getcourse.isLoading,
+ 
 });
 export default connect(mapToState, mapToProp)(App);
 
-// {
-//   /* 
-// 					<Route exact path="/q-book" component={UploadBook} />
-// 					<Route exact path="/q-bank" component={UploadBank} /> */
-// }
-// {
-//   /* <Route exact path="/upload" component={Upload} /> */
-// }
-// {
-//   /* <Route exact path="/monthly-test" component={WeeklyTest} />
-// 					<Route exact path="/weekly-test" component={WeeklyTest} /> */
-// }
-
-// {
-//   /* <Route exact path="/q-book" component={
-// 						({ location }) => props.auth === null ? <Loading /> : props.auth === true ? <UploadBook islogin={props.auth} /> : <Redirect to={{ pathname: "/", state: { from: location } }} />
-// 					} />
-// 					<Route exact path="/q-bank" component={
-// 						({ location }) => props.auth === null ? <Loading /> : props.auth === true ? <UploadBank islogin={props.auth} /> : <Redirect to={{ pathname: "/", state: { from: location } }} />
-// 					} />
-// 					<Route exact path="/monthly-test" component={
-// 						({ location }) => props.auth === null ? <Loading /> : props.auth === true ? <MonthlyTest islogin={props.auth} /> : <Redirect to={{ pathname: "/", state: { from: location } }} />
-// 					} />
-// 					<Route exact path="/weekly-test" component={
-// 						({ location }) => props.auth === null ? <Loading /> : props.auth === true ? <WeeklyTest islogin={props.auth} /> : <Redirect to={{ pathname: "/", state: { from: location } }} />
-// 					} />
-// 					<Route exact path="/alert" component={
-// 						({ location }) => props.auth === null ? <Loading /> : props.auth === true ? <Alert islogin={props.auth} /> : <Redirect to={{ pathname: "/", state: { from: location } }} />
-// 					} /> */
-// }
-
-// {
-//   /* <Route exact path="/console" component={
-// 						({ location }) => props.auth === null ? <Loading />: props.auth === true ? <Console islogin={props.auth} /> : <Redirect to={{ pathname: "/", state: { from: location } }} /> 
-// 					} /> */
-// }
-// {
-//   /* <Route exact path="/console" render={() => <Console islogin={props.auth} />} /> */
-// }

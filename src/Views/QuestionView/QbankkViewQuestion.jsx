@@ -169,10 +169,10 @@ const QBankQuestion = (props) => {
 
   useEffect(() => {
     document.title = 'Q Bank Quality Check | QrioctyBox'
-    props.GetQuestionViaId({
-      collect: "Qbank",
-      qid: id,
-    });
+    // props.GetQuestionViaId({
+    //   collect: "Qbank",
+    //   qid: id,
+    // });
   }, []);
 
   const { questionData } = props;
@@ -242,6 +242,7 @@ const QBankQuestion = (props) => {
 
   const renderRedirect = () => {
     if (redirect) {
+      props.close()
       return <Redirect to="/qbank" />;
     }
   };
@@ -285,7 +286,6 @@ const QBankQuestion = (props) => {
       </Modal>
     );
   };
-
   return (
     <>
       {renderRedirect()}
@@ -341,19 +341,16 @@ const QBankQuestion = (props) => {
                     );
                   })
                   : "No Course"}
-              </Box>
+              </Box> 
 
               <Typography variant="p" >
                 <strong>Created At : </strong>
                 {questionData.createdAt !== undefined
-                  ? questionData.createdAt
+                  ? new Date(questionData.createdAt._seconds*1000).toLocaleString()
                   : "Loading..."}
               </Typography>
             </Box>
-            <Typography variant="p" >
-              <strong>Teacher Name : </strong>
-              {teacher}
-            </Typography>
+      
             <Typography
               variant="h6"
               style={{ marginBottom: 10 }}
@@ -459,7 +456,7 @@ const QBankQuestion = (props) => {
 
 const MapStateToProps = (state) => {
   return {
-    questionData: state.getcourse.currentViewQuestion,
+    // questionData: state.getcourse.currentViewQuestion,
   };
 };
 

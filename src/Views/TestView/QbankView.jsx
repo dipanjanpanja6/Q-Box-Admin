@@ -1,23 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Button from "@material-ui/core/Button";
-import { Typography, Box, AppBar, Modal, TextField } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Typography, Box, AppBar, Modal, TextField, Select, Grid, FormControl, InputLabel, MenuItem, Divider } from "@material-ui/core";
+import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import EditorJS from "../../Components/Editor";
-
+import PropTypes from "prop-types";
+import Pagination from '@material-ui/lab/Pagination';
 import axios from "axios";
 import { url } from "../../config/config";
-
+import FullScreenDialog from '../../Components/dialogComponent/dialog'
+import QbankViewPage from '../QuestionView/QbankkViewQuestion';
 import {
-  GetQBankQuestion,
-  GetQuestionViaId,
+  // GetQBankQuestion,
   RejectedGetQBankQuestion,
-  EmptyCurrentQuestion,
+  EmptyQuestion,
 } from "../../redux/actions/getcourse";
+import Loading from "../../Components/loading";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,18 +52,53 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 15,
     justifyContent: "flex-end",
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
 }));
 
 const QBankView = (props) => {
-  React.useEffect(() => {
-    props.EmptyCurrentQuestion();
-    props.GetQBankQuestion();
-    props.RejectedGetQBankQuestion();
+  const history = useHistory()
+  const [teacherList, setTeacherList] = useState([]);
+  const classes = useStyles();
+  const [loading, setLoading] = React.useState(false);
+  const [value, setValue] = React.useState(0);
+  const [teacher, setTeacher] = React.useState();
+  const [page, setPage] = React.useState({ total: 0, page: 1 });
+  const [popup, setPopup] = React.useState({ open: false, id: '' });
+  const [qbank, setQbank] = React.useState([]);
+  const [open, setOpen] = React.useState("");
+
+  useEffect(() => {
+    props.EmptyQuestion();
   }, []);
 
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  useEffect(() => {
+    setTeacherList(props.stateTeacherList)
+  }, [props.stateTeacherList])
+  // useEffect(() => {
+  //   if (props.qbank.qbankquestion.page) {
+  //     setPage({ ...page, total: props.qbank.qbankquestion.page })
+  //   }
+  // }, [props.qbank.qbankquestion])
 
+  const handlePopup = () => {
+    setPopup(!popup.open)
+  }
+
+  const handleSPageChange = async (event, value) => {
+    setPage({ ...page, page: value })
+    setLoading(true)
+    const response = await axios.get(`${url}/api/course/admin/getqbankquestion/${teacher}/${(value-1) * 10}`);
+    if (response.data.success) {
+      setQbank(response.data.data)
+    }
+    if (response.data.error) {
+      setQbank([])
+    }
+    setLoading(false)
+  };
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -71,14 +107,22 @@ const QBankView = (props) => {
     setValue(index);
   };
 
-  const [open, setOpen] = React.useState("");
 
   const handleApprovance = async (id) => {
     const response = await axios.get(
       `${url}/api/course/admin/approvequestion/Qbank/${id}`
     );
     if (response.data.success) {
-      props.GetQBankQuestion();
+      setLoading(true)
+
+      const response = await axios.get(`${url}/api/course/admin/getqbankquestion/${teacher}/${(page.page-1) * 10}`);
+      if (response.data.success) {
+        setQbank(response.data.data)
+      }
+      if (response.data.error) {
+        setQbank([])
+      }
+      setLoading(false)
     }
   };
 
@@ -89,81 +133,91 @@ const QBankView = (props) => {
     );
     // console.log(response);
     if (response.data.success) {
-      props.GetQBankQuestion();
-      props.RejectedGetQBankQuestion();
+      setLoading(true)
+      // var vv=value
+      const response = await axios.get(`${url}/api/course/admin/getqbankquestion/${teacher}/${(page.page-1) * 10}`);
+      if (response.data.success) {
+        setQbank(response.data.data)
+      }
+      if (response.data.error) {
+        setQbank([])
+      }
+      props.RejectedGetQBankQuestion(teacher);
+      setLoading(false)
     }
   };
-
-  // const getTeacherName = async (id) => {
-  //   const response = await axios.get(
-  //     `${url}/api/course/admin/getteacherinfo/${id}`
-  //   );
-  //   if (response.data.success) {
-  //     return response.data.name;
-  //   }
-  // };
+  const handleTeacher = async (e) => {
+    setTeacher(e.target.value)
+    setPage({ total:0, page: 1 })
+    // props.GetQBankQuestion(e.target.value, 0);
+    props.RejectedGetQBankQuestion(e.target.value);
+    setLoading(true)
+    const response = await axios.get(`${url}/api/course/admin/getqbankquestion/${e.target.value}/0`);
+    if (response.data.page) {
+      setPage({ ...page, total: response.data.page })
+    }
+    if (response.data.success) {
+      setQbank(response.data.data)
+    }
+    if (response.data.error) {
+      setQbank([])
+    }
+    setLoading(false)
+  }
 
   const RenderPendingQuestion = (data, index) => {
     const classes = useStyles();
     const [comment, setComment] = React.useState("");
-    const [teacher, setTeacher] = React.useState("Loading...");
-    // const tName = getTeacherName(data.uid);
-    // tName.then((result) => setTeacher(result));
+
     return (
-      <Box className={classes.questionContainer}>
-        <Link
-          to={{ pathname: "/qbankkquestionview/" + data.ID }}
-          // onClick={() => handleQuestionView(data)}
-          style={{
-            textDecoration: "none",
-            textDecorationColor: "none",
-            color: "#000",
-          }}
-        >
-          <Box>
-            <Typography variant="h6">
-              Question : {JSON.parse(data.question).blocks[0].text}
-            </Typography>
-            <Typography variant="p" color="primary">
-              {"Chapter : "}
-              <strong> {data.chapter}</strong>
-              <br></br>
-            </Typography>
-            <Typography variant="p" color="primary">
-              {"Stream : "}
-              <strong> {data.stream}</strong>
-            </Typography>
+      <Box key={index} className={classes.questionContainer}>
+        <Box style={{
+          cursor: 'pointer'
+        }} onClick={() => { setPopup({ open: true, id: data }) }}>
+          <Typography variant="h6">
+            Question : {JSON.parse(data.question).blocks[0].text}
+          </Typography>
+          <Typography variant="p" color="primary">
+            {"Chapter : "}
+            <strong> {data.chapter}</strong>
             <br></br>
-            <Typography variant="p" color="primary">
-              {"Teacher Name : "}
-              <strong> {teacher}</strong>
-            </Typography>
-            <Box mt={1} style={{ color: "#000" }}>
-              <strong>Course - </strong>
-              {data.course !== undefined
-                ? data.course.map((courses, index) => {
-                    return (
-                      <Typography
-                        variant="p"
-                        style={{
-                          color: "#000",
-                          backgroundColor: "#eee",
-                          padding: 3,
-                          paddingLeft: 6,
-                          paddingRight: 6,
-                          marginLeft: 5,
-                          borderRadius: 10,
-                          fontSize: 13,
-                        }}
-                      >
-                        {courses}
-                      </Typography>
-                    );
-                  })
-                : null}
-            </Box>
+          </Typography>
+          <Typography variant="p" color="primary">
+            {"Stream : "}
+            <strong> {data.stream}</strong>
+            <br></br>
+          </Typography>
+          <Typography variant="p" color="primary">
+            {"Upload on : "}
+            <strong> {new Date(data.createdAt._seconds * 1000).toLocaleString()}</strong>
+          </Typography>
+          <br></br>
+          <Box mt={1} style={{ color: "#000" }}>
+            <strong>Course - </strong>
+            {data.course !== undefined
+              ? data.course.map((courses, index) => {
+                return (
+                  <Typography
+                    variant="p"
+                    style={{
+                      color: "#000",
+                      backgroundColor: "#eee",
+                      padding: 3,
+                      paddingLeft: 6,
+                      paddingRight: 6,
+                      marginLeft: 5,
+                      borderRadius: 10,
+                      fontSize: 13,
+                    }}
+                  >
+                    {courses}
+                  </Typography>
+                );
+              })
+              : null}
           </Box>
-        </Link>
+        </Box>
+        {/* </Link> */}
         <Box className={classes.buttonContainer}>
           <Button
             variant="outlined"
@@ -223,7 +277,7 @@ const QBankView = (props) => {
     const classes = useStyles();
 
     return (
-      <Box className={classes.questionContainer}>
+      <Box key={index} className={classes.questionContainer}>
         <Typography variant="h6">
           Question : {JSON.parse(data.question).blocks[0].text}
         </Typography>
@@ -253,15 +307,17 @@ const QBankView = (props) => {
         <Box>
           {index === 0
             ? QData !== undefined
-              ? QData.map((data, index) => {
-                  return RenderPendingQuestion(data, index);
-                })
+              ? <>
+                {loading ? <Loading /> : QData.map((data, index) => { return RenderPendingQuestion(data, index) })}
+                <Pagination style={{ paddingTop: 12 }} onChange={handleSPageChange} page={page.page} count={page.total} color="primary" />
+              </>
               : null
             : RejectQData !== undefined
-            ? RejectQData.map((data, index) => {
+              ? <>{RejectQData.map((data, index) => {
                 return RenderRejectedQuestion(data, index);
-              })
-            : null}
+              })}
+              </>
+              : null}
         </Box>
       </div>
     );
@@ -270,9 +326,26 @@ const QBankView = (props) => {
   return (
     <div className={classes.root}>
       <Box mb={3}>
-        <Typography variant="h4" style={{ fontWeight: "bold" }}>
-          Q-Bank Question List
+        <Grid container justify='space-between'>
+          <Typography variant="h4" style={{ fontWeight: "bold", paddingTop: 12 }}>
+            Q-Bank Question List
         </Typography>
+
+          <FormControl className={classes.formControl}>
+            <InputLabel id="select-teacher-label">Select teacher</InputLabel>
+            <Select
+              labelId="select-teacher"
+              onChange={handleTeacher}
+              value={teacher}
+            >
+              {teacherList.map(p =>
+                <MenuItem key={p.uid} value={p.uid}>{p.userName}</MenuItem>
+              )}
+
+            </Select>
+          </FormControl>
+        </Grid>
+
 
         <div style={{ marginTop: 30 }}>
           <AppBar position="static" color="default">
@@ -292,28 +365,48 @@ const QBankView = (props) => {
           <TabPanel
             value={value}
             index={0}
-            QData={props.qbank.qbankquestion}
+            QData={qbank ? qbank : ""}
           ></TabPanel>
           <TabPanel
             value={value}
             index={1}
-            RejectQData={props.qbank.rejectedqbankquestion}
+            RejectQData={props.rejectedqbankquestion}
           ></TabPanel>
         </div>
       </Box>
+      <FullScreenDialog open={popup.open} handleClose={handlePopup}>
+        {popup.open && <QbankViewPage questionData={popup.id} close={async() => {
+          setPopup({ open: false, id: "" })
+          setLoading(true)
+          console.log(value);
+          const response = await axios.get(`${url}/api/course/admin/getqbankquestion/${teacher}/${(page.page-1) * 10}`);
+          if (response.data.success) {
+            setQbank(response.data.data)
+          }
+          if (response.data.error) {
+            setQbank([])
+          }
+          props.RejectedGetQBankQuestion(teacher);
+          setLoading(false)
+        }} />}
+      </FullScreenDialog>
     </div>
   );
 };
-
-const MapStateToProps = (state) => {
-  return {
-    qbank: state.getcourse,
-  };
-};
+QBankView.prototypes = {
+  stateTeacherList: PropTypes.array.isRequired,
+  rejectedqbankquestion: PropTypes.object.isRequired,
+  // GetQBankQuestion:PropTypes.func.isRequired,
+  RejectedGetQBankQuestion: PropTypes.func.isRequired,
+  EmptyQuestion: PropTypes.func.isRequired,
+}
+const MapStateToProps = (state) => ({
+  rejectedqbankquestion: state.getcourse.rejectedqbankquestion,
+  stateTeacherList: state.admin.teacherList,
+})
 
 export default connect(MapStateToProps, {
-  GetQBankQuestion,
-  GetQuestionViaId,
+  // GetQBankQuestion,
   RejectedGetQBankQuestion,
-  EmptyCurrentQuestion,
+  EmptyQuestion,
 })(QBankView);

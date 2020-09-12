@@ -1,11 +1,5 @@
-import React from "react";
-import {
-  Link,
-  AppBar,
-  makeStyles,
-  Toolbar,
-  IconButton,
-} from "@material-ui/core";
+import React, { useEffect } from "react";
+import { Link, AppBar, makeStyles, Toolbar, IconButton, } from "@material-ui/core";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";

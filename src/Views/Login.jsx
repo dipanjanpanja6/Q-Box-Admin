@@ -117,7 +117,7 @@ const LoginPage = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    document.title = "Teacher Login | Qriocty Box";
+    document.title = "Quality Login | Qriocty Box";
   }, []);
 
   useEffect(() => {
