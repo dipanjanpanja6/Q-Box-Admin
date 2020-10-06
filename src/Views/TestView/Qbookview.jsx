@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Tabs from "@material-ui/core/Tabs";
@@ -8,23 +8,26 @@ import {
   Typography,
   Box,
   AppBar,
-  Modal,
+  Grid,
   TextField,
-  CircularProgress,
+  FormControl, InputLabel, Select, MenuItem,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import EditorJS from "../../Components/Editor";
 import axios from "axios";
 import { url } from "../../config/config";
-
+import Loading from "../../Components/loading";
 import {
-  GetQBookQuestion,
+  // GetQBookQuestion,
   GetQuestionViaId,
   RejectedGetQBookQuestion,
   EmptyCurrentQuestion,
 } from "../../redux/actions/getcourse";
-
+import FullScreenDialog from "../../Components/dialogComponent/dialog";
+import QBookViewPage from '../QuestionView/QbookViewQuestion';
+import Pagination from "@material-ui/lab/Pagination";
+import { toast } from "react-toastify";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -57,35 +60,92 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 15,
     justifyContent: "flex-end",
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 190,
+  },
 }));
 
 const QBookView = (props) => {
   React.useEffect(() => {
     props.EmptyCurrentQuestion();
-    props.GetQBookQuestion();
-    props.RejectedGetQBookQuestion();
   }, []);
 
   const classes = useStyles();
+  const [teacherList, setTeacherList] = useState([]);
+  const [loading, setLoading] = React.useState(false);
   const [value, setValue] = React.useState(0);
+  const [teacher, setTeacher] = React.useState();
+  const [page, setPage] = React.useState({ total: 0, page: 1 });
+  const [popup, setPopup] = React.useState({ open: false, id: '' });
+  const [qbook, setQbook] = React.useState([]);
+  const [open, setOpen] = React.useState("");
 
+  useEffect(() => {
+    setTeacherList(props.stateTeacherList)
+  }, [props.stateTeacherList])
+
+  const handlePopup = () => {
+    setPopup(!popup.open)
+  }
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const handleTeacher = async (e) => {
+    setTeacher(e.target.value)
+    setPage({ total: 0, page: 1 })
+    // props.GetQBankQuestion(e.target.value, 0);
+    props.RejectedGetQBookQuestion(e.target.value);
+    setLoading(true)
+    const response = await axios.get(`${url}/api/course/admin/QBook/${e.target.value}/0`);
+    if (response.data.page) {
+      setPage({ ...page, total: response.data.page })
+    }
+    if (response.data.success) {
+      setQbook(response.data.data)
+    }
+    if (response.data.error) {
+      setQbook([])
+      toast.error(response.data.message)
 
-  const handleChangeIndex = (index) => {
-    setValue(index);
+    }
+    setLoading(false)
+  }
+  const handleSPageChange = async (event, value) => {
+    setPage({ ...page, page: value })
+    setLoading(true)
+    const response = await axios.get(`${url}/api/course/admin/QBook/${teacher}/${(value - 1) * 10}`);
+    if (response.data.success) {
+      setQbook(response.data.data)
+    }
+    if (response.data.error) {
+      setQbook([])
+      toast.error(response.data.message)
+
+    }
+    setLoading(false)
   };
 
   // const [comment, setComment] = React.useState("");
-  const [open, setOpen] = React.useState("");
 
   const handleApprovance = async (id) => {
     const response = await axios.get(
       `${url}/api/course/admin/approvequestion/QBook/${id}`
     );
     if (response.data.success) {
-      props.GetQBookQuestion();
+      // props.GetQBookQuestion();
+      setLoading(true)
+
+      const response = await axios.get(`${url}/api/course/admin/QBook/${teacher}/${(page.page - 1) * 10}`);
+      if (response.data.success) {
+        setQbook(response.data.data)
+      }
+      if (response.data.error) {
+        setQbook([])
+      toast.error(response.data.message)
+
+      }
+      setLoading(false)
     }
   };
 
@@ -96,8 +156,20 @@ const QBookView = (props) => {
     );
     // console.log(response);
     if (response.data.success) {
-      props.GetQBookQuestion();
-      props.RejectedGetQBookQuestion();
+      // props.GetQBookQuestion();
+      // props.RejectedGetQBookQuestion();
+      setLoading(true)
+      const response = await axios.get(`${url}/api/course/admin/QBook/${teacher}/${(page.page - 1) * 10}`);
+      if (response.data.success) {
+        setQbook(response.data.data)
+      }
+      if (response.data.error) {
+        setQbook([])
+        toast.error(response.data.message)
+
+      }
+      props.RejectedGetQBookQuestion(teacher);
+      setLoading(false)
     }
   };
 
@@ -112,64 +184,58 @@ const QBookView = (props) => {
 
   const RenderPendingQuestion = (data, index) => {
     const classes = useStyles();
+    console.log(data);
     const [comment, setComment] = React.useState("");
-    const [teacher, setTeacher] = React.useState("Loading...");
     // const tName = getTeacherName(data.uid);
     // tName.then((result) => setTeacher(result));
 
     return (
       <Box className={classes.questionContainer}>
-        <Link
-          to={{ pathname: "/qbookquestionview/" + data.ID }}
-          // onClick={() => handleQuestionView(data)}
-          style={{
-            textDecoration: "none",
-            textDecorationColor: "none",
-            color: "#000",
-          }}
-        >
-          <Box>
-            <Typography variant="h6">
-              Title :{/* <EditorJS data={JSON.parse(data.body)} /> */}
-              {data.title}
-              {/* {JSON.parse(data.body).blocks[0].text} */}
-            </Typography>
-            <Typography variant="p" color="primary">
-              {"Chapter : "}
-              <strong> {data.chapter}</strong>
-              <br></br>
-            </Typography>
-            <Typography variant="p" color="primary">
-              {"Stream : "}
-              <strong> {data.stream}</strong>
-            </Typography>
+
+        <Box style={{
+          cursor: 'pointer'
+        }} onClick={() => { setPopup({ open: true, id: data }) }}>
+          <Typography variant="h6">
+            Title :{/* <EditorJS data={JSON.parse(data.body)} /> */}
+            {data.title}
+            {/* {JSON.parse(data.body).blocks[0].text} */}
+          </Typography>
+          <Typography variant="p" color="primary">
+            {"Chapter : "}
+            <strong> {data.chapter}</strong>
             <br></br>
-            <Box mt={1} style={{ color: "#000" }}>
-              <strong>Course - </strong>
-              {data.course !== undefined
-                ? data.course.map((courses, index) => {
-                    return (
-                      <Typography
-                        variant="p"
-                        style={{
-                          color: "#000",
-                          backgroundColor: "#eee",
-                          padding: 3,
-                          paddingLeft: 6,
-                          paddingRight: 6,
-                          marginLeft: 5,
-                          borderRadius: 10,
-                          fontSize: 13,
-                        }}
-                      >
-                        {courses}
-                      </Typography>
-                    );
-                  })
-                : null}
-            </Box>
+          </Typography>
+          <Typography variant="p" color="primary">
+            {"Stream : "}
+            <strong> {data.stream}</strong>
+          </Typography>
+          <br></br>
+          <Box mt={1} style={{ color: "#000" }}>
+            <strong>Course - </strong>
+            {data.course !== undefined
+              ? data.course.map((courses, index) => {
+                return (
+                  <Typography
+                    variant="p"
+                    style={{
+                      color: "#000",
+                      backgroundColor: "#eee",
+                      padding: 3,
+                      paddingLeft: 6,
+                      paddingRight: 6,
+                      marginLeft: 5,
+                      borderRadius: 10,
+                      fontSize: 13,
+                    }}
+                  >
+                    {courses}
+                  </Typography>
+                );
+              })
+              : null}
           </Box>
-        </Link>
+        </Box>
+
         <Box className={classes.buttonContainer}>
           <Button
             variant="outlined"
@@ -264,15 +330,18 @@ const QBookView = (props) => {
         <Box>
           {index === 0
             ? QData !== undefined
-              ? QData.map((data, index) => {
-                  return RenderPendingQuestion(data, index);
-                })
+              ? <>
+                {loading ? <Loading /> : QData.map((data, index) => { return RenderPendingQuestion(data, index); })}
+                <Pagination style={{ paddingTop: 12 }} onChange={handleSPageChange} page={page.page} count={page.total} color="primary" />
+
+              </>
               : null
             : RejectQData !== undefined
-            ? RejectQData.map((data, index) => {
+              ? <>{RejectQData.map((data, index) => {
                 return RenderRejectedQuestion(data, index);
-              })
-            : null}
+              })}
+              </>
+              : null}
         </Box>
       </div>
     );
@@ -281,9 +350,24 @@ const QBookView = (props) => {
   return (
     <div className={classes.root}>
       <Box mb={3}>
-        <Typography variant="h4" style={{ fontWeight: "bold" }}>
-          Q-Book Question List
+        <Grid container justify='space-between'>
+          <Typography variant="h4" style={{ fontWeight: "bold", paddingTop: 12 }}>
+            Q-Book Question List
         </Typography>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="select-teacher-label">Select teacher</InputLabel>
+            <Select
+              labelId="select-teacher"
+              onChange={handleTeacher}
+              value={teacher}
+            >
+              {teacherList.map(p =>
+                <MenuItem key={p.uid} value={p.uid}>{p.userName}</MenuItem>
+              )}
+
+            </Select>
+          </FormControl>
+        </Grid>
 
         <div style={{ marginTop: 30 }}>
           <AppBar position="static" color="default">
@@ -299,11 +383,10 @@ const QBookView = (props) => {
               <Tab label="Rejected Question" />
             </Tabs>
           </AppBar>
-
           <TabPanel
             value={value}
             index={0}
-            QData={props.qbook.qbookquestion}
+            QData={qbook ? qbook : ""}
           ></TabPanel>
           <TabPanel
             value={value}
@@ -312,17 +395,38 @@ const QBookView = (props) => {
           ></TabPanel>
         </div>
       </Box>
+      <FullScreenDialog open={popup.open} handleClose={handlePopup}>
+        {popup.open && <QBookViewPage questionData={popup.id}
+          close={async () => {
+            setPopup({ open: false, id: "" })
+            setLoading(true)
+            console.log(value);
+            const response = await axios.get(`${url}/api/course/admin/QBook/${teacher}/${(page.page - 1) * 10}`);
+            if (response.data.success) {
+              setQbook(response.data.data)
+            }
+            if (response.data.error) {
+              setQbook([])
+      toast.error(response.data.message)
+
+            }
+            props.RejectedGetQBookQuestion(teacher);
+            setLoading(false)
+          }} />}
+      </FullScreenDialog>
+
     </div>
   );
 };
 
-const MapStateToProps = (state) => {
-  return { qbook: state.getcourse };
-};
+const MapStateToProps = (state) => ({
+  qbook: state.getcourse,
+  stateTeacherList: state.admin.teacherList,
+});
 
 export default connect(MapStateToProps, {
-  GetQBookQuestion,
-  GetQuestionViaId,
+  // GetQBookQuestion,
+  // GetQuestionViaId,
   RejectedGetQBookQuestion,
   EmptyCurrentQuestion,
 })(QBookView);

@@ -1,7 +1,7 @@
 import {
   GETMONTHLYQUESTION,
-  GETQBANKQUESTION,
-  GETQBOOKQUESTION,
+  // GETQBANKQUESTION,
+  // GETQBOOKQUESTION,
   GETWEEKLYQUESTION,
   GETQUESTIONVIAID,
   REJECTEDGETQBOOKQUESTION,
@@ -11,28 +11,11 @@ import {
 } from "../type";
 import axios from "axios";
 import { url } from "../../config/config";
-import { toast } from "react-toastify";
 
-export const GetQBookQuestion = () => async (dispatch) => {
-  const response = await axios.get(`${url}/api/course/admin/getqbookquestion`);
-
-  dispatch({
-    type: GETQBOOKQUESTION,
-    payload: response.data.data,
-  });
-};
-
-// export const GetQBankQuestion = (id, page) => async (dispatch) => {
-//   const response = await axios.get(`${url}/api/course/admin/getqbankquestion/${id}/${page}`);
-//   dispatch({
-//     type: GETQBANKQUESTION,
-//     payload: response.data,
-//   });
-// };
 
 export const GetWeeklyQuestion = () => async (dispatch) => {
   const response = await axios.get(
-    `${url}/api/course/admin/getweeklytestquestion`
+    `${url}/api/course/admin/WeeklyTest/id/0`
   );
   dispatch({
     type: GETWEEKLYQUESTION,
@@ -42,7 +25,7 @@ export const GetWeeklyQuestion = () => async (dispatch) => {
 
 export const GetMonthlyQuestion = () => async (dispatch) => {
   const response = await axios.get(
-    `${url}/api/course/admin/getmonthlytestquestion`
+    `${url}/api/course/admin/MonthlyTest/id/0`
   );
   dispatch({
     type: GETMONTHLYQUESTION,
@@ -72,16 +55,11 @@ export const EmptyQuestion = () => async (dispatch) => {
   dispatch({ type: CLEARQUESTION, });
 };
 
-export const ApproveQuestion = (param) => async (dispatch) => {
-  const response = await axios.get(
-    `${url}/api/course/admin/approvequestion/QBook/${param.collect}/${param.qid}`
-  );
-};
 
 // REJECTED
-export const RejectedGetQBookQuestion = () => async (dispatch) => {
+export const RejectedGetQBookQuestion = (id) => async (dispatch) => {
   const response = await axios.get(
-    `${url}/api/course/admin/getqbookrejectedquestion`
+    `${url}/api/course/admin/QBook/${id}/0/reject`
   );
   dispatch({
     type: REJECTEDGETQBOOKQUESTION,
@@ -91,7 +69,7 @@ export const RejectedGetQBookQuestion = () => async (dispatch) => {
 
 export const RejectedGetQBankQuestion = (id) => async (dispatch) => {
   const response = await axios.get(
-    `${url}/api/course/admin/getqbankkrejectedquestion/${id}/0`
+    `${url}/api/course/admin/Qbank/${id}/0/reject`
   );
   dispatch({
     type: REJECTEDGETQBANKQUESTION,
@@ -99,9 +77,9 @@ export const RejectedGetQBankQuestion = (id) => async (dispatch) => {
   });
 };
 
-export const RejectedGetWeeklyQuestion = () => async (dispatch) => {
+export const RejectedGetWeeklyQuestion = (id) => async (dispatch) => {
   const response = await axios.get(
-    `${url}/api/course/admin/getweeklyrejectedquestion`
+    `${url}/api/course/admin/WeeklyTest/${id}/0/reject`
   );
   dispatch({
     type: REJECTEDGETWEEKLYQUESTION,
@@ -109,9 +87,9 @@ export const RejectedGetWeeklyQuestion = () => async (dispatch) => {
   });
 };
 
-export const RejectedGetMonthlyQuestion = () => async (dispatch) => {
+export const RejectedGetMonthlyQuestion = (id) => async (dispatch) => {
   const response = await axios.get(
-    `${url}/api/course/admin/getmonthlyrejectedquestion`
+    `${url}/api/course/admin/MonthlyTest/${id}/0/reject`
   );
   dispatch({
     type: REJECTEDGETMONTHLYQUESTION,

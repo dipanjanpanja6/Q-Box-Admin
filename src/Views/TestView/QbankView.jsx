@@ -4,8 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Button from "@material-ui/core/Button";
-import { Typography, Box, AppBar, Modal, TextField, Select, Grid, FormControl, InputLabel, MenuItem, Divider } from "@material-ui/core";
-import { Link, useHistory } from "react-router-dom";
+import { Typography, Box, AppBar, TextField, Select, Grid, FormControl, InputLabel, MenuItem, Divider } from "@material-ui/core";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Pagination from '@material-ui/lab/Pagination';
@@ -19,6 +18,7 @@ import {
   EmptyQuestion,
 } from "../../redux/actions/getcourse";
 import Loading from "../../Components/loading";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const QBankView = (props) => {
-  const history = useHistory()
   const [teacherList, setTeacherList] = useState([]);
   const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
@@ -77,11 +76,6 @@ const QBankView = (props) => {
   useEffect(() => {
     setTeacherList(props.stateTeacherList)
   }, [props.stateTeacherList])
-  // useEffect(() => {
-  //   if (props.qbank.qbankquestion.page) {
-  //     setPage({ ...page, total: props.qbank.qbankquestion.page })
-  //   }
-  // }, [props.qbank.qbankquestion])
 
   const handlePopup = () => {
     setPopup(!popup.open)
@@ -90,21 +84,18 @@ const QBankView = (props) => {
   const handleSPageChange = async (event, value) => {
     setPage({ ...page, page: value })
     setLoading(true)
-    const response = await axios.get(`${url}/api/course/admin/getqbankquestion/${teacher}/${(value-1) * 10}`);
+    const response = await axios.get(`${url}/api/course/admin/Qbank/${teacher}/${(value - 1) * 10}`);
     if (response.data.success) {
       setQbank(response.data.data)
     }
     if (response.data.error) {
       setQbank([])
+      toast.error(response.data.message)
     }
     setLoading(false)
   };
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-
-  const handleChangeIndex = (index) => {
-    setValue(index);
   };
 
 
@@ -115,12 +106,14 @@ const QBankView = (props) => {
     if (response.data.success) {
       setLoading(true)
 
-      const response = await axios.get(`${url}/api/course/admin/getqbankquestion/${teacher}/${(page.page-1) * 10}`);
+      const response = await axios.get(`${url}/api/course/admin/Qbank/${teacher}/${(page.page - 1) * 10}`);
       if (response.data.success) {
         setQbank(response.data.data)
       }
       if (response.data.error) {
         setQbank([])
+        toast.error(response.data.message)
+
       }
       setLoading(false)
     }
@@ -131,16 +124,16 @@ const QBankView = (props) => {
       `${url}/api/course/admin/rejectquestion/Qbank/${id}`,
       { rejectingcomment: comment }
     );
-    // console.log(response);
     if (response.data.success) {
       setLoading(true)
-      // var vv=value
-      const response = await axios.get(`${url}/api/course/admin/getqbankquestion/${teacher}/${(page.page-1) * 10}`);
+      const response = await axios.get(`${url}/api/course/admin/Qbank/${teacher}/${(page.page - 1) * 10}`);
       if (response.data.success) {
         setQbank(response.data.data)
       }
       if (response.data.error) {
         setQbank([])
+        toast.error(response.data.message)
+
       }
       props.RejectedGetQBankQuestion(teacher);
       setLoading(false)
@@ -148,11 +141,11 @@ const QBankView = (props) => {
   };
   const handleTeacher = async (e) => {
     setTeacher(e.target.value)
-    setPage({ total:0, page: 1 })
+    setPage({ total: 0, page: 1 })
     // props.GetQBankQuestion(e.target.value, 0);
     props.RejectedGetQBankQuestion(e.target.value);
     setLoading(true)
-    const response = await axios.get(`${url}/api/course/admin/getqbankquestion/${e.target.value}/0`);
+    const response = await axios.get(`${url}/api/course/admin/Qbank/${e.target.value}/0`);
     if (response.data.page) {
       setPage({ ...page, total: response.data.page })
     }
@@ -161,6 +154,8 @@ const QBankView = (props) => {
     }
     if (response.data.error) {
       setQbank([])
+      toast.error(response.data.message)
+
     }
     setLoading(false)
   }
@@ -375,21 +370,24 @@ const QBankView = (props) => {
         </div>
       </Box>
       <FullScreenDialog open={popup.open} handleClose={handlePopup}>
-        {popup.open && <QbankViewPage questionData={popup.id} close={async() => {
-          setPopup({ open: false, id: "" })
-          setLoading(true)
-          console.log(value);
-          const response = await axios.get(`${url}/api/course/admin/getqbankquestion/${teacher}/${(page.page-1) * 10}`);
-          if (response.data.success) {
-            setQbank(response.data.data)
-          }
-          if (response.data.error) {
-            setQbank([])
-          }
-          props.RejectedGetQBankQuestion(teacher);
-          setLoading(false)
-        }} />}
+        {popup.open && <QbankViewPage questionData={popup.id}
+          close={async () => {
+            setPopup({ open: false, id: "" })
+            setLoading(true)
+            console.log(value);
+            const response = await axios.get(`${url}/api/course/admin/Qbank/${teacher}/${(page.page - 1) * 10}`);
+            if (response.data.success) {
+              setQbank(response.data.data)
+            }
+            if (response.data.error) {
+              setQbank([])
+              toast.error(response.data.message)
+            }
+            props.RejectedGetQBankQuestion(teacher);
+            setLoading(false)
+          }} />}
       </FullScreenDialog>
+
     </div>
   );
 };

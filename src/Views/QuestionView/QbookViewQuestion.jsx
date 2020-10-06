@@ -186,13 +186,10 @@ const style = makeStyles((t) => ({
 
 const QBookQuestion = (props) => {
   const id = useParams().id;
+  const classes = style();
 
   useEffect(() => {
     document.title = 'Q Book Quality Check | QrioctyBox'
-    props.GetQuestionViaId({
-      collect: "QBook",
-      qid: id,
-    });
   }, []);
 
   const { questionData } = props;
@@ -204,18 +201,17 @@ const QBookQuestion = (props) => {
   }
 
   const [loading, setLoading] = React.useState(false);
+  const [redirect, setredirect] = React.useState(false);
 
-  const classes = style();
 
-  const [value, setValue] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
   const [teacher, setTeacher] = React.useState("Loading...");
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
-  const [redirect, setredirect] = React.useState(false);
 
   const handleApprovance = async () => {
     const response = await axios.get(
@@ -440,7 +436,7 @@ const QBookQuestion = (props) => {
 
 const MapStateToProps = (state) => {
   return {
-    questionData: state.getcourse.currentViewQuestion,
+    // questionData: state.getcourse.currentViewQuestion,
   };
 };
 

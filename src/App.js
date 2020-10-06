@@ -19,9 +19,7 @@ import QBookQuestion from "./Views/QuestionView/QbookViewQuestion";
 import QBankQuestion from "./Views/QuestionView/QbankkViewQuestion";
 import MonthlyQuestion from "./Views/QuestionView/MonthlytestquestionView";
 import WeeklyQuestion from "./Views/QuestionView/WeeklytestquestionView";
-import VideoPlayer from "./Components/videoPlayer";
 import Statistic from "./Views/Statistic";
-require('firebase');
 
 const App = (props) => {
   useEffect(() => {

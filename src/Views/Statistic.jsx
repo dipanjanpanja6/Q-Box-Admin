@@ -134,7 +134,8 @@ StyledTreeItem.propTypes = {
 function Statistic(props) {
     const classes = useStyles();
     const [teacherList, setTeacherList] = useState([]);
-    const [teacher, setTeacher] = React.useState();
+    const [item, setItem] = React.useState("Qbank");
+    const [teacher, setTeacher] = React.useState("");
     const [loading, setLoading] = React.useState(false);
     const [data, setData] = React.useState(null);
 
@@ -144,8 +145,27 @@ function Statistic(props) {
 
     const handleTeacher = async (e) => {
         setTeacher(e.target.value)
+        if (item==="") {
+            return toast.warn("Select an item")
+        }
         setLoading(true)
-        const response = await Axios.get(`${url}/api/getteacherinfo/${e.target.value}`);
+        const response = await Axios.get(`${url}/api/teacherInfo/${item}/${e.target.value}`);
+        if (response.data.success) {
+            setData(response.data.data)
+        }
+        if (response.data.error) {
+            setData(null)
+            toast.warn("no data found")
+        }
+        setLoading(false)
+    }
+    const handleItem = async (e) => {
+        setItem(e.target.value)
+        if (teacher==="") {
+            return toast.warn("Select a Teacher")
+        }
+        setLoading(true)
+        const response = await Axios.get(`${url}/api/teacherInfo/${e.target.value}/${teacher}`);
         if (response.data.success) {
             setData(response.data.data)
         }
@@ -162,7 +182,7 @@ function Statistic(props) {
         return (
             <g transform={`translate(${x},${y})`}>
                 <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-27)">{
-                payload.value
+                    payload.value
                 }</text>
             </g>
         );
@@ -173,6 +193,19 @@ function Statistic(props) {
             <Grid container >
                 <Grid container justify='space-between'>
                     <Typography variant="h4" style={{ fontWeight: "bold", paddingTop: 12 }}>Statistic</Typography>
+
+                    <FormControl className={classes.formControl}>
+                        <InputLabel >Select Item</InputLabel>
+                        <Select
+                            onChange={handleItem}
+                            value={item}
+                        >
+                            <MenuItem value="QBook">Q Book</MenuItem>
+                            <MenuItem value="Qbank">Q Bank</MenuItem>
+                            <MenuItem disabled value="WeeklyTest">Weekly Test</MenuItem>
+                            <MenuItem disabled value="MonthlyTest">Monthly Test</MenuItem>
+                        </Select>
+                    </FormControl>
 
                     <FormControl className={classes.formControl}>
                         <InputLabel id="select-teacher-label">Select teacher</InputLabel>
@@ -187,12 +220,13 @@ function Statistic(props) {
 
                         </Select>
                     </FormControl>
+
                     <Divider style={{ width: '100%', marginBottom: 12 }} />
-                 {loading?<Loading/>:  data ? <Grid container  >
-                        <Grid sm={7} style={{ minHeight: 450 }}>
+                    {loading ? <Loading /> : data ? <Grid container  >
+                        <Grid item sm={7} style={{ minHeight: 450 }}>
                             <ResponsiveContainer>
-                                <AreaChart data={data?data.time:""} margin={{
-                                     bottom: 100,left:30,right:20
+                                <AreaChart data={data ? data.time : ""} margin={{
+                                    bottom: 100, left: 30, right: 20, top: 20
                                 }} >
                                     <defs>
                                         <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -211,7 +245,7 @@ function Statistic(props) {
                                 </AreaChart>
                             </ResponsiveContainer>
                         </Grid>
-                        <Grid sm={5}>
+                        <Grid item sm={5}>
                             <Typography variant='h6'>Total uploaded questions is {data ? data.total : "loading..."}</Typography>
                             {/* <Typography variant='h6'>Total uploaded questions is {date.total}</Typography> */}
                             {data ? <TreeView
@@ -228,7 +262,7 @@ function Statistic(props) {
                                             nodeId={`times${i}`}
                                             labelText={p.time}
                                             labelIcon={Label}
-                                            labelInfo={p.times}
+                                            labelInfo={`${p.times}`}
                                             color="#1a73e8"
                                             bgColor="#e8f0fe"
                                         />
@@ -241,7 +275,7 @@ function Statistic(props) {
                                             nodeId={`stream${i}`}
                                             labelText={p.stream}
                                             labelIcon={Label}
-                                            labelInfo={p.times}
+                                            labelInfo={`${p.times}`}
                                             color="#1a73e8"
                                             bgColor="#e8f0fe"
                                         />
@@ -254,7 +288,7 @@ function Statistic(props) {
                                             nodeId={`subject${i}`}
                                             labelText={p.subject}
                                             labelIcon={Label}
-                                            labelInfo={p.times}
+                                            labelInfo={`${p.times}`}
                                             color="#1a73e8"
                                             bgColor="#e8f0fe"
                                         />
@@ -267,7 +301,7 @@ function Statistic(props) {
                                             nodeId={`chapter${i}`}
                                             labelText={p.chapter}
                                             labelIcon={Label}
-                                            labelInfo={p.times}
+                                            labelInfo={`${p.times}`}
                                             color="#1a73e8"
                                             bgColor="#e8f0fe"
                                         />
@@ -277,7 +311,7 @@ function Statistic(props) {
                             </TreeView> : ""}
                         </Grid>
 
-                    </Grid>:<Typography>Select a teacher to get statistic data.</Typography>}
+                    </Grid> : <Typography>Select a teacher to get statistic data.</Typography>}
 
                 </Grid>
             </Grid >

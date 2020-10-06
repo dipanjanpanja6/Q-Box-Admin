@@ -138,7 +138,8 @@ const Console = () => {
           </div>
           <Divider />
           <List>
-            {["Q-Book", "Q-Bank", "Weekly Quiz Test", "Monthly Test"].map(
+          {/* "Weekly Quiz Test", "Monthly Test" */}
+            {["Q-Book", "Q-Bank",].map(
               (text, index) => (
                 <Link key={index}
                   style={{ textDecoration: "none",color:'inherit' }}

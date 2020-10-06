@@ -5,7 +5,6 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 
 import { Theme } from "../theme";
-import { ToastContainer } from "react-toastify";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -89,7 +88,6 @@ export default function PrimarySearchAppBar(props) {
 
   return (
     <div className={classes.grow}>
-      <ToastContainer />
       <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton
